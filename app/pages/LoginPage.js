@@ -27,7 +27,6 @@ const userBlank = () => {
   return (user == "");
 };
 
-
 const [user, setUser] = React.useState('');
 const [pass, setPass] = React.useState('');
 
