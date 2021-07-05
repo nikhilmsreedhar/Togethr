@@ -12,7 +12,6 @@ import { TextInput, HelperText } from 'react-native-paper';
 import TextField from '@material-ui/core/TextField';
 
 
-
 export default function LoginPage() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
@@ -23,20 +22,18 @@ export default function LoginPage() {
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
-
-const [title, setTitle] = React.useState('');
-const [descrip, setDescrip] = React.useState('');
-
-const login = (user, pass) => {
-  if (user == "" || pass  == ""){
-    alert("Please fill in all fields");
   }
-  else{
+
+  const [title, setTitle] = React.useState('');
+  const [descrip, setDescrip] = React.useState('');
+
+  const login = (user, pass) => {
+    if (user == "" || pass  == ""){
+      alert("Please fill in all fields");
+    } else{
     alert('Username: ' + user + ' Password: '+ pass);
-  }
-  
-};
+    }
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -77,7 +74,6 @@ const login = (user, pass) => {
     
   );
 }
-
 
 const styles = StyleSheet.create({
   title: {
