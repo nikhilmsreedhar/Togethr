@@ -17,3 +17,5 @@ npm install or yarn add:
 @expo-google-fonts/dev
 react-native-paper
 @material-ui/core/styles
+@material-ui/pickers
+yarn add @date-io/date-fns@1.x date-fns 
