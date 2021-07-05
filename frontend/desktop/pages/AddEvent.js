@@ -66,6 +66,7 @@ const login = (user, pass) => {
           label="Description"
           value={descrip}
           mode='outlined'
+          multiline ='true'
           onChangeText={descrip => setDescrip(descrip)}
         />
                  
