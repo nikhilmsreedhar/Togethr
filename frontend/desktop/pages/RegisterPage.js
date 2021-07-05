@@ -8,9 +8,10 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput} from 'react-native-paper';
-
-
+import { TextInput, HelperText} from 'react-native-paper';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 
 
@@ -27,23 +28,45 @@ export default function RegisterPage() {
     navigation.goBack();
 }
 
-function goToNextPage(fname, lname){
-  if (fname == "" || lname == "") {
+function goToNextPage(fname, lname, bday){
+  if (fname == "" || lname == "" || bday == "") {
     alert('Please fill in all fields') ;
   }
   else{
-    navigation.navigate('RegisterPage2', {firstName: fname, lastName: lname});
+   navigation.navigate('RegisterPage2', {firstName: fname, lastName: lname, birthday: bday});
   }
 }
+
+// Caclulate users age to make sure they are 18
+function calculate_age(dob1){
+  var today = new Date();
+  var birthDate = new Date(dob1);  
+  var age_now = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+  {
+      age_now--;
+  }
+  console.log(age_now);
+  return age_now;
+}
+
+const over18 = (dob1) => {
+  return !(calculate_age(dob1)>=18);
+};
 
 
 const [fname, setFirst] = React.useState('');
 const [lname, setLast] = React.useState('');
+const [birthday, setBirthday] = React.useState(new Date());
 
-
-const next = (fname, lname) => {
-  alert('First: ' + fname + ' Last: '+ lname);
-};
+const theme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: '#5b06d5'
+    }
+  }
+});
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -73,13 +96,35 @@ const next = (fname, lname) => {
          />
 
           <Text style={styles.inputDivider}></Text>
+          
+          <MuiThemeProvider theme={theme}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+            autoOk
+            color='secondary'
+            variant="inline"
+            inputVariant="outlined"
+            label="Birthday"
+            format="MM/dd/yyyy"
+            value={birthday}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+            onChange={birthday => setBirthday(birthday)}
+          />
+          </MuiPickersUtilsProvider>
+          <HelperText type="error" visible={over18(birthday)}>
+            Must be over 18 to crate an account
+          </HelperText>
+          </MuiThemeProvider>
 
-          <View style={styles.fixToText}>
+          <Text style={styles.inputDivider}></Text>
+         <View style={styles.fixToText}>
         <TouchableOpacity onPress={()=>navigateBack()} style={styles.backButton}>
           <Text style={styles.backButtonText}>CANCEL</Text>
        </TouchableOpacity>
        <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity onPress={() => goToNextPage(fname, lname)} style={styles.nextButton}>
+       <TouchableOpacity disabled = {(calculate_age(birthday) >= 18) ? false : true} onPress={() => goToNextPage(fname, lname, birthday)} style={styles.nextButton}>
           <Text style={styles.nextButtonText}>NEXT</Text>
        </TouchableOpacity>
         </View>

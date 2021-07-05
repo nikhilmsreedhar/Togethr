@@ -22,6 +22,8 @@ const RegisterPage2 = ({route}) =>{
 
   const firstName = route.params.firstName
   const lastName  = route.params.lastName
+  const birthday  = route.params.birthday
+
 
   
   const navigation = useNavigation();
@@ -29,12 +31,12 @@ const RegisterPage2 = ({route}) =>{
     navigation.goBack();
 }
 
-function goToNextPage (firstName, lastName, user, pass) {
+function goToNextPage (firstName, lastName, user, pass, birthday) {
   if(user == "" || pass == ""){
     alert('Please fill in all fields') ;
   }
   else{
-    navigation.navigate('RegisterPage3', {firstName: firstName, lastName: lastName, username: user, password: pass});
+    navigation.navigate('RegisterPage3', {firstName: firstName, lastName: lastName, username: user, password: pass, birthday: birthday});
   }
   };
   
@@ -98,7 +100,7 @@ const hasErrors = () => {
           <Text style={styles.backButtonText}>BACK</Text>
        </TouchableOpacity>
        <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity disabled = {(pass == passConfirm) ? false : true} onPress={() => goToNextPage(firstName, lastName, user, pass)} style={styles.nextButton}>
+       <TouchableOpacity disabled = {(pass == passConfirm) ? false : true} onPress={() => goToNextPage(firstName, lastName, user, pass, birthday)} style={styles.nextButton}>
           <Text style={styles.nextButtonText}>NEXT</Text>
        </TouchableOpacity>
         </View>

@@ -25,6 +25,7 @@ const RegisterPage3 = ({route}) => {
   const lastName  = route.params.lastName
   const username = route.params.username
   const password  = route.params.password
+  const birthday  = route.params.birthday
 
   
   const navigation = useNavigation();
@@ -55,7 +56,8 @@ const RegisterPage3 = ({route}) => {
   {label: "Shopping", value: "Shopping"},
 ]
 
-const register = (firstName, lastName, username, password, interests) => {
+// This is where you will add the logic for the register function
+const register = (firstName, lastName, username, password, birthday, interests) => {
   if (interests.length === 0){
     alert("Please select at least one interest");
   } else {
@@ -93,7 +95,7 @@ const register = (firstName, lastName, username, password, interests) => {
           <Text style={styles.backButtonText}>BACK</Text>
        </TouchableOpacity>
        <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity onPress={() => register(firstName, lastName, username, password, interests)} style={styles.nextButton}>
+       <TouchableOpacity onPress={() => register(firstName, lastName, username, password, birthday, interests)} style={styles.nextButton}>
           <Text style={styles.nextButtonText}>REGISTER</Text>
        </TouchableOpacity>
        </View>
