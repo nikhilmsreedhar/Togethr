@@ -34,6 +34,7 @@ const userBlank = () => {
 const [user, setUser] = React.useState('');
 const [pass, setPass] = React.useState('');
 
+// Thiis is where the logic for the login function will be added
 const login = (user, pass) => {
   if (user == "" || pass  == ""){
     alert("Please fill in all fields");
