@@ -8,7 +8,6 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 
-// hello world
 export default function HomePage() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
