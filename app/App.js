@@ -3,11 +3,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import  HomePage from './components/HomePage'
-import  LoginPage from './components/LoginPage'
-import  RegisterPage from './components/RegisterPage'
-import  RegisterPage2 from './components/RegisterPage2'
-import  RegisterPage3 from './components/RegisterPage3'
+import  HomePage from './pages/HomePage'
+import  LoginPage from './pages/LoginPage'
+import  RegisterPage from './pages/RegisterPage'
+import  RegisterPage2 from './pages/RegisterPage2'
+import  RegisterPage3 from './pages/RegisterPage3'
 
 const Stack = createStackNavigator();
 function App() {
