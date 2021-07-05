@@ -8,7 +8,6 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 
- 
 
 export default function HomePage() {
   let [fontsLoaded] = useFonts({
@@ -20,10 +19,11 @@ export default function HomePage() {
   const navigation = useNavigation();
   function navigateToLogin() {
     navigation.navigate("LoginPage");
-}
-function navigateToRegister() {
+  }
+
+  function navigateToRegister() {
   navigation.navigate("RegisterPage");
-}
+  }
  
   return (
     <View style={styles.container}>
@@ -45,10 +45,8 @@ function navigateToRegister() {
     </View>
     
 
-    
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

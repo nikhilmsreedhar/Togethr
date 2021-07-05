@@ -17,14 +17,13 @@ export default function RegisterPage() {
     Roboto_500Medium,
     Roboto_700Bold
   });
-
   
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
 }
 
-function goToNextPage(fname, lname){
+function goToNextPage(fname, lname) {
   if (fname == "" || lname == "") {
     alert('Please fill in all fields') ;
   }
@@ -50,8 +49,8 @@ const next = (fname, lname) => {
       <Ionicons name="arrow-back"  size={30} color="back" />
     </TouchableOpacity>
     <Text style={styles.verticalDivider}></Text>
-        <Text h1 style={styles.title}>Register</Text>
-        <Text style={styles.verticalDivider}></Text>
+      <Text h1 style={styles.title}>Register</Text>
+      <Text style={styles.verticalDivider}></Text>
         
         <TextInput style={{ alignSelf: 'stretch'}}
           label="First Name"
@@ -80,7 +79,6 @@ const next = (fname, lname) => {
   
     
     </SafeAreaView>
-    
     
   );
 }

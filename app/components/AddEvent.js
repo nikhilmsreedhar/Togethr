@@ -19,7 +19,6 @@ export default function LoginPage() {
     Roboto_500Medium,
     Roboto_700Bold
   });
-
   
   const navigation = useNavigation();
   function navigateBack() {
@@ -87,9 +86,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center', 
   },
   input:{
-    padding: 20, 
-  
- },
+    padding: 20,
+  },
   closeButton:{
     alignSelf: 'flex-end'
   },
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     margin: 25
   },
-   verticalDivider: {
+  verticalDivider: {
     height:10,
   },
   inputDivider: {
