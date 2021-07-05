@@ -23,7 +23,6 @@ function App() {
         <Stack.Screen name="RegisterPage3" component={RegisterPage3} />
         <Stack.Screen name="AddEvent" component={AddEvent} />
       </Stack.Navigator>
-   
     </NavigationContainer>
   );
 }

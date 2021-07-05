@@ -13,7 +13,7 @@ import MultipleSelectChips from '../components/MultipleSelectChips';
 
 
 
-const RegisterPage3 = ({route}) =>{
+const RegisterPage3 = ({route}) => {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -30,7 +30,7 @@ const RegisterPage3 = ({route}) =>{
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
+  }
 
   const [interests, setInterests] = useState([])
 	const [error, setError] = useState("")
@@ -58,11 +58,14 @@ const RegisterPage3 = ({route}) =>{
 const register = (firstName, lastName, username, password, interests) => {
   if (interests.length === 0){
     alert("Please select at least one interest");
+  } else {
+    alert('First: ' + firstName + 
+          ' Last: '+ lastName +
+          ' Username: ' + username +
+          ' Password: '+ password +
+          ' Interests: ' + JSON.stringify(interests)
+          ) ;
   }
-  else{
-    alert('First: ' + firstName + ' Last: '+ lastName + ' Username: ' + username + ' Password: '+ password + ' Interests: ' + JSON.stringify(interests)) ;
-  }
-  
 };
 
 
