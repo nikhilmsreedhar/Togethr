@@ -59,6 +59,30 @@ app.post('/api/login', async (req, res, next) => {
     .catch(err => res.status(400).json("Error" + err));
 });
 
+app.post('/api/addevent', async (req, res, next) => {
+  const{ Title, Description, Location, Time, NumOfPeople, Picture} = req.body;
+
+  let Event = new Event({
+    Title,
+    Description,
+    Location,
+    Time,
+    NumOfPeople,
+    Picture
+  })
+
+  try{
+    Event = await Event.save();
+    res.send(Event);
+  }catch (error) {
+    res.status(500).send(error.message);
+    console.log(error.message);
+  }
+
+});
+
+
+
 
 
 
