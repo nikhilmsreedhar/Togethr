@@ -9,8 +9,8 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput, HelperText} from 'react-native-paper';
-
-
+import TextField from '@material-ui/core/TextField';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 
 const RegisterPage2 = ({route}) =>{
@@ -18,6 +18,14 @@ const RegisterPage2 = ({route}) =>{
     Comfortaa_400Regular,
     Roboto_500Medium,
     Roboto_700Bold
+  });
+
+  const theme = createMuiTheme({
+    palette: {
+      secondary: {
+        main: '#5b06d5'
+      }
+    }
   });
 
   const firstName = route.params.firstName
@@ -46,6 +54,16 @@ const [user, setUser] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [passConfirm, setPassConfirm] = React.useState('');
 
+const handleUserChange = (event) => {
+  setUser(event.target.value);
+};
+const handlePassChange = (event) => {
+  setPass(event.target.value);
+};
+const handlePassConfirmChange = (event) => {
+  setPassConfirm(event.target.value);
+};
+
 const hasErrors = () => {
     return !(pass == passConfirm);
   };
@@ -60,38 +78,43 @@ const hasErrors = () => {
     <View style={styles.center}>
         <Text h1 style={styles.title}>Register</Text>
         <Text style={styles.verticalDivider}></Text>
-        
-        <TextInput style={styles.input}
-          label="Username"
+        <MuiThemeProvider theme={theme}>
+        <TextField 
+          style={{width: 500}}
+          color = 'secondary'
+          label="Username" 
+          variant="outlined" 
           value={user}
-          mode='outlined'
-          onChangeText={user => setUser(user)}
-        />
+          onChange={handleUserChange}
+          />
 
         <Text style={styles.inputDivider}></Text>
 
-        <TextInput style={styles.input}
-        secureTextEntry
-          label="Password"
+        <TextField 
+          style={{width: 500}}
+          type="password"
+          color = 'secondary'
+          label="Password" 
+          variant="outlined" 
           value={pass}
-          mode='outlined'
-          onChangeText={pass => setPass(pass)}
-        />
+          onChange={handlePassChange}
+          />
         
         <Text style={styles.inputDivider}></Text>
 
-        <TextInput style={styles.input}
-        secureTextEntry
-          label="Confirm Password"
+        <TextField 
+          style={{width: 500}}
+          type="password"
+          color = 'secondary'
+          label="Confirm Password" 
+          variant="outlined" 
           value={passConfirm}
-          mode='outlined'
-          error = {(pass == passConfirm) ? false : true}
-          onChangeText={passConfirm => setPassConfirm(passConfirm)}
-        />
+          onChange={handlePassConfirmChange}
+          />
         <HelperText type="error" visible={hasErrors()}>
         Passwords do not match
        </HelperText>
-        
+       </MuiThemeProvider>
         <Text style={styles.inputDivider}></Text>
 
        

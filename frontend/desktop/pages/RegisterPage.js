@@ -12,6 +12,7 @@ import { TextInput, HelperText} from 'react-native-paper';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import TextField from '@material-ui/core/TextField';
 
 
 
@@ -20,6 +21,14 @@ export default function RegisterPage() {
     Comfortaa_400Regular,
     Roboto_500Medium,
     Roboto_700Bold
+  });
+
+  const theme = createMuiTheme({
+    palette: {
+      secondary: {
+        main: '#5b06d5'
+      }
+    }
   });
 
   
@@ -60,13 +69,13 @@ const [fname, setFirst] = React.useState('');
 const [lname, setLast] = React.useState('');
 const [birthday, setBirthday] = React.useState(new Date());
 
-const theme = createMuiTheme({
-  palette: {
-    secondary: {
-      main: '#5b06d5'
-    }
-  }
-});
+const handleFirstChange = (event) => {
+  setFirst(event.target.value);
+};
+const handleLastChange = (event) => {
+  setLast(event.target.value);
+};
+
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -78,26 +87,30 @@ const theme = createMuiTheme({
     <View style={styles.center}>
         <Text h1 style={styles.title}>Register</Text>
         <Text style={styles.verticalDivider}></Text>
-        
-        <TextInput style={styles.input}
-          label="First Name"
-          value={fname}
-          mode='outlined'
-          onChangeText={fname => setFirst(fname)}
-        />
-
-        <Text style={styles.inputDivider}></Text>
-
-        <TextInput style={styles.input}
-          label="Last Name"
-          value={lname}
-          mode='outlined'
-          onChangeText={lname => setLast(lname)}
-         />
-
-          <Text style={styles.inputDivider}></Text>
           
           <MuiThemeProvider theme={theme}>
+          <TextField 
+          style={{width: 500}}
+          color = 'secondary'
+          label="First Name" 
+          variant="outlined" 
+          value={fname}
+          onChange={handleFirstChange}
+          />
+          
+          <Text Text style={styles.inputDivider}></Text>
+
+          <TextField 
+          style={{width: 500}}
+          color = 'secondary'
+          label="Last Name" 
+          variant="outlined" 
+          value={lname}
+          onChange={handleLastChange}
+          />
+
+          <Text Text style={styles.inputDivider}></Text>
+
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
             autoOk
