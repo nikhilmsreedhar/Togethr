@@ -33,18 +33,24 @@ const userBlank = () => {
 
 const [user, setUser] = React.useState('');
 const [pass, setPass] = React.useState('');
+const [loginMessage,setLoginMessage] = React.useState('');
 
+// This is where the logic for the login function will be added
 const login = (user, pass) => {
-  if (user == "" || pass  == ""){
-    alert("Please fill in all fields");
+  if (user == "" && pass  == ""){
+    setLoginMessage("Please enter username and password");
+  }
+  else if (user == "" && pass != ""){
+    setLoginMessage("Please enter username");
+  }
+  else if (user != "" && pass == ""){
+    setLoginMessage("Please enter password");
   }
   else{
-    alert('Username: ' + user + ' Password: '+ pass);
+    setLoginMessage('Username: ' + user + ' Password: '+ pass);
   }
-  
 };
 
-var userEmpty = false;
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -73,6 +79,9 @@ var userEmpty = false;
           mode='outlined'
           onChangeText={pass => setPass(pass)}
          />
+         <HelperText type="error">
+          {loginMessage}
+          </HelperText>
 
           <Text style={styles.inputDivider}></Text>
 
