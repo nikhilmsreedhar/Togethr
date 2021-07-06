@@ -9,6 +9,8 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput, HelperText } from 'react-native-paper';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 
 
@@ -18,6 +20,13 @@ export default function LoginPage() {
     Comfortaa_400Regular,
     Roboto_500Medium,
     Roboto_700Bold
+  });
+  const theme = createMuiTheme({
+    palette: {
+      secondary: {
+        main: '#5b06d5'
+      }
+    }
   });
 
   
@@ -33,19 +42,31 @@ const userBlank = () => {
 
 const [user, setUser] = React.useState('');
 const [pass, setPass] = React.useState('');
+const [loginMessage,setLoginMessage] = React.useState('');
+
+const handleUserChange = (event) => {
+  setUser(event.target.value);
+};
+const handlePassChange = (event) => {
+  setPass(event.target.value);
+};
 
 // Thiis is where the logic for the login function will be added
 const login = (user, pass) => {
-  if (user == "" || pass  == ""){
-    alert("Please fill in all fields");
+  if (user == "" && pass  == ""){
+    setLoginMessage("Please enter username and password");
+  }
+  else if (user == "" && pass != ""){
+    setLoginMessage("Please enter username");
+  }
+  else if (user != "" && pass == ""){
+    setLoginMessage("Please enter password");
   }
   else{
-    alert('Username: ' + user + ' Password: '+ pass);
+    setLoginMessage('Username: ' + user + ' Password: '+ pass);
   }
-  
 };
 
-var userEmpty = false;
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -57,23 +78,31 @@ var userEmpty = false;
         <Text h1 style={styles.title}>Log In</Text>
         <Text style={styles.verticalDivider}></Text>
         
-        <TextInput style={styles.input}
-          label="Username"
+        <MuiThemeProvider theme={theme}>
+        <TextField 
+          style={{width: 500}}
+          color = 'secondary'
+          label="Username" 
+          variant="outlined" 
           value={user}
-          mode='outlined'
-          onChangeText={user => setUser(user)}
-        />
-     
-        <Text style={styles.inputDivider}></Text>
+          onChange={handleUserChange}
+          />
 
-        <TextInput style={{ alignSelf: 'stretch'}}
-          secureTextEntry
-          //right={<TextInput.Icon name="eye"/>}
-          label="Password"
+        <Text Text style={styles.inputDivider}></Text>
+
+        <TextField 
+          style={{width: 500}}
+          type="password"
+          color = 'secondary'
+          label="Password" 
+          variant="outlined" 
           value={pass}
-          mode='outlined'
-          onChangeText={pass => setPass(pass)}
-         />
+          onChange={handlePassChange}
+          />
+          <HelperText type="error">
+          {loginMessage}
+          </HelperText>
+          </MuiThemeProvider>
 
           <Text style={styles.inputDivider}></Text>
 
@@ -96,9 +125,6 @@ const styles = StyleSheet.create({
     fontSize: 50, 
     fontFamily: 'Comfortaa_400Regular',
   },
-  input:{
-    width: 500,
- },
   container: {
     flex: 1,
     flexDirection: 'column',
