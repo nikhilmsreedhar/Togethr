@@ -2,29 +2,37 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
-    Title: {
+    EventName: {
         type: String, 
         required: true
     },
-    Description: {
+    EventDescription: {
         type: String, 
         required: true
     },
-    Location: {
+    EventLocation: {
         type: String, 
         required: true
     },
-    Time: {
+    EventDate: {
+        type: Date,
+        required: true
+    },
+    EventTime: {
         type: String, 
         required: true
     },
-    NumOfpeople: {
+    Attendees: {
         type: Number, 
         required: false
     },
-    Picture: {
-        type: String,
+    LikedUsers: {
+        type: Number,
         required: false
     },
+    Pictures: {
+        type: String,
+        required: false
+    }
 });
 module.exports = Event = mongoose.model("Events", EventSchema);
