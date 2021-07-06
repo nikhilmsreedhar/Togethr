@@ -84,7 +84,7 @@ app.post('/api/addevent', async (req, res, next) => {
 
 app.patch('/api/editevent', async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const id = req.body.id;
     const updates = req.body;
     const options = {new: true}
 
