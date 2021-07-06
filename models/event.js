@@ -24,15 +24,15 @@ const EventSchema = new Schema({
     },
     Attendees: {
         type: Number, 
-        required: false
+        required: true
     },
     LikedUsers: {
         type: Number,
-        required: false
+        required: true
     },
     Pictures: {
         type: String,
-        required: false
+        required: true
     }
 });
 module.exports = Event = mongoose.model("Events", EventSchema);
