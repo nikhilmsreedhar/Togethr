@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("./models/user.js");
+const Event = require("./models/event.js");
 const router = express.Router();
 
 
@@ -62,7 +63,7 @@ app.post('/api/login', async (req, res, next) => {
 app.post('/api/addevent', async (req, res, next) => {
   const{ Title, Description, Location, Time, NumOfPeople, Picture} = req.body;
 
-  let Event = new Event({
+  let event = new Event({
     Title,
     Description,
     Location,
@@ -72,8 +73,8 @@ app.post('/api/addevent', async (req, res, next) => {
   })
 
   try{
-    Event = await Event.save();
-    res.send(Event);
+    event = await event.save();
+    res.send(event);
   }catch (error) {
     res.status(500).send(error.message);
     console.log(error.message);
@@ -81,7 +82,18 @@ app.post('/api/addevent', async (req, res, next) => {
 
 });
 
+// app.patch('/api/editevent', async (req, res, next) => {
+//   try {
+//     const id = req.params.id;
+//     const updates = req.body;
+//     const options = {new: true}
 
+//     const result = await Event.findByIdAndUpdate(id, updates, options);
+//     res.send(result);
+//   } catch (error){
+//     console.log(error.message);
+//   }
+// })
 
 
 
