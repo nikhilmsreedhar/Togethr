@@ -20,7 +20,7 @@ const EventSchema = new Schema({
     },
     NumOfpeople: {
         type: Number, 
-        required: true
+        required: false
     },
     Picture: {
         type: String,
