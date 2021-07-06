@@ -97,7 +97,18 @@ app.patch('/api/editevent', async (req, res, next) => {
   }
 })
 
+app.patch('/api/edituser', async (req, res, next) => {
+  try {
+    const id = req.body.id;
+    const updates = req.body;
+    const options = {new: true}
 
+    const result = await User.findByIdAndUpdate(id, updates, options);
+    res.send(result);
+  } catch (error){
+    console.log(error.message);
+  }
+})
 
 
 module.exports = router
