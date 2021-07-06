@@ -61,15 +61,17 @@ app.post('/api/login', async (req, res, next) => {
 });
 
 app.post('/api/addevent', async (req, res, next) => {
-  const{ Title, Description, Location, Time, NumOfPeople, Picture} = req.body;
+  const{ EventName, EventDescription, EventLocation, EventDate, EventTime, Attendees, LikedUsers, Pictures} = req.body;
 
   let event = new Event({
-    Title,
-    Description,
-    Location,
-    Time,
-    NumOfPeople,
-    Picture
+    EventName,
+    EventDescription,
+    EventLocation,
+    EventDate,
+    EventTime,
+    Attendees,
+    LikedUsers,
+    Pictures
   })
 
   try{
