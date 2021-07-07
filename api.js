@@ -120,6 +120,15 @@ app.delete('/api/deleteuser', async (req, res, next) => {
   }
 })
 
+app.delete('/api/deleteevent', async (req, res, next) => {
+  const id = req.body.id;
+  try{
+    const result = await Event.findByIdAndDelete(id);
+    res.send(result);
+  }catch(error){
+    console.log(error.message);
+  }
+})
 
 
 module.exports = router
