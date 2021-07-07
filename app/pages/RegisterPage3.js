@@ -29,31 +29,25 @@ const RegisterPage3 = ({route}) =>{
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
-
-
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
-    <Text style={styles.verticalDivider}></Text>
-        <Text h1 style={styles.title}>Register</Text>
-        <Text style={styles.verticalDivider}></Text>
-        
-   </View>
-  
-    </SafeAreaView>
-  
-  );
+      <TouchableOpacity onPress={() => navigateBack()}>
+        <Ionicons name="arrow-back"  size={30} color="back" />
+      </TouchableOpacity>
 
+      <Text style={styles.verticalDivider}></Text>
+      <Text h1 style={styles.title}>Register</Text>
+      <Text style={styles.verticalDivider}></Text>
+
+    </View>
+    </SafeAreaView>
+  );
   
 }
-
-
 
 const styles = StyleSheet.create({
   title: {
@@ -62,8 +56,7 @@ const styles = StyleSheet.create({
   },
   input:{
     padding: 20, 
-  
- },
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
