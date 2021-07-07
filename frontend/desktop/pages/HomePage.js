@@ -37,7 +37,9 @@ function navigateToRegister() {
         <TouchableOpacity onPress={()=>navigateToLogin()} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>LOG IN</Text>
        </TouchableOpacity>
+
        <Text style={styles.buttonDivider}></Text>
+       
        <TouchableOpacity onPress={() => navigateToRegister()} style={styles.registerButton}>
           <Text style={styles.registerButtonText}>REGISTER</Text>
        </TouchableOpacity>
