@@ -32,7 +32,7 @@ mongoose
   users.setApp( app, mongoose );
   
   app.get("/", (req,res) => {
-    res.send("welcome to our add user api")
+    res.send("welcome to Togethr")
   })
 
 
