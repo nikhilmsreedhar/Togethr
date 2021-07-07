@@ -1,4 +1,6 @@
 import * as React from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import {
   useFonts,
@@ -11,9 +13,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { TextInput, HelperText } from 'react-native-paper';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
-
-
 
 export default function LoginPage() {
   let [fontsLoaded] = useFonts({
@@ -36,11 +35,11 @@ export default function LoginPage() {
 }
 
 const userBlank = () => {
-  return (user == "");
+  return (username == "");
 };
 
 
-const [user, setUser] = React.useState('');
+const [username, setUser] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [loginMessage,setLoginMessage] = React.useState('');
 
@@ -51,21 +50,32 @@ const handlePassChange = (event) => {
   setPass(event.target.value);
 };
 
-// Thiis is where the logic for the login function will be added
-const login = (user, pass) => {
-  if (user == "" && pass  == ""){
+// This is where the logic for the login function will be added
+const login = (username, pass) => {
+  if (username == "" && pass  == ""){
     setLoginMessage("Please enter username and password");
   }
-  else if (user == "" && pass != ""){
+  else if (username == "" && pass != ""){
     setLoginMessage("Please enter username");
   }
-  else if (user != "" && pass == ""){
+  else if (username != "" && pass == ""){
     setLoginMessage("Please enter password");
   }
   else{
-    setLoginMessage('Username: ' + user + ' Password: '+ pass);
+    axios.post('https://localhost:5000/login', { 
+      UserName: username,
+      Password: pass
+    })
+    .then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+    if (error){
+      setLoginMessage("User not found");
+    }
   }
-};
+}
 
 
   return (
@@ -82,9 +92,9 @@ const login = (user, pass) => {
         <TextField 
           style={{width: 500}}
           color = 'secondary'
-          label="Username" 
+          label="username" 
           variant="outlined" 
-          value={user}
+          value={username}
           onChange={handleUserChange}
           />
 
@@ -106,7 +116,7 @@ const login = (user, pass) => {
 
           <Text style={styles.inputDivider}></Text>
 
-         <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
+         <TouchableOpacity  onPress={() => login(username, pass)} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>LOG IN</Text>
          </TouchableOpacity>
    </View>
