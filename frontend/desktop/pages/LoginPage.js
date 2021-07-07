@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import {
   useFonts,
@@ -63,7 +64,17 @@ const login = (user, pass) => {
     setLoginMessage("Please enter password");
   }
   else{
-    setLoginMessage('Username: ' + user + ' Password: '+ pass);
+    axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+      UserName: user,
+      Password: pass
+    })
+    .then((response) => {
+      console.log(response);
+    }, (error) => {
+      setLoginMessage('Incorrect Username or Password');
+      console.log(error);
+    });
+    
   }
 };
 
