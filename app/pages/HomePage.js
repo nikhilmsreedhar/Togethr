@@ -26,24 +26,22 @@ export default function HomePage() {
  
   return (
     <View style={styles.container}>
-        <Text h1
-          style={{fontSize: 100, fontFamily: 'Comfortaa_400Regular',
-          }}>
-          Togethr
-        </Text>
-        <Text style={styles.verticalDivider}></Text>
-        <View style={styles.fixToText}>
+      <Text h1
+        style={{fontSize: 100, fontFamily: 'Comfortaa_400Regular'}
+      }>
+        Togethr
+      </Text>
+      <Text style={styles.verticalDivider}></Text>
+      <View style={styles.fixToText}>
         <TouchableOpacity onPress={()=>navigateToLogin()} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>LOG IN</Text>
-       </TouchableOpacity>
-       <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity onPress={() => navigateToRegister()} style={styles.registerButton}>
+        </TouchableOpacity>
+        <Text style={styles.buttonDivider}></Text>
+        <TouchableOpacity onPress={() => navigateToRegister()} style={styles.registerButton}>
           <Text style={styles.registerButtonText}>REGISTER</Text>
-       </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
+      </View>
     </View>
-    
-
   );
 }
 

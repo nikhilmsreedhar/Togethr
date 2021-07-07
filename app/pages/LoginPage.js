@@ -21,67 +21,62 @@ export default function LoginPage() {
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
-
-const userBlank = () => {
-  return (user == "");
-};
-
-const [user, setUser] = React.useState('');
-const [pass, setPass] = React.useState('');
-
-const login = (user, pass) => {
-  if (user == "" || pass  == ""){
-    alert("Please fill in all fields");
   }
-  else{
-    alert('Username: ' + user + ' Password: '+ pass);
-  }
-  
-};
 
-var userEmpty = false;
+  const userBlank = () => {
+    return (user == "");
+  };
+
+  const [user, setUser] = React.useState('');
+  const [pass, setPass] = React.useState('');
+
+  const login = (user, pass) => {
+    if (user == "" || pass  == ""){
+      alert("Please fill in all fields");
+    } else {
+      alert('Username: ' + user + ' Password: '+ pass);
+    }
+    
+  };
+
+  var userEmpty = false;
 
   return (
     <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
-    <Text style={styles.verticalDivider}></Text>
-        <Text h1 style={styles.title}>Log In</Text>
-        <Text style={styles.verticalDivider}></Text>
+      <TouchableOpacity onPress={() => navigateBack()}>
+        <Ionicons name="arrow-back"  size={30} color="back" />
+      </TouchableOpacity>
+      <Text style={styles.verticalDivider}></Text>
+      <Text h1 style={styles.title}>Log In</Text>
+      <Text style={styles.verticalDivider}></Text>
         
-        <TextInput style={{ alignSelf: 'stretch'}}
-          label="Username"
-          value={user}
-          mode='outlined'
-          onChangeText={user => setUser(user)}
-        />
+      <TextInput style={{ alignSelf: 'stretch'}}
+        label="Username"
+        value={user}
+        mode='outlined'
+        onChangeText={user => setUser(user)}
+      />
      
-        <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider}></Text>
 
-        <TextInput style={{ alignSelf: 'stretch'}}
-          secureTextEntry
-          //right={<TextInput.Icon name="eye"/>}
-          label="Password"
-          value={pass}
-          mode='outlined'
-          onChangeText={pass => setPass(pass)}
-         />
+      <TextInput style={{ alignSelf: 'stretch'}}
+        secureTextEntry
+        //right={<TextInput.Icon name="eye"/>}
+        label="Password"
+        value={pass}
+        mode='outlined'
+        onChangeText={pass => setPass(pass)}
+      />
 
-          <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider}></Text>
 
-         <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>LOG IN</Text>
-         </TouchableOpacity>
-   </View>
-  
-    
+      <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
+        <Text style={styles.loginButtonText}>LOG IN</Text>
+      </TouchableOpacity>
+    </View>
     </SafeAreaView>
-    
-
-    
+ 
   );
 }
 
@@ -92,9 +87,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Comfortaa_400Regular',
   },
   input:{
-    padding: 20, 
-  
- },
+    padding: 20,
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
