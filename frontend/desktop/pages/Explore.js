@@ -1,20 +1,24 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import EventCard from '../components/EventCard';
+import NavigationBar from '../components/NavigationBar';
 
 function Explore() {
   return (
+    <SafeAreaView style={{flex: 1}}>
+    <NavigationBar/>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <CardStack ref={swiper => { this.swiper = swiper }}
-      onSwipedLeft={() => alert('swiped left')}
-      onSwipedRight={() => alert('swiped right')}>
-        <Card><EventCard content={'A'}/></Card>
-        <Card><EventCard content={'B'}/></Card>
-        <Card><EventCard content={'C'}/></Card>
-      </CardStack>
+      <Text>Explore!</Text>
     </View>
+    </SafeAreaView>
   );
 }
-
+const styles = StyleSheet.create({
+  content:{
+   flex: 5,
+   alignItems: 'center',
+   justifyContent: 'center',
+ },
+})
 export default Explore;
