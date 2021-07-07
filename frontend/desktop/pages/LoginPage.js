@@ -69,6 +69,7 @@ const login = (user, pass) => {
       Password: pass
     })
     .then((response) => {
+      navigation.navigate('Explore');
       console.log(response);
     }, (error) => {
       setLoginMessage('Incorrect Username or Password');
