@@ -110,6 +110,17 @@ app.patch('/api/edituser', async (req, res, next) => {
   }
 })
 
+app.delete('/api/deleteuser', async (req, res, next) => {
+  const id = req.params.id;
+  try{
+    const result = await User.findByIdAndDelete(id);
+    res.send(result);
+  }catch(error){
+    console.log(error.message);
+  }
+})
+
+
 
 module.exports = router
 }
