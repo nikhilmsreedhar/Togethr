@@ -3,9 +3,12 @@ import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import EventCard from '../components/EventCard';
 import Data from '../assets/data.js'
+import BottomNavigator from '../components/BottomNavigator'
+
 
 function Explore() {
-  return (
+
+  return (    
     <SafeAreaView style={{flex: 1}}>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <CardStack 
