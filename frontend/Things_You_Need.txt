@@ -8,6 +8,7 @@ npm install or yarn add:
 @expo/vector-icons
 @expo-google-fonts/dev
 react-native-paper
+axios
 
 DESKTOP:
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
@@ -20,3 +21,4 @@ react-native-paper
 @material-ui/core/styles
 @material-ui/pickers
 yarn add @date-io/date-fns@1.x date-fns 
+axios
