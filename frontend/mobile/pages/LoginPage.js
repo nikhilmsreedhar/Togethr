@@ -14,6 +14,7 @@ import { TextInput, HelperText } from 'react-native-paper';
 
 
 
+
 export default function LoginPage() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
@@ -53,6 +54,7 @@ const login = (user, pass) => {
       Password: pass
     })
     .then((response) => {
+      navigation.navigate('LoggedIn');
       console.log(response);
     }, (error) => {
       setLoginMessage('Incorrect Username or Password');
