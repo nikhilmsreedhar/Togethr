@@ -4,6 +4,8 @@ import {View, StyleSheet, Text,Dimensions} from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
+const BUFFER = (Dimensions.get('window').width) * 0.2
+const HBUFFER = (Dimensions.get('window').height) * 0.3
 
 const EventCard = ({
     title, 
@@ -31,8 +33,8 @@ const EventCard = ({
 
   const styles = StyleSheet.create({
     containerCardItem: {
-    height: SCREEN_HEIGHT - 300,
-    width: SCREEN_WIDTH - 600,
+    height: SCREEN_HEIGHT - HBUFFER,
+    width: SCREEN_WIDTH - BUFFER,
     paddingVertical: 50,
 		backgroundColor: 'white',
 		borderRadius: 8,
