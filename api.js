@@ -33,6 +33,32 @@ app.post('/api/adduser', async (req, res, next) => {
 
 });
 
+app.patch('/api/edituser', async (req, res, next) => {
+  try {
+    const id = req.body.id;
+    const updates = req.body;
+    const options = {new: true}
+
+    const result = await User.findByIdAndUpdate(id, updates, options);
+    res.send(result);
+  } catch (error){
+    console.log(error.message);
+  }
+})
+
+app.delete('/api/deleteuser', async (req, res, next) => {
+  const id = req.body.id;
+  try{
+    const result = await User.findByIdAndDelete(id);
+    res.send(result);
+  }catch(error){
+    console.log(error.message);
+  }
+})
+
+
+
+
 app.post('/api/login', async (req, res, next) => {
   const UserName = req.body.UserName;
   const Password = req.body.Password;
@@ -59,6 +85,9 @@ app.post('/api/login', async (req, res, next) => {
     })
     .catch(err => res.status(400).json("Error" + err));
 });
+
+
+
 
 app.post('/api/addevent', async (req, res, next) => {
   const{ EventName, EventDescription, EventLocation, EventDate, EventTime, Attendees, LikedUsers, Pictures} = req.body;
@@ -97,29 +126,6 @@ app.patch('/api/editevent', async (req, res, next) => {
   }
 })
 
-app.patch('/api/edituser', async (req, res, next) => {
-  try {
-    const id = req.body.id;
-    const updates = req.body;
-    const options = {new: true}
-
-    const result = await User.findByIdAndUpdate(id, updates, options);
-    res.send(result);
-  } catch (error){
-    console.log(error.message);
-  }
-})
-
-app.delete('/api/deleteuser', async (req, res, next) => {
-  const id = req.body.id;
-  try{
-    const result = await User.findByIdAndDelete(id);
-    res.send(result);
-  }catch(error){
-    console.log(error.message);
-  }
-})
-
 app.delete('/api/deleteevent', async (req, res, next) => {
   const id = req.body.id;
   try{
@@ -129,6 +135,9 @@ app.delete('/api/deleteevent', async (req, res, next) => {
     console.log(error.message);
   }
 })
+
+
+
 
 
 module.exports = router
