@@ -1,6 +1,9 @@
 import * as React from 'react';
 import axios from 'axios';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
+=======
+>>>>>>> c34471f4a33911c12f4510bbbc42f006059a6a11
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import {
   useFonts,
@@ -62,18 +65,30 @@ const login = (username, pass) => {
     setLoginMessage("Please enter password");
   }
   else{
+<<<<<<< HEAD
     axios.post('https://togethrgroup1.herokuapp.com/login', { 
       UserName: username,
+=======
+    axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+      UserName: user,
+>>>>>>> c34471f4a33911c12f4510bbbc42f006059a6a11
       Password: pass
     })
     .then((response) => {
       console.log(response);
     }, (error) => {
+<<<<<<< HEAD
       console.log(error);
     });
     if (error){
       setLoginMessage("User not found");
     }
+=======
+      setLoginMessage('Incorrect Username or Password');
+      console.log(error);
+    });
+    
+>>>>>>> c34471f4a33911c12f4510bbbc42f006059a6a11
   }
 }
 
