@@ -1,6 +1,7 @@
 INSTALL THESE DEPENDENCIES/FRAMEWORKS
 MOBILE:
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+npm install --save react-native-card-stack-swiper
 npm install or yarn add:
 @react-navigation/native
 @react-navigation/stack
