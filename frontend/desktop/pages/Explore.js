@@ -6,23 +6,23 @@ import EventCard from '../components/EventCard';
 import Data from '../assets/data.js'
 import NavigationBar from '../components/NavigationBar';
 
-function Explore(swiper) {
-   var swiper;
+function Explore() {
+  const t = {};
+
   return (
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection:'row'}}>
-      
-    <TouchableOpacity 
-    ref={swiper => {swiper = swiper }}
-    onPress={() => this.swiper.swipeLeft()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
+    <View style={styles.page}>
       
       <CardStack 
       disableTopSwipe = 'true'
+      disableBottomSwipe = 'true'
+      disableLeftSwipe = 'true'
+      disableRightSwipe = 'true'
+      verticalSwipe = 'false'
+      horizontalSwipe = 'false'
       style={styles.content}
-      ref={swiper => {swiper = swiper }}
+      ref={swiper => {t.swiper = swiper }}
       renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}
       onSwipedLeft={() => alert('swiped left')}
       onSwipedRight={() => alert('swiped right')}
@@ -40,6 +40,28 @@ function Explore(swiper) {
         </Card>
          ))}
       </CardStack>
+
+      <View style={{flexDirection:'row'}}> 
+      <TouchableOpacity 
+        onPress={() => t.swiper.swipeLeft()}>
+       <Ionicons name="arrow-back-circle"  size={50} color="back" />
+      </TouchableOpacity>
+
+      <Text style={styles.buttonSpace}></Text>
+
+      <TouchableOpacity 
+        onPress={() => t.swiper.swipeBottom()}>
+       <Ionicons name="heart"  size={45} color="back" />
+      </TouchableOpacity>
+
+      <Text style={styles.buttonSpace}></Text>
+
+      <TouchableOpacity 
+        onPress={() => t.swiper.swipeRight()}>
+       <Ionicons name="arrow-forward-circle"  size={50} color="back" />
+      </TouchableOpacity>
+
+    </View>
     </View>
     </SafeAreaView>
   );
@@ -50,5 +72,14 @@ const styles = StyleSheet.create({
    alignItems: 'center',
    justifyContent: 'center',
  },
+ page:{
+  flex: 1, 
+  justifyContent: 'center', 
+  alignItems: 'center', 
+  paddingBottom: 50,
+},
+buttonSpace:{
+  width: 20
+}
 })
 export default Explore;
