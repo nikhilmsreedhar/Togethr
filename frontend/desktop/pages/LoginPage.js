@@ -13,9 +13,6 @@ import { TextInput, HelperText } from 'react-native-paper';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
-
-
-
 export default function LoginPage() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
@@ -37,11 +34,11 @@ export default function LoginPage() {
 }
 
 const userBlank = () => {
-  return (user == "");
+  return (username == "");
 };
 
 
-const [user, setUser] = React.useState('');
+const [username, setUser] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [loginMessage,setLoginMessage] = React.useState('');
 
@@ -52,20 +49,21 @@ const handlePassChange = (event) => {
   setPass(event.target.value);
 };
 
-// Thiis is where the logic for the login function will be added
-const login = (user, pass) => {
+// This is where the logic for the login function will be added
+const login = (username, pass) => {
   if (user == "" && pass  == ""){
     setLoginMessage("Please enter username and password");
   }
-  else if (user == "" && pass != ""){
+  else if (username == "" && pass != ""){
     setLoginMessage("Please enter username");
   }
-  else if (user != "" && pass == ""){
+  else if (username != "" && pass == ""){
     setLoginMessage("Please enter password");
   }
+  //login to api post
   else{
     axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
-      UserName: user,
+      UserName: username,
       Password: pass
     })
     .then((response) => {
@@ -77,7 +75,7 @@ const login = (user, pass) => {
     });
     
   }
-};
+}
 
 
   return (
@@ -94,9 +92,9 @@ const login = (user, pass) => {
         <TextField 
           style={{width: 500}}
           color = 'secondary'
-          label="Username" 
+          label="username" 
           variant="outlined" 
-          value={user}
+          value={username}
           onChange={handleUserChange}
           />
 
@@ -118,7 +116,7 @@ const login = (user, pass) => {
 
           <Text style={styles.inputDivider}></Text>
 
-         <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
+         <TouchableOpacity  onPress={() => login(username, pass)} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>LOG IN</Text>
          </TouchableOpacity>
    </View>
