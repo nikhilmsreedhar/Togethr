@@ -11,6 +11,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { TextInput, HelperText} from 'react-native-paper';
 import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import axios from 'axios'
 
 
 const RegisterPage2 = ({route}) =>{
@@ -56,7 +63,22 @@ function goToNextPage (firstName, lastName, email, user, pass, passConfirm, birt
     setRegisterMessage("Passwords must match");
   }
   else{
-    navigation.navigate('RegisterPage3', {firstName: firstName, lastName: lastName, email: email,  username: user, password: pass, birthday: birthday});
+    alert('First: ' + firstName + ' Last: '+ lastName + ' Email: '+ email + ' Username: ' + user + ' Password: '+ pass + ' Birthday: ' + birthday) ;
+    axios.post('https://togethrgroup1.herokuapp.com/api/adduser', { 
+      UserName: user,
+      Password: pass,
+      FirstName: firstName,
+      LastName: lastName,
+      Email: email
+    })
+    .then((response) => {
+      handleClickOpen();
+      console.log(response);
+    }, (error) => {
+      setRegisterMessage('Invalid fields');
+      console.log(error);
+    });
+    //reg3 end
   }
   };
   
@@ -66,6 +88,7 @@ const [user, setUser] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [passConfirm, setPassConfirm] = React.useState('');
 const [registerMessage,setRegisterMessage] = React.useState('');
+const [open, setOpen] = React.useState(false);
 
 const handleEmailChange = (event) => {
   setEmail(event.target.value);
@@ -80,9 +103,15 @@ const handlePassConfirmChange = (event) => {
   setPassConfirm(event.target.value);
 };
 
-const hasErrors = () => {
-    return !(pass == passConfirm);
-  };
+const handleClickOpen = () => {
+  setOpen(true);
+};
+
+const handleClose = () => {
+  setOpen(false);
+  navigation.navigate('HomePage')
+};
+
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -141,7 +170,7 @@ const hasErrors = () => {
         <HelperText type="error">
             {registerMessage}
           </HelperText>
-       </MuiThemeProvider>
+       
         <Text style={styles.inputDivider}></Text>
 
        
@@ -154,7 +183,26 @@ const hasErrors = () => {
           <Text style={styles.nextButtonText}>NEXT</Text>
        </TouchableOpacity>
         </View>
-        
+
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Account creation successful!"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          Please verify your account through the link sent to your email. This link will be valid for 1 hour.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            OKAY
+          </Button>
+        </DialogActions>
+      </Dialog>
+      </MuiThemeProvider>
          </View>
         
    </View>
@@ -234,5 +282,5 @@ const styles = StyleSheet.create({
     width:10,
   },
 });
-  
+
 export default RegisterPage2;
