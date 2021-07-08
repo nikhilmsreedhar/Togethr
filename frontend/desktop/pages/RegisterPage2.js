@@ -57,6 +57,23 @@ function goToNextPage (firstName, lastName, email, user, pass, passConfirm, birt
   }
   else{
     navigation.navigate('RegisterPage3', {firstName: firstName, lastName: lastName, email: email,  username: user, password: pass, birthday: birthday});
+    //reg3 start
+    alert('First: ' + firstName + ' Last: '+ lastName + ' Email: '+ email + ' Username: ' + username + ' Password: '+ password + ' Birthday: ' + birthday + ' Interests: ' + JSON.stringify(interests)) ;
+    axios.post('https://togethrgroup1.herokuapp.com/api/adduser', { 
+      UserName: username,
+      Password: password,
+      FirstName: firstName,
+      LastName: lastName,
+      Email: email
+    })
+    .then((response) => {
+      setRegisterMessage('Please verify you account through the link sent to your email\nThis link will be valid for 1 hour');
+      console.log(response);
+    }, (error) => {
+      setRegisterMessage('Invalid fields');
+      console.log(error);
+    });
+    //reg3 end
   }
   };
   

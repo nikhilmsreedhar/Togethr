@@ -1,9 +1,5 @@
 import * as React from 'react';
 import axios from 'axios';
-<<<<<<< HEAD
-import { Link } from 'react-router-dom';
-=======
->>>>>>> c34471f4a33911c12f4510bbbc42f006059a6a11
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import {
   useFonts,
@@ -54,8 +50,8 @@ const handlePassChange = (event) => {
 };
 
 // This is where the logic for the login function will be added
-const login = (username, pass) => {
-  if (username == "" && pass  == ""){
+const login = (user, pass) => {
+  if (user == "" && pass  == ""){
     setLoginMessage("Please enter username and password");
   }
   else if (username == "" && pass != ""){
@@ -64,31 +60,20 @@ const login = (username, pass) => {
   else if (username != "" && pass == ""){
     setLoginMessage("Please enter password");
   }
+  //login to api post
   else{
-<<<<<<< HEAD
-    axios.post('https://togethrgroup1.herokuapp.com/login', { 
-      UserName: username,
-=======
     axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
       UserName: user,
->>>>>>> c34471f4a33911c12f4510bbbc42f006059a6a11
       Password: pass
     })
     .then((response) => {
+      navigation.navigate('Explore');
       console.log(response);
     }, (error) => {
-<<<<<<< HEAD
-      console.log(error);
-    });
-    if (error){
-      setLoginMessage("User not found");
-    }
-=======
       setLoginMessage('Incorrect Username or Password');
       console.log(error);
     });
     
->>>>>>> c34471f4a33911c12f4510bbbc42f006059a6a11
   }
 }
 
