@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import {
   useFonts,
@@ -11,12 +12,13 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import {HelperText} from 'react-native-paper';
 import MultipleSelectChips from '../components/MultipleSelectChips';
+import '../../../models/user';
 
 
 
 
 
-const RegisterPage3 = ({route}) =>{
+const InterestsPage = ({route}) =>{
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -24,55 +26,51 @@ const RegisterPage3 = ({route}) =>{
     Roboto_300Light
   });
 
-  const firstName = route.params.firstName
-  const lastName  = route.params.lastName
-  const username = route.params.username
-  const password  = route.params.password
-  const birthday  = route.params.birthday
-  const email  = route.params.email
-
   
 
   
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
+  }
 
   const [interests, setInterests] = useState([])
   const [registerMessage,setRegisterMessage] = React.useState('');
 	const [error, setError] = useState("")
 	const options = [
-  {label: "Movie", value: "Movie"}, 
-  {label: "Music", value: "Music"}, 
-  {label: "Sports", value: "Sports"},
-  {label: "Outdoors", value:"Outdoors"}, 
-  {label: "Food", value: "Food"}, 
-  {label: "Animals", value: "Animals"},
-  {label: "Beauty", value:"Beauty"}, 
-  {label: "Gaming", value: "Gaming"}, 
-  {label: "Sight Seeing", value: "Sight Seeing"},
-  {label: "Technology", value: "Technology"}, 
-  {label: "DIY", value: "DIY"}, 
-  {label: "Travel", value: "Travel"},
-  {label: "Performing Arts", value: "Performing Arts"}, 
-  {label: "Fine Arts", value: "Fine Arts"}, 
-  {label: "Cars", value: "Cars"},
-  {label: "Photography", value: "Photography"}, 
-  {label: "Lifestyle", value: "Lifestyle"}, 
-  {label: "Shopping", value: "Shopping"},
-]
+  {value: "Animals", isSelected: false},
+  {value: "Beauty", isSelected: false},
+  {value: "Cars", isSelected: false},
+  {value: "Fine Arts", isSelected: false},
+  {value: "Food", isSelected: false},
+  {value: "DIY", isSelected: false},
+  {value: "Gaming", isSelected: false},
+  {value: "Lifestyle", isSelected: false},
+  {value: "Movies", isSelected: false},
+  {value: "Music", isSelected: false},
+  {value: "Outdoors", isSelected: false},
+  {value: "Performing Arts", isSelected: false},
+  {value: "Photography", isSelected: false},
+  {value: "Shopping", isSelected: false},
+  {value: "Sight Seeing", isSelected: false},
+  {value: "Sports", isSelected: false},
+  {value: "Technology", isSelected: false},
+  {value: "Travel", isSelected: false},
+  ]
+//check email formatting --listen to existing email response
+//unique username? --listen for existing username response
+//password formats? pw length > 7, parse + check for isdig()
 
-// This is where you will add the logic for the register function
-const register = (firstName, lastName, username, password, birthday, interests) => {
-  if (interests.length === 0){
-    setRegisterMessage("Please select at least one interest");
-  }
-  else{
-    alert('First: ' + firstName + ' Last: '+ lastName + ' Email: '+ email + ' Username: ' + username + ' Password: '+ password + ' Birthday: ' + birthday + ' Interests: ' + JSON.stringify(interests)) ;
-  }
-  
-};
+
+//copy to mobile
+  const tags = (interests) => {
+    if (interests.length === 0){
+      alert('Please select at least one interest');
+    }
+    else{
+      alert(JSON.stringify(interests));
+      };
+    };
 
 
   return (
@@ -190,4 +188,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterPage3;
+export default InterestsPage;
