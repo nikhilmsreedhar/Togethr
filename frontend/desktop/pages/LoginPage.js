@@ -52,7 +52,7 @@ const handlePassChange = (event) => {
   setPass(event.target.value);
 };
 
-// Thiis is where the logic for the login function will be added
+// This is where the logic for the login function will be added
 const login = (user, pass) => {
   if (user == "" && pass  == ""){
     setLoginMessage("Please enter username and password");
@@ -63,6 +63,7 @@ const login = (user, pass) => {
   else if (user != "" && pass == ""){
     setLoginMessage("Please enter password");
   }
+  //login to api post
   else{
     axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
       UserName: user,
