@@ -1,5 +1,4 @@
-app/node_modules/
-app/.expo/
+node_modules/
 app/npm-debug.*
 app/*.jks
 app/*.p8
