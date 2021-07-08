@@ -16,7 +16,6 @@ export default function LoginPage() {
     Roboto_500Medium,
     Roboto_700Bold
   });
-
   
   const navigation = useNavigation();
   function navigateBack() {
@@ -25,24 +24,37 @@ export default function LoginPage() {
 
   const userBlank = () => {
     return (user == "");
-  };
+  }
 
   const [user, setUser] = React.useState('');
   const [pass, setPass] = React.useState('');
 
   const login = (user, pass) => {
-    if (user == "" || pass  == ""){
-      alert("Please fill in all fields");
-    } else {
-      alert('Username: ' + user + ' Password: '+ pass);
+    if (user == "" && pass  == "") {            //no username or password
+      setLoginMessage("Please enter username and password");
+    } else if (username == "" && pass != "") {  //no username
+      setLoginMessage("Please enter username");
+    } else if (username != "" && pass == "") {  //no password
+      setLoginMessage("Please enter password");
+    } else {                                    //login to api post
+      axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+        UserName: username,
+        Password: pass
+      })
+      .then((response) => {
+        navigation.navigate('Explore');
+        console.log(response);
+      }, (error) => {
+        setLoginMessage('Incorrect Username or Password');
+        console.log(error);
+      }); 
     }
-    
   };
 
   var userEmpty = false;
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}> {/iOS only/}
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigateBack()}>
         <Ionicons name="arrow-back"  size={30} color="back" />
@@ -71,7 +83,10 @@ export default function LoginPage() {
 
       <Text style={styles.inputDivider}></Text>
 
-      <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
+      <TouchableOpacity
+        onPress={() => login(user, pass)}
+        style={styles.loginButton}
+      >
         <Text style={styles.loginButtonText}>LOG IN</Text>
       </TouchableOpacity>
     </View>
@@ -79,7 +94,6 @@ export default function LoginPage() {
  
   );
 }
-
 
 const styles = StyleSheet.create({
   title: {
