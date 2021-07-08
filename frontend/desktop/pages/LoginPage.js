@@ -69,6 +69,8 @@ const login = (username, pass) => {
     .then((response) => {
       navigation.navigate('Explore');
       console.log(response);
+      var UserData = {id:response.id, UserName: response.UserName, FirstName:response.FirstName, LastName:response.LastName}
+      localStorage.setItem("User", JSON.stringify(UserData));
     }, (error) => {
       setLoginMessage('Incorrect Username or Password');
       console.log(error);

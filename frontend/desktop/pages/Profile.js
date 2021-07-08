@@ -4,34 +4,58 @@ import { Text, View , SafeAreaView} from 'react-native';
 import NavigationBar from '../components/NavigationBar';
 
 function Profile() {
-  const [user, setUser] = React.useState('');
+  const [username, setUser] = React.useState('');
   const [pass, setPass] = React.useState('');
-  const [tags, setTags] = React.useState('');
 
   const handleUserChange = (event) => {
-  setUser(event.target.value);
+    setUser(event.target.value);
   };
   const handlePassChange = (event) => {
     setPass(event.target.value);
   };
-  const handleTagsChange = (event) =>{
-    setTags(event.target.values)
-  }
 
   // Edit Password
   function changePass(){
-    localStorage.setItem('pass', pass);
-    alert('Password Changed');
+    if (pass == ""){
+      alert("Password cannot be empty");
+    }
+    else{
+      axios.post('', { 
+        Password: pass
+      })
+      .then((response) => {
+        alert("Password Changed Successfuly")
+        console.log(response);
+      }, (error) => {
+        alert("Something went wrong. Try again.")
+        console.log(error);
+      });
+    }
   }
 
   // Edit Username
   function changeUsername(){
-    localStorage.setItem('user', user);
-    alert('Username Changed');
+    if (username == ""){
+      alert("Username cannot be empty");
+    }
+    else{
+      axios.post('', { 
+        UserName: username
+      })
+      .then((response) => {
+        alert("Username Changed Successfuly")
+        console.log(response);
+      }, (error) => {
+        alert("Something went wrong. Try again.")
+        console.log(error);
+      });
+    }
   }
 
   // Edit Interests/Tags
   function changeInterests(){
+    // navigate to InterestsPage set tags equal to returned array
+    var tags = [];
     localStorage.setItem('tags', tags);
     alert('Interests Changed');
   }
