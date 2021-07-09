@@ -31,101 +31,94 @@ export default function LoginPage() {
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
-
-const userBlank = () => {
-  return (username == "");
-};
-
-
-const [username, setUser] = React.useState('');
-const [pass, setPass] = React.useState('');
-const [loginMessage,setLoginMessage] = React.useState('');
-
-const handleUserChange = (event) => {
-  setUser(event.target.value);
-};
-const handlePassChange = (event) => {
-  setPass(event.target.value);
-};
-
-// This is where the logic for the login function will be added
-const login = (username, pass) => {
-  if (user == "" && pass  == ""){
-    setLoginMessage("Please enter username and password");
   }
-  else if (username == "" && pass != ""){
-    setLoginMessage("Please enter username");
-  }
-  else if (username != "" && pass == ""){
-    setLoginMessage("Please enter password");
-  }
-  //login to api post
-  else{
-    axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
-      UserName: username,
-      Password: pass
-    })
-    .then((response) => {
-      navigation.navigate('Explore');
-      console.log(response);
-    }, (error) => {
-      setLoginMessage('Incorrect Username or Password');
-      console.log(error);
-    });
-    
-  }
-}
 
+  const userBlank = () => {
+    return (username == "");
+  };
+
+  const [username, setUser] = React.useState('');
+  const [pass, setPass] = React.useState('');
+  const [loginMessage, setLoginMessage] = React.useState('');
+
+  const handleUserChange = (event) => {
+    setUser(event.target.value);
+  };
+  const handlePassChange = (event) => {
+    setPass(event.target.value);
+  };
+
+  // This is where the logic for the login function will be added
+  const login = (username, pass) => {
+    if (user == "" && pass  == "") {
+      setLoginMessage("Please enter username and password");
+    } else if (username == "" && pass != "") {
+      setLoginMessage("Please enter username");
+    } else if (username != "" && pass == "") {
+      setLoginMessage("Please enter password");
+    } else { //login to api post
+      axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+        UserName: username,
+        Password: pass
+      })
+      .then((response) => {
+        navigation.navigate('Explore');
+        console.log(response);
+      }, (error) => {
+        setLoginMessage('Incorrect Username or Password');
+        console.log(error);
+      });
+    }
+  }
 
   return (
-    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
-    <View style={styles.center}>
+      <TouchableOpacity onPress={() => navigateBack()}>
+        <Ionicons name="arrow-back" size={30} color="back" />
+      </TouchableOpacity>
+
+      <View style={styles.center}>
         <Text h1 style={styles.title}>Log In</Text>
-        <Text style={styles.verticalDivider}></Text>
+        <Text style={styles.verticalDivider} />
         
         <MuiThemeProvider theme={theme}>
-        <TextField 
-          style={{width: 500}}
-          color = 'secondary'
-          label="username" 
-          variant="outlined" 
-          value={username}
-          onChange={handleUserChange}
+          <TextField 
+            style={{width: 500}}
+            color = 'secondary'
+            label="username" 
+            variant="outlined" 
+            value={username}
+            onChange={handleUserChange}
           />
 
-        <Text Text style={styles.inputDivider}></Text>
+          <Text Text style={styles.inputDivider} />
 
-        <TextField 
-          style={{width: 500}}
-          type="password"
-          color = 'secondary'
-          label="Password" 
-          variant="outlined" 
-          value={pass}
-          onChange={handlePassChange}
+          <TextField 
+            style={{width: 500}}
+            type="password"
+            color = 'secondary'
+            label="Password" 
+            variant="outlined" 
+            value={pass}
+            onChange={handlePassChange}
           />
+
           <HelperText type="error">
           {loginMessage}
           </HelperText>
-          </MuiThemeProvider>
 
-          <Text style={styles.inputDivider}></Text>
+        </MuiThemeProvider>
 
-         <TouchableOpacity  onPress={() => login(username, pass)} style={styles.loginButton}>
+        <Text style={styles.inputDivider} />
+
+        <TouchableOpacity
+          onPress={() => login(username, pass)}
+          style={styles.loginButton}
+        >
           <Text style={styles.loginButtonText}>LOG IN</Text>
-         </TouchableOpacity>
-   </View>
-   </View>
-    
-    </SafeAreaView>
-    
-
-    
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 

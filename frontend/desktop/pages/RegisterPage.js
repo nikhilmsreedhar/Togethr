@@ -15,7 +15,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import TextField from '@material-ui/core/TextField';
 
 
-
 export default function RegisterPage() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
@@ -35,122 +34,117 @@ export default function RegisterPage() {
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
-
-function goToNextPage(fname, lname, bday){
-  if (fname == "" || lname == "") {
-    setRegisterMessage("Please enter first and last name") ;
   }
-  else if (calculate_age(bday)<18){
-    setRegisterMessage("Must be over 18 to crate an account");
+
+  function goToNextPage(fname, lname, bday) {
+    if (fname == "" || lname == "") {
+      setRegisterMessage("Please enter first and last name") ;
+    }
+    else if (calculate_age(bday)<18){
+      setRegisterMessage("Must be over 18 to crate an account");
+    }
+    else{
+    navigation.navigate('RegisterPage2', {firstName: fname, lastName: lname, birthday: bday});
+    }
   }
-  else{
-   navigation.navigate('RegisterPage2', {firstName: fname, lastName: lname, birthday: bday});
+
+  // Caclulate users age to make sure they are 18
+  function calculate_age(dob1) {
+    var today = new Date();
+    var birthDate = new Date(dob1);  
+    var age_now = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+    {
+        age_now--;
+    }
+    console.log(age_now);
+    return age_now;
   }
-}
-
-// Caclulate users age to make sure they are 18
-function calculate_age(dob1){
-  var today = new Date();
-  var birthDate = new Date(dob1);  
-  var age_now = today.getFullYear() - birthDate.getFullYear();
-  var m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
-  {
-      age_now--;
-  }
-  console.log(age_now);
-  return age_now;
-}
 
 
-const [fname, setFirst] = React.useState('');
-const [lname, setLast] = React.useState('');
-const [birthday, setBirthday] = React.useState(new Date());
-const [registerMessage,setRegisterMessage] = React.useState('');
+  const [fname, setFirst] = React.useState('');
+  const [lname, setLast] = React.useState('');
+  const [birthday, setBirthday] = React.useState(new Date());
+  const [registerMessage,setRegisterMessage] = React.useState('');
 
-const handleFirstChange = (event) => {
-  setFirst(event.target.value);
-};
-const handleLastChange = (event) => {
-  setLast(event.target.value);
-};
+  const handleFirstChange = (event) => {
+    setFirst(event.target.value);
+  };
+  const handleLastChange = (event) => {
+    setLast(event.target.value);
+  };
 
 
   return (
-    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
-    <View style={styles.center}>
+      <TouchableOpacity onPress={() => navigateBack()}>
+        <Ionicons name="arrow-back"  size={30} color="back" />
+      </TouchableOpacity>
+
+      <View style={styles.center}>
         <Text h1 style={styles.title}>Register</Text>
-        <Text style={styles.verticalDivider}></Text>
-          
-          <MuiThemeProvider theme={theme}>
+        <Text style={styles.verticalDivider} />
+        <MuiThemeProvider theme={theme}>
           <TextField 
-          style={{width: 500}}
-          color = 'secondary'
-          label="First Name" 
-          variant="outlined" 
-          value={fname}
-          onChange={handleFirstChange}
+            style={{width: 500}}
+            color = 'secondary'
+            label="First Name" 
+            variant="outlined" 
+            value={fname}
+            onChange={handleFirstChange}
           />
           
-          <Text Text style={styles.inputDivider}></Text>
+          <Text Text style={styles.inputDivider} />
 
           <TextField 
-          style={{width: 500}}
-          color = 'secondary'
-          label="Last Name" 
-          variant="outlined" 
-          value={lname}
-          onChange={handleLastChange}
+            style={{width: 500}}
+            color = 'secondary'
+            label="Last Name" 
+            variant="outlined" 
+            value={lname}
+            onChange={handleLastChange}
           />
 
-          <Text Text style={styles.inputDivider}></Text>
+          <Text Text style={styles.inputDivider} />
 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
-            autoOk
-            color='secondary'
-            variant="inline"
-            inputVariant="outlined"
-            label="Birthday"
-            format="MM/dd/yyyy"
-            value={birthday}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-            onChange={birthday => setBirthday(birthday)}
-          />
+              autoOk
+              color='secondary'
+              variant="inline"
+              inputVariant="outlined"
+              label="Birthday"
+              format="MM/dd/yyyy"
+              value={birthday}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+              onChange={birthday => setBirthday(birthday)}
+            />
           </MuiPickersUtilsProvider>
+
           <HelperText type="error">
             {registerMessage}
           </HelperText>
-          </MuiThemeProvider>
 
-          <Text style={styles.inputDivider}></Text>
-         <View style={styles.fixToText}>
-        <TouchableOpacity onPress={()=>navigateBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>CANCEL</Text>
-       </TouchableOpacity>
-       <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity onPress={() => goToNextPage(fname, lname, birthday)} style={styles.nextButton}>
-          <Text style={styles.nextButtonText}>NEXT</Text>
-       </TouchableOpacity>
+        </MuiThemeProvider>
+
+        <Text style={styles.inputDivider} />
+
+        <View style={styles.fixToText}>
+          <TouchableOpacity onPress={()=>navigateBack()} style={styles.backButton}>
+            <Text style={styles.backButtonText}>CANCEL</Text>
+          </TouchableOpacity>
+          <Text style={styles.buttonDivider} />
+          <TouchableOpacity onPress={() => goToNextPage(fname, lname, birthday)} style={styles.nextButton}>
+            <Text style={styles.nextButtonText}>NEXT</Text>
+          </TouchableOpacity>
         </View>
-       
 
-        </View>
-   </View>
-  
-    
-    </SafeAreaView>
-    
-
-    
+      </View>
+    </View>
   );
 }
 
@@ -162,7 +156,7 @@ const styles = StyleSheet.create({
   },
   input:{
     width: 500,
- },
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
