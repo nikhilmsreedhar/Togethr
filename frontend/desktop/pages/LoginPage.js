@@ -66,16 +66,29 @@ const login = (username, pass) => {
       UserName: username,
       Password: pass
     })
-    .then((response) => {
-      navigation.navigate('Explore');
+    .then(function (response) {
       console.log(response);
-      var UserData = {id:response.id, UserName: response.UserName, FirstName:response.FirstName, LastName:response.LastName}
-      localStorage.setItem("User", JSON.stringify(UserData));
-    }, (error) => {
-      setLoginMessage('Incorrect Username or Password');
-      console.log(error);
-    });
+      var res = response.data;
+      if (res.error) 
+      {
+        setMessage('User/Password combination incorrect');
+      }
+      else {	
+        storage.storeToken(res);
+        var jwt = require('jsonwebtoken');
     
+        var ud = jwt.decode(storage.retrieveToken(),{complete:true});
+        var userId = ud.payload.id;
+        var Username = ud.payload.UserName;
+        var Password = ud.payload.Password;
+        var firstName = ud.payload.firstName;
+        var lastName = ud.payload.lastName;
+                  
+        var UserData = {id: userId, UserName: Username, Password: Password, FirstName: firstName, LastName: lastName}
+        localStorage.setItem("User", JSON.stringify(UserData));
+        navigation.navigate('Explore');
+      }
+    });
   }
 }
 
