@@ -19,6 +19,7 @@ export default function LoginPage() {
     Roboto_500Medium,
     Roboto_700Bold
   });
+
   const theme = createMuiTheme({
     palette: {
       secondary: {
@@ -26,7 +27,6 @@ export default function LoginPage() {
       }
     }
   });
-
   
   const navigation = useNavigation();
   function navigateBack() {
@@ -44,6 +44,7 @@ export default function LoginPage() {
   const handleUserChange = (event) => {
     setUser(event.target.value);
   };
+  
   const handlePassChange = (event) => {
     setPass(event.target.value);
   };
