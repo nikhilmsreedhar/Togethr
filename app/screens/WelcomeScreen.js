@@ -8,7 +8,7 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 
-export default function HomePage() {
+function WelcomeScreen() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -16,27 +16,32 @@ export default function HomePage() {
   });
 
   const navigation = useNavigation();
+
+  //functions
   function navigateToLogin() {
-    navigation.navigate("LoginPage");
+    navigation.navigate("LoginScreen");
   }
 
   function navigateToRegister() {
-  navigation.navigate("RegisterPage");
+    navigation.navigate("RegisterScreen");
   }
  
   return (
     <View style={styles.container}>
       <Text h1
-        style={{fontSize: 100, fontFamily: 'Comfortaa_400Regular'}
-      }>
+        style={{
+          fontSize: 100,
+          fontFamily: 'Comfortaa_400Regular'
+        }}
+      >
         Togethr
       </Text>
-      <Text style={styles.verticalDivider}></Text>
+      <View style={{height: 50}} />
       <View style={styles.fixToText}>
-        <TouchableOpacity onPress={()=>navigateToLogin()} style={styles.loginButton}>
+        <TouchableOpacity onPress={() => navigateToLogin()} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>LOG IN</Text>
         </TouchableOpacity>
-        <Text style={styles.buttonDivider}></Text>
+        <View style={styles.buttonDivider} />
         <TouchableOpacity onPress={() => navigateToRegister()} style={styles.registerButton}>
           <Text style={styles.registerButtonText}>REGISTER</Text>
         </TouchableOpacity>
@@ -46,10 +51,10 @@ export default function HomePage() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container: {                //default alignment vertical
     flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center'
+    justifyContent: 'center', //align main
+    alignItems: 'center'      //align secondary
   },
   fixToText: {
     flexDirection: 'row',
@@ -88,8 +93,7 @@ const styles = StyleSheet.create({
   buttonDivider: {
     width:10,
   },
-  verticalDivider: {
-    height:50,
-  }
 });
+
+export default WelcomeScreen;
   

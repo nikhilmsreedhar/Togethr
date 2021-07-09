@@ -8,52 +8,61 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput, HelperText} from 'react-native-paper';
+import { TextInput, HelperText } from 'react-native-paper';
 
-
-const RegisterPage2 = ({route}) =>{
+export default function LoginPage() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
     Roboto_700Bold
   });
-
-  const firstName = route.params.firstName
-  const lastName  = route.params.lastName
-
   
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
   }
 
-  function goToNextPage (firstName, lastName, user, pass) {
-    if(user == "" || pass == ""){
-      alert('Please fill in all fields') ;
-    } else {
-      navigation.navigate('RegisterPage3', {firstName: firstName, lastName: lastName, username: user, password: pass});
-    }
-  };
+  const userBlank = () => {
+    return (user == "");
+  }
 
   const [user, setUser] = React.useState('');
   const [pass, setPass] = React.useState('');
-  const [passConfirm, setPassConfirm] = React.useState('');
 
-  const hasErrors = () => {
-    return !(pass == passConfirm);
+  const login = (user, pass) => {
+    if (user == "" && pass  == "") {            //no username or password
+      setLoginMessage("Please enter username and password");
+    } else if (username == "" && pass != "") {  //no username
+      setLoginMessage("Please enter username");
+    } else if (username != "" && pass == "") {  //no password
+      setLoginMessage("Please enter password");
+    } else {                                    //login to api post
+      axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+        UserName: username,
+        Password: pass
+      })
+      .then((response) => {
+        navigation.navigate('Explore');
+        console.log(response);
+      }, (error) => {
+        setLoginMessage('Incorrect Username or Password');
+        console.log(error);
+      }); 
+    }
   };
 
+  var userEmpty = false;
+
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}> {/iOS only/}
     <View style={styles.container}>
-      
       <TouchableOpacity onPress={() => navigateBack()}>
-        <Ionicons name="arrow-back"  size={30} color="back" />
+        <Ionicons name="arrow-back" size={30} color="back" />
       </TouchableOpacity>
-      <Text style={styles.verticalDivider}></Text>
-      <Text h1 style={styles.title}>Register</Text>
-      <Text style={styles.verticalDivider}></Text>
-      
+      <View style={styles.verticalDivider} />
+      <Text h1 style={styles.title}>Log In</Text>
+      <View style={styles.verticalDivider} />
+        
       <TextInput style={{ alignSelf: 'stretch'}}
         label="Username"
         value={user}
@@ -64,45 +73,35 @@ const RegisterPage2 = ({route}) =>{
       <Text style={styles.inputDivider}></Text>
 
       <TextInput style={{ alignSelf: 'stretch'}}
-      secureTextEntry
+        secureTextEntry
+        //right={<TextInput.Icon name="eye"/>}
         label="Password"
         value={pass}
         mode='outlined'
         onChangeText={pass => setPass(pass)}
       />
-        
+
       <Text style={styles.inputDivider}></Text>
 
-      <TextInput style={{ alignSelf: 'stretch'}}
-      secureTextEntry
-        label="Confirm Password"
-        value={passConfirm}
-        mode='outlined'
-        error = {(pass == passConfirm) ? false : true}
-        onChangeText={passConfirm => setPassConfirm(passConfirm)}
-      />
-      <HelperText type="error" visible={hasErrors()}>
-        Passwords do not match
-      </HelperText>
-        
-      <Text style={styles.inputDivider}></Text>
-
-      <TouchableOpacity  disabled = {(pass == passConfirm) ? false : true} onPress={()=> goToNextPage (firstName, lastName, user, pass)} style={styles.regButton}>
-        <Text style={styles.regButtonText}>REGISTER</Text>
-      </TouchableOpacity>        
+      <TouchableOpacity
+        onPress={() => login(user, pass)}
+        style={styles.loginButton}
+      >
+        <Text style={styles.loginButtonText}>LOG IN</Text>
+      </TouchableOpacity>
     </View>
     </SafeAreaView>
+ 
   );
 }
-
 
 const styles = StyleSheet.create({
   title: {
     fontSize: 50, 
-    fontFamily: 'Comfortaa_400Regular'
+    fontFamily: 'Comfortaa_400Regular',
   },
   input:{
-    padding: 20
+    padding: 20,
   },
   container: {
     flex: 1,
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
   inputDivider: {
     height:20,
   },
-  regButton: {
+  loginButton: {
     backgroundColor: "black",
     borderColor:"black",
     alignSelf: 'stretch',
@@ -127,11 +126,10 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     borderRadius: 5,
   },
-  regButtonText: {
+  loginButtonText: {
     fontSize: 18,
     color: 'white',
     fontFamily: 'Roboto_500Medium'
   }, 
 });
-
-export default RegisterPage2;
+  
