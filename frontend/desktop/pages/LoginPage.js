@@ -32,7 +32,6 @@ export default function LoginPage() {
   function navigateBack() {
     navigation.goBack();
   }
-<<<<<<< HEAD
   else if (username != "" && pass == ""){
     setLoginMessage("Please enter password");
   }
@@ -67,8 +66,6 @@ export default function LoginPage() {
     });
   }
 }
-=======
->>>>>>> d856d3b48d8c30cb7ea2f6de9d6ef8b96bc4c8dd
 
   const userBlank = () => {
     return (username == "");
