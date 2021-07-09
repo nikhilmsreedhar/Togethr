@@ -8,7 +8,7 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput} from 'react-native-paper';
+import { TextInput, Checkbox } from 'react-native-paper';
 
 
 export default function RegisterScreen() {
@@ -19,21 +19,29 @@ export default function RegisterScreen() {
   });
   
   const navigation = useNavigation();
+  const [fname, setFirst] = React.useState('');
+  const [lname, setLast] = React.useState('');
+  //const [birthday, setBirthday] = React.useState(new Date());
+  const [confirmAge, setConfirmAge] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
+  const [registerMessage, setRegisterMessage] = React.useState('');
   
   function navigateBack() {
     navigation.goBack();
   }
 
-  function goToNextPage(fname, lname) {
+  function goToNextPage(fname, lname, birthday) {
     if (fname == "" || lname == "") {
-      alert('Please fill in all fields') ;
+      setRegisterMessage("Please fill in all fields");
+    //} else if (calculateAge(birthday) < 18) {
+    //  setRegisterMessage("Must be over 18 to create an account.");
     } else {
       navigation.navigate('RegisterScreen2', {firstName: fname, lastName: lname});
     }
   }
 
   /* TO BE ADDED
-  function calculate_age(dob1){
+  function calculateAge(dob1){
     var today = new Date();
     var birthDate = new Date(dob1);  
     var age_now = today.getFullYear() - birthDate.getFullYear();
@@ -46,13 +54,6 @@ export default function RegisterScreen() {
     return age_now;
   }
   */
-
-  const [fname, setFirst] = React.useState('');
-  const [lname, setLast] = React.useState('');
-
-  const next = (fname, lname) => {
-    alert('First: ' + fname + ' Last: '+ lname);
-  };
 
   return (
     <View style={styles.container}>
@@ -81,9 +82,21 @@ export default function RegisterScreen() {
         onChangeText={lname => setLast(lname)}
       />
 
-      <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider} />
+
+      <View style = {{flexDirection: "row"}}>
+        <Text>Please confirm that you are over 18 years old.</Text>
+        <Checkbox
+          status={checked ? 'checked' : 'unchecked'}
+          onPress={() => {
+            setChecked(!checked);
+            setConfirmAge(!checked);
+          }}
+        />
+      </View>
 
       <TouchableOpacity
+        disabled = {confirmAge ? false : true}
         onPress={() => {goToNextPage(fname, lname)}}
         style={styles.loginButton}
       >

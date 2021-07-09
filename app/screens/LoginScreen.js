@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import {
   useFonts,
@@ -10,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput, HelperText } from 'react-native-paper';
 
-export default function LoginPage() {
+export default function LoginScreen() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -28,17 +29,18 @@ export default function LoginPage() {
 
   const [user, setUser] = React.useState('');
   const [pass, setPass] = React.useState('');
+  const [loginMessage, setLoginMessage] = React.useState('');
 
   const login = (user, pass) => {
     if (user == "" && pass  == "") {            //no username or password
       setLoginMessage("Please enter username and password");
-    } else if (username == "" && pass != "") {  //no username
+    } else if (user == "" && pass != "") {  //no username
       setLoginMessage("Please enter username");
-    } else if (username != "" && pass == "") {  //no password
+    } else if (user != "" && pass == "") {  //no password
       setLoginMessage("Please enter password");
     } else {                                    //login to api post
       axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
-        UserName: username,
+        UserName: user,
         Password: pass
       })
       .then((response) => {
@@ -54,7 +56,6 @@ export default function LoginPage() {
   var userEmpty = false;
 
   return (
-    <SafeAreaView style={{flex: 1}}> {/iOS only/}
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigateBack()}>
         <Ionicons name="arrow-back" size={30} color="back" />
@@ -70,7 +71,7 @@ export default function LoginPage() {
         onChangeText={user => setUser(user)}
       />
 
-      <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider} />
 
       <TextInput style={{ alignSelf: 'stretch'}}
         secureTextEntry
@@ -81,7 +82,11 @@ export default function LoginPage() {
         onChangeText={pass => setPass(pass)}
       />
 
-      <Text style={styles.inputDivider}></Text>
+      <HelperText type="error">
+        {loginMessage}
+      </HelperText>
+
+      <Text style={styles.inputDivider} />
 
       <TouchableOpacity
         onPress={() => login(user, pass)}
@@ -90,8 +95,6 @@ export default function LoginPage() {
         <Text style={styles.loginButtonText}>LOG IN</Text>
       </TouchableOpacity>
     </View>
-    </SafeAreaView>
- 
   );
 }
 

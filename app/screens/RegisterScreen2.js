@@ -64,9 +64,6 @@ const RegisterScreen2 = ({route}) => {
   const [user, setUser] = React.useState('');
   const [pass, setPass] = React.useState('');
   const [passConfirm, setPassConfirm] = React.useState('');
-  //const [bday, setBday] = React.useState(new Date())
-  const [checked, setChecked] = React.useState(false);
-  const [confirmAge, setConfirmAge] = React.useState(false);
 
   const hasErrors = () => {
     return !(pass == passConfirm);
@@ -118,21 +115,8 @@ const RegisterScreen2 = ({route}) => {
 
       <Text style={styles.inputDivider}></Text>
 
-      <View
-        style = {{flexDirection: "row"}}
-      >
-        <Text>Please confirm that you are over 18 years old.</Text>
-        <Checkbox
-          status={checked ? 'checked' : 'unchecked'}
-          onPress={() => {
-            setChecked(!checked);
-            setConfirmAge(!checked);
-          }}
-        />
-      </View>
-
       <TouchableOpacity
-        disabled = {(pass == passConfirm) || confirmAge ? false : true}
+        disabled = {(pass == passConfirm) ? false : true}
         onPress={()=> register(firstName, lastName, user, pass)}
         style={styles.regButton}
       >
