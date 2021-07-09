@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import {
   useFonts,
   Comfortaa_400Regular,
@@ -8,9 +8,10 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput, HelperText } from 'react-native-paper';
+import { TextInput} from 'react-native-paper';
 
-export default function LoginPage() {
+
+export default function RegisterScreen() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -18,82 +19,81 @@ export default function LoginPage() {
   });
   
   const navigation = useNavigation();
+  
   function navigateBack() {
     navigation.goBack();
   }
 
-  const userBlank = () => {
-    return (user == "");
+  function goToNextPage(fname, lname) {
+    if (fname == "" || lname == "") {
+      alert('Please fill in all fields') ;
+    } else {
+      navigation.navigate('RegisterScreen2', {firstName: fname, lastName: lname});
+    }
   }
 
-  const [user, setUser] = React.useState('');
-  const [pass, setPass] = React.useState('');
-
-  const login = (user, pass) => {
-    if (user == "" && pass  == "") {            //no username or password
-      setLoginMessage("Please enter username and password");
-    } else if (username == "" && pass != "") {  //no username
-      setLoginMessage("Please enter username");
-    } else if (username != "" && pass == "") {  //no password
-      setLoginMessage("Please enter password");
-    } else {                                    //login to api post
-      axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
-        UserName: username,
-        Password: pass
-      })
-      .then((response) => {
-        navigation.navigate('Explore');
-        console.log(response);
-      }, (error) => {
-        setLoginMessage('Incorrect Username or Password');
-        console.log(error);
-      }); 
+  /* TO BE ADDED
+  function calculate_age(dob1){
+    var today = new Date();
+    var birthDate = new Date(dob1);  
+    var age_now = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+    {
+        age_now--;
     }
+    console.log(age_now);
+    return age_now;
+  }
+  */
+
+  const [fname, setFirst] = React.useState('');
+  const [lname, setLast] = React.useState('');
+
+  const next = (fname, lname) => {
+    alert('First: ' + fname + ' Last: '+ lname);
   };
 
-  var userEmpty = false;
-
   return (
-    <SafeAreaView style={{flex: 1}}> {/iOS only/}
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigateBack()}>
         <Ionicons name="arrow-back"  size={30} color="back" />
       </TouchableOpacity>
       <Text style={styles.verticalDivider}></Text>
-      <Text h1 style={styles.title}>Log In</Text>
+      <Text h1 style={styles.title}>Register</Text>
       <Text style={styles.verticalDivider}></Text>
-        
-      <TextInput style={{ alignSelf: 'stretch'}}
-        label="Username"
-        value={user}
+          
+      <TextInput
+        style={{ alignSelf: 'stretch'}}
+        label="First Name"
+        value={fname}
         mode='outlined'
-        onChangeText={user => setUser(user)}
+        onChangeText={fname => setFirst(fname)}
       />
-     
+      
       <Text style={styles.inputDivider}></Text>
 
-      <TextInput style={{ alignSelf: 'stretch'}}
-        secureTextEntry
-        //right={<TextInput.Icon name="eye"/>}
-        label="Password"
-        value={pass}
+      <TextInput
+        style={{ alignSelf: 'stretch'}}
+        label="Last Name"
+        value={lname}
         mode='outlined'
-        onChangeText={pass => setPass(pass)}
+        onChangeText={lname => setLast(lname)}
       />
 
       <Text style={styles.inputDivider}></Text>
 
       <TouchableOpacity
-        onPress={() => login(user, pass)}
+        onPress={() => {goToNextPage(fname, lname)}}
         style={styles.loginButton}
       >
-        <Text style={styles.loginButtonText}>LOG IN</Text>
+        <Text style={styles.loginButtonText}>NEXT</Text>
       </TouchableOpacity>
+
     </View>
-    </SafeAreaView>
- 
   );
 }
+
 
 const styles = StyleSheet.create({
   title: {
