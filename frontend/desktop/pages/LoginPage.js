@@ -44,14 +44,14 @@ export default function LoginPage() {
   const handleUserChange = (event) => {
     setUser(event.target.value);
   };
-  
+
   const handlePassChange = (event) => {
     setPass(event.target.value);
   };
 
   // This is where the logic for the login function will be added
   const login = (username, pass) => {
-    if (user == "" && pass  == "") {
+    if (username == "" && pass  == "") {
       setLoginMessage("Please enter username and password");
     } else if (username == "" && pass != "") {
       setLoginMessage("Please enter username");
@@ -105,7 +105,7 @@ export default function LoginPage() {
           />
 
           <HelperText type="error">
-          {loginMessage}
+            {loginMessage}
           </HelperText>
 
         </MuiThemeProvider>
