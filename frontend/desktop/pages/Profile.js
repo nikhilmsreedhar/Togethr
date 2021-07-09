@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Text, View , SafeAreaView} from 'react-native';
+import { Text, View } from 'react-native';
 
-import NavigationBar from '../components/NavigationBar';
 
 function Profile() {
+<<<<<<< HEAD
   const [username, setUser] = React.useState('');
   const [pass, setPass] = React.useState('');
 
@@ -71,13 +71,12 @@ function Profile() {
     });
   }
 
+=======
+>>>>>>> 7c49e3ab7508bf2cfa6d6691365869e36763393b
   return (
-    <SafeAreaView style={{flex: 1}}>
-    <NavigationBar/>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Profile!</Text>
     </View>
-    </SafeAreaView>
   );
 }
 
