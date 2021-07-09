@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import {
   useFonts,
@@ -10,13 +11,12 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput, HelperText } from 'react-native-paper';
 
-export default function LoginPage() {
+export default function LoginScreen() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
     Roboto_700Bold
   });
-
   
   const navigation = useNavigation();
   function navigateBack() {
@@ -25,31 +25,44 @@ export default function LoginPage() {
 
   const userBlank = () => {
     return (user == "");
-  };
+  }
 
   const [user, setUser] = React.useState('');
   const [pass, setPass] = React.useState('');
+  const [loginMessage, setLoginMessage] = React.useState('');
 
   const login = (user, pass) => {
-    if (user == "" || pass  == ""){
-      alert("Please fill in all fields");
-    } else {
-      alert('Username: ' + user + ' Password: '+ pass);
+    if (user == "" && pass  == "") {            //no username or password
+      setLoginMessage("Please enter username and password");
+    } else if (user == "" && pass != "") {  //no username
+      setLoginMessage("Please enter username");
+    } else if (user != "" && pass == "") {  //no password
+      setLoginMessage("Please enter password");
+    } else {                                    //login to api post
+      axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+        UserName: user,
+        Password: pass
+      })
+      .then((response) => {
+        navigation.navigate('Explore');
+        console.log(response);
+      }, (error) => {
+        setLoginMessage('Incorrect Username or Password');
+        console.log(error);
+      }); 
     }
-    
   };
 
   var userEmpty = false;
 
   return (
-    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigateBack()}>
-        <Ionicons name="arrow-back"  size={30} color="back" />
+        <Ionicons name="arrow-back" size={30} color="back" />
       </TouchableOpacity>
-      <Text style={styles.verticalDivider}></Text>
+      <View style={styles.verticalDivider} />
       <Text h1 style={styles.title}>Log In</Text>
-      <Text style={styles.verticalDivider}></Text>
+      <View style={styles.verticalDivider} />
         
       <TextInput style={{ alignSelf: 'stretch'}}
         label="Username"
@@ -57,8 +70,8 @@ export default function LoginPage() {
         mode='outlined'
         onChangeText={user => setUser(user)}
       />
-     
-      <Text style={styles.inputDivider}></Text>
+
+      <Text style={styles.inputDivider} />
 
       <TextInput style={{ alignSelf: 'stretch'}}
         secureTextEntry
@@ -69,17 +82,21 @@ export default function LoginPage() {
         onChangeText={pass => setPass(pass)}
       />
 
-      <Text style={styles.inputDivider}></Text>
+      <HelperText type="error">
+        {loginMessage}
+      </HelperText>
 
-      <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
+      <Text style={styles.inputDivider} />
+
+      <TouchableOpacity
+        onPress={() => login(user, pass)}
+        style={styles.loginButton}
+      >
         <Text style={styles.loginButtonText}>LOG IN</Text>
       </TouchableOpacity>
     </View>
-    </SafeAreaView>
- 
   );
 }
-
 
 const styles = StyleSheet.create({
   title: {

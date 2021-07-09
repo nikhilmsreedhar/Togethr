@@ -8,7 +8,6 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 
- 
 
 export default function HomePage() {
   let [fontsLoaded] = useFonts({
@@ -20,32 +19,35 @@ export default function HomePage() {
   const navigation = useNavigation();
   function navigateToLogin() {
     navigation.navigate("LoginPage");
-}
-function navigateToRegister() {
-  navigation.navigate("RegisterPage");
-}
+  }
+
+  function navigateToRegister() {
+    navigation.navigate("RegisterPage");
+  }
  
   return (
     <View style={styles.container}>
-        <Text h1
-          style={{fontSize: 100, fontFamily: 'Comfortaa_400Regular',
-          }}>
-          Togethr
-        </Text>
-        <Text style={styles.verticalDivider}></Text>
-        <View style={styles.fixToText}>
+      <Text h1
+        style={{
+          fontSize: 100, 
+          fontFamily: 'Comfortaa_400Regular',
+        }}
+      >
+        Togethr
+      </Text>
+      <Text style={styles.verticalDivider} />
+      <View style={styles.fixToText}>
         <TouchableOpacity onPress={()=>navigateToLogin()} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>LOG IN</Text>
-       </TouchableOpacity>
+        </TouchableOpacity>
 
-       <Text style={styles.buttonDivider}></Text>
+        <Text style={styles.buttonDivider} />
        
-       <TouchableOpacity onPress={() => navigateToRegister()} style={styles.registerButton}>
-          <Text style={styles.registerButtonText}>REGISTER</Text>
-       </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={() => navigateToRegister()} style={styles.registerButton}>
+            <Text style={styles.registerButtonText}>REGISTER</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-    
 
     
   );

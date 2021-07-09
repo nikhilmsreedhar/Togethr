@@ -15,9 +15,6 @@ import MultipleSelectChips from '../components/MultipleSelectChips';
 import '../../../models/user';
 
 
-
-
-
 const InterestsPage = ({route}) =>{
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
@@ -26,9 +23,6 @@ const InterestsPage = ({route}) =>{
     Roboto_300Light
   });
 
-  
-
-  
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
@@ -38,49 +32,48 @@ const InterestsPage = ({route}) =>{
   const [registerMessage,setRegisterMessage] = React.useState('');
 	const [error, setError] = useState("")
 	const options = [
-  {value: "Animals", isSelected: false},
-  {value: "Beauty", isSelected: false},
-  {value: "Cars", isSelected: false},
-  {value: "Fine Arts", isSelected: false},
-  {value: "Food", isSelected: false},
-  {value: "DIY", isSelected: false},
-  {value: "Gaming", isSelected: false},
-  {value: "Lifestyle", isSelected: false},
-  {value: "Movies", isSelected: false},
-  {value: "Music", isSelected: false},
-  {value: "Outdoors", isSelected: false},
-  {value: "Performing Arts", isSelected: false},
-  {value: "Photography", isSelected: false},
-  {value: "Shopping", isSelected: false},
-  {value: "Sight Seeing", isSelected: false},
-  {value: "Sports", isSelected: false},
-  {value: "Technology", isSelected: false},
-  {value: "Travel", isSelected: false},
+    {value: "Animals", isSelected: false},
+    {value: "Beauty", isSelected: false},
+    {value: "Cars", isSelected: false},
+    {value: "Fine Arts", isSelected: false},
+    {value: "Food", isSelected: false},
+    {value: "DIY", isSelected: false},
+    {value: "Gaming", isSelected: false},
+    {value: "Lifestyle", isSelected: false},
+    {value: "Movies", isSelected: false},
+    {value: "Music", isSelected: false},
+    {value: "Outdoors", isSelected: false},
+    {value: "Performing Arts", isSelected: false},
+    {value: "Photography", isSelected: false},
+    {value: "Shopping", isSelected: false},
+    {value: "Sight Seeing", isSelected: false},
+    {value: "Sports", isSelected: false},
+    {value: "Technology", isSelected: false},
+    {value: "Travel", isSelected: false},
   ]
-//check email formatting --listen to existing email response
-//unique username? --listen for existing username response
-//password formats? pw length > 7, parse + check for isdig()
+  //check email formatting --listen to existing email response
+  //unique username? --listen for existing username response
+  //password formats? pw length > 7, parse + check for isdig()
 
 
-//copy to mobile
+  //copy to mobile
   const tags = (interests) => {
     if (interests.length === 0){
       alert('Please select at least one interest');
-    }
-    else{
+    } else {
       alert(JSON.stringify(interests));
-      };
-    };
+    }
+  };
 
 
   return (
     <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
-    <View style={styles.center}>
+      <TouchableOpacity onPress={() => navigateBack()}>
+        <Ionicons name="arrow-back"  size={30} color="back" />
+      </TouchableOpacity>
+      <View style={styles.center}>
         <Text h1 style={styles.title}>Register</Text>
 
         <MultipleSelectChips
@@ -91,32 +84,30 @@ const InterestsPage = ({route}) =>{
           error={error}
           setError={setError}
         />
-         <HelperText type="error">
-            {registerMessage}
-          </HelperText>
 
-          <Text style={styles.inputDivider}></Text>
-         <View style={styles.fixToText}>
-        <TouchableOpacity   onPress={()=>navigateBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>BACK</Text>
-       </TouchableOpacity>
-       <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity onPress={() => register(firstName, lastName, username, password, birthday, interests)} style={styles.nextButton}>
-          <Text style={styles.nextButtonText}>REGISTER</Text>
-       </TouchableOpacity>
-       </View>
-        
+        <HelperText type="error">
+          {registerMessage}
+        </HelperText>
+
+        <Text style={styles.inputDivider}></Text>
+        <View style={styles.fixToText}>
+          <TouchableOpacity   onPress={()=>navigateBack()} style={styles.backButton}>
+            <Text style={styles.backButtonText}>BACK</Text>
+          </TouchableOpacity>
+          <Text style={styles.buttonDivider}></Text>
+          <TouchableOpacity onPress={() => register(firstName, lastName, username, password, birthday, interests)} style={styles.nextButton}>
+            <Text style={styles.nextButtonText}>REGISTER</Text>
+          </TouchableOpacity>
         </View>
-   </View>
-  
+        
+      </View>
+    </View>
     </SafeAreaView>
   
   );
 
   
 }
-
-
 
 const styles = StyleSheet.create({
   title: {

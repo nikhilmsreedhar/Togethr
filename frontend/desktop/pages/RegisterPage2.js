@@ -44,174 +44,163 @@ const RegisterPage2 = ({route}) =>{
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
+  }
 
-function goToNextPage (firstName, lastName, email, user, pass, passConfirm, birthday) {
-  if (user == "" || pass  == "" ||  email  == ""){
-    setRegisterMessage("Please enter all fields");
-  }
-  else if (user == "" && pass != "" && email != ""){
-    setRegisterMessage("Please enter username");
-  }
-  else if (user != "" && pass == "" && email != ""){
-    setRegisterMessage("Please enter password");
-  }
-  else if (user != "" && pass != "" && email == ""){
-    setRegisterMessage("Please enter email");
-  }
-  else if (pass != passConfirm){
-    setRegisterMessage("Passwords must match");
-  }
-  else{
-    alert('First: ' + firstName + ' Last: '+ lastName + ' Email: '+ email + ' Username: ' + user + ' Password: '+ pass + ' Birthday: ' + birthday) ;
-    axios.post('https://togethrgroup1.herokuapp.com/api/adduser', { 
-      UserName: user,
-      Password: pass,
-      FirstName: firstName,
-      LastName: lastName,
-      Email: email
-    })
-    .then((response) => {
-      handleClickOpen();
-      console.log(response);
-    }, (error) => {
-      setRegisterMessage('Invalid fields');
-      console.log(error);
-    });
-    //reg3 end
-  }
+  function goToNextPage (firstName, lastName, email, user, pass, passConfirm, birthday) {
+    if (user == "" || pass  == "" ||  email  == "") {
+      setRegisterMessage("Please enter all fields");
+    } else if (user == "" && pass != "" && email != "") {
+      setRegisterMessage("Please enter username");
+    } else if (user != "" && pass == "" && email != "") {
+      setRegisterMessage("Please enter password");
+    } else if (user != "" && pass != "" && email == "") {
+      setRegisterMessage("Please enter email");
+    } else if (pass != passConfirm) {
+      setRegisterMessage("Passwords must match");
+    } else {
+      alert('First: ' + firstName +
+            ' Last: '+ lastName +
+            ' Email: '+ email +
+            ' Username: ' + user +
+            ' Password: '+ pass +
+            ' Birthday: ' + birthday);
+      axios.post('https://togethrgroup1.herokuapp.com/api/adduser', { 
+        UserName: user,
+        Password: pass,
+        FirstName: firstName,
+        LastName: lastName,
+        Email: email
+      })
+      .then((response) => {
+        handleClickOpen();
+        console.log(response);
+      }, (error) => {
+        setRegisterMessage('Invalid fields');
+        console.log(error);
+      });
+      //reg3 end
+    }
   };
   
-  
-const [email, setEmail] = React.useState('');
-const [user, setUser] = React.useState('');
-const [pass, setPass] = React.useState('');
-const [passConfirm, setPassConfirm] = React.useState('');
-const [registerMessage,setRegisterMessage] = React.useState('');
-const [open, setOpen] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [user, setUser] = React.useState('');
+  const [pass, setPass] = React.useState('');
+  const [passConfirm, setPassConfirm] = React.useState('');
+  const [registerMessage, setRegisterMessage] = React.useState('');
+  const [open, setOpen] = React.useState(false);
 
-const handleEmailChange = (event) => {
-  setEmail(event.target.value);
-};
-const handleUserChange = (event) => {
-  setUser(event.target.value);
-};
-const handlePassChange = (event) => {
-  setPass(event.target.value);
-};
-const handlePassConfirmChange = (event) => {
-  setPassConfirm(event.target.value);
-};
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleUserChange = (event) => {
+    setUser(event.target.value);
+  };
+  const handlePassChange = (event) => {
+    setPass(event.target.value);
+  };
+  const handlePassConfirmChange = (event) => {
+    setPassConfirm(event.target.value);
+  };
 
-const handleClickOpen = () => {
-  setOpen(true);
-};
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-const handleClose = () => {
-  setOpen(false);
-  navigation.navigate('HomePage')
-};
-
+  const handleClose = () => {
+    setOpen(false);
+    navigation.navigate('HomePage')
+  };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
-      
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
-    <View style={styles.center}>
+      <TouchableOpacity onPress={() => navigateBack()}>
+        <Ionicons name="arrow-back"  size={30} color="back" />
+      </TouchableOpacity>
+      <View style={styles.center}>
         <Text h1 style={styles.title}>Register</Text>
         <Text style={styles.verticalDivider}></Text>
         <MuiThemeProvider theme={theme}>
-        <TextField 
-          style={{width: 500}}
-          color = 'secondary'
-          label="Email" 
-          variant="outlined" 
-          value={email}
-          onChange={handleEmailChange}
+          <TextField 
+            style={{width: 500}}
+            color = 'secondary'
+            label="Email" 
+            variant="outlined" 
+            value={email}
+            onChange={handleEmailChange}
           />
 
-        <Text style={styles.inputDivider}></Text>
+          <Text style={styles.inputDivider} />
 
-        <TextField 
-          style={{width: 500}}
-          color = 'secondary'
-          label="Username" 
-          variant="outlined" 
-          value={user}
-          onChange={handleUserChange}
+          <TextField 
+            style={{width: 500}}
+            color = 'secondary'
+            label="Username" 
+            variant="outlined" 
+            value={user}
+            onChange={handleUserChange}
           />
 
-        <Text style={styles.inputDivider}></Text>
+          <Text style={styles.inputDivider} />
 
-        <TextField 
-          style={{width: 500}}
-          type="password"
-          color = 'secondary'
-          label="Password" 
-          variant="outlined" 
-          value={pass}
-          onChange={handlePassChange}
-          />
-        
-        <Text style={styles.inputDivider}></Text>
+          <TextField 
+            style={{width: 500}}
+            type="password"
+            color = 'secondary'
+            label="Password" 
+            variant="outlined" 
+            value={pass}
+            onChange={handlePassChange}
+            />
+          
+          <Text style={styles.inputDivider}></Text>
 
-        <TextField 
-          style={{width: 500}}
-          type="password"
-          color = 'secondary'
-          label="Confirm Password" 
-          variant="outlined" 
-          value={passConfirm}
-          onChange={handlePassConfirmChange}
+          <TextField 
+            style={{width: 500}}
+            type="password"
+            color = 'secondary'
+            label="Confirm Password" 
+            variant="outlined" 
+            value={passConfirm}
+            onChange={handlePassConfirmChange}
           />
-        <HelperText type="error">
+
+          <HelperText type="error">
             {registerMessage}
           </HelperText>
-       
-        <Text style={styles.inputDivider}></Text>
-
-       
-         <View style={styles.fixToText}>
-        <TouchableOpacity   onPress={()=>navigateBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>BACK</Text>
-       </TouchableOpacity>
-       <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity  onPress={() => goToNextPage(firstName, lastName, email, user, pass, passConfirm, birthday)} style={styles.nextButton}>
-          <Text style={styles.nextButtonText}>NEXT</Text>
-       </TouchableOpacity>
-        </View>
-
-        <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Account creation successful!"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-          Please verify your account through the link sent to your email. This link will be valid for 1 hour.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            OKAY
-          </Button>
-        </DialogActions>
-      </Dialog>
-      </MuiThemeProvider>
-         </View>
         
-   </View>
-  
-    
-    </SafeAreaView>
-    
+          <Text style={styles.inputDivider} />
 
-    
+          <View style={styles.fixToText}>
+            <TouchableOpacity   onPress={()=>navigateBack()} style={styles.backButton}>
+              <Text style={styles.backButtonText}>BACK</Text>
+            </TouchableOpacity>
+            <Text style={styles.buttonDivider} />
+              <TouchableOpacity  onPress={() => goToNextPage(firstName, lastName, email, user, pass, passConfirm, birthday)} style={styles.nextButton}>
+                <Text style={styles.nextButtonText}>NEXT</Text>
+              </TouchableOpacity>
+          </View>
+
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+          <DialogTitle id="alert-dialog-title">{"Account creation successful!"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+            Please verify your account through the link sent to your email. This link will be valid for 1 hour.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="secondary">
+              OKAY
+            </Button>
+          </DialogActions>
+          </Dialog>
+        </MuiThemeProvider>
+      </View>
+    </View>
   );
 }
 
@@ -229,7 +218,7 @@ const styles = StyleSheet.create({
   justifyContent: 'center',
   alignContent: 'center',
   alignSelf: 'center'
-},
+  },
   container: {
     flex: 1,
     flexDirection: 'column',

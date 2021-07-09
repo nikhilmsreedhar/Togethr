@@ -8,10 +8,10 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput} from 'react-native-paper';
+import { TextInput, Checkbox } from 'react-native-paper';
 
 
-export default function RegisterPage() {
+export default function RegisterScreen() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -19,27 +19,43 @@ export default function RegisterPage() {
   });
   
   const navigation = useNavigation();
+  const [fname, setFirst] = React.useState('');
+  const [lname, setLast] = React.useState('');
+  //const [birthday, setBirthday] = React.useState(new Date());
+  const [confirmAge, setConfirmAge] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
+  const [registerMessage, setRegisterMessage] = React.useState('');
+  
   function navigateBack() {
     navigation.goBack();
   }
 
-  function goToNextPage(fname, lname) {
+  function goToNextPage(fname, lname, birthday) {
     if (fname == "" || lname == "") {
-      alert('Please fill in all fields') ;
+      setRegisterMessage("Please fill in all fields");
+    //} else if (calculateAge(birthday) < 18) {
+    //  setRegisterMessage("Must be over 18 to create an account.");
     } else {
-      navigation.navigate('RegisterPage2', {firstName: fname, lastName: lname});
+      navigation.navigate('RegisterScreen2', {firstName: fname, lastName: lname});
     }
   }
 
-  const [fname, setFirst] = React.useState('');
-  const [lname, setLast] = React.useState('');
-
-  const next = (fname, lname) => {
-    alert('First: ' + fname + ' Last: '+ lname);
-  };
+  /* TO BE ADDED
+  function calculateAge(dob1){
+    var today = new Date();
+    var birthDate = new Date(dob1);  
+    var age_now = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+    {
+        age_now--;
+    }
+    console.log(age_now);
+    return age_now;
+  }
+  */
 
   return (
-    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigateBack()}>
         <Ionicons name="arrow-back"  size={30} color="back" />
@@ -48,7 +64,8 @@ export default function RegisterPage() {
       <Text h1 style={styles.title}>Register</Text>
       <Text style={styles.verticalDivider}></Text>
           
-      <TextInput style={{ alignSelf: 'stretch'}}
+      <TextInput
+        style={{ alignSelf: 'stretch'}}
         label="First Name"
         value={fname}
         mode='outlined'
@@ -57,21 +74,36 @@ export default function RegisterPage() {
       
       <Text style={styles.inputDivider}></Text>
 
-      <TextInput style={{ alignSelf: 'stretch'}}
+      <TextInput
+        style={{ alignSelf: 'stretch'}}
         label="Last Name"
         value={lname}
         mode='outlined'
         onChangeText={lname => setLast(lname)}
       />
 
-      <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider} />
 
-      <TouchableOpacity  onPress={()=>{goToNextPage(fname, lname)}} style={styles.loginButton}>
+      <View style = {{flexDirection: "row"}}>
+        <Text>Please confirm that you are over 18 years old.</Text>
+        <Checkbox
+          status={checked ? 'checked' : 'unchecked'}
+          onPress={() => {
+            setChecked(!checked);
+            setConfirmAge(!checked);
+          }}
+        />
+      </View>
+
+      <TouchableOpacity
+        disabled = {confirmAge ? false : true}
+        onPress={() => {goToNextPage(fname, lname)}}
+        style={styles.loginButton}
+      >
         <Text style={styles.loginButtonText}>NEXT</Text>
       </TouchableOpacity>
 
     </View>
-    </SafeAreaView>
   );
 }
 

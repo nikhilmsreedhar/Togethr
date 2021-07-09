@@ -8,10 +8,11 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput, HelperText} from 'react-native-paper';
+import { TextInput, HelperText, Checkbox } from 'react-native-paper';
+//import DatePicker from 'react-native-date-picker';
+import axios from 'axios';
 
-
-const RegisterPage2 = ({route}) =>{
+const RegisterScreen2 = ({route}) => {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -21,19 +22,44 @@ const RegisterPage2 = ({route}) =>{
   const firstName = route.params.firstName
   const lastName  = route.params.lastName
 
-  
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
   }
 
-  function goToNextPage (firstName, lastName, user, pass) {
-    if(user == "" || pass == ""){
-      alert('Please fill in all fields') ;
+  function register(firstName, lastName, user, pass) {
+    if (user == "" || pass  == "" ||  email  == "") {
+      setRegisterMessage("Please enter all fields");
+    } else if (user == "" && pass != "" && email != "") { //missing username
+      setRegisterMessage("Please enter username");
+    } else if (user != "" && pass == "" && email != "") { //missing password
+      setRegisterMessage("Please enter password");
+    } else if (user != "" && pass != "" && email == "") { //missing email
+      setRegisterMessage("Please enter email");
+    } else if (pass != passConfirm) {                     //passwords mismatched
+      setRegisterMessage("Passwords must match.");
     } else {
-      navigation.navigate('RegisterPage3', {firstName: firstName, lastName: lastName, username: user, password: pass});
+      alert('First: ' + firstName +
+            ' Last: '+ lastName +
+            ' Email: '+ email +
+            ' Username: ' + user +
+            ' Password: '+ pass);
+      axios.post('https://togethrgroup1.herokuapp.com/api/adduser', { 
+        UserName: user,
+        Password: pass,
+        FirstName: firstName,
+        LastName: lastName,
+        Email: email
+      })
+      .then((response) => {
+        handleClickOpen();
+        console.log(response);
+      }, (error) => {
+        setRegisterMessage('Invalid fields');
+        console.log(error);
+      });
     }
-  };
+  }; //end register function
 
   const [user, setUser] = React.useState('');
   const [pass, setPass] = React.useState('');
@@ -50,6 +76,7 @@ const RegisterPage2 = ({route}) =>{
       <TouchableOpacity onPress={() => navigateBack()}>
         <Ionicons name="arrow-back"  size={30} color="back" />
       </TouchableOpacity>
+
       <Text style={styles.verticalDivider}></Text>
       <Text h1 style={styles.title}>Register</Text>
       <Text style={styles.verticalDivider}></Text>
@@ -64,7 +91,7 @@ const RegisterPage2 = ({route}) =>{
       <Text style={styles.inputDivider}></Text>
 
       <TextInput style={{ alignSelf: 'stretch'}}
-      secureTextEntry
+        secureTextEntry
         label="Password"
         value={pass}
         mode='outlined'
@@ -74,20 +101,25 @@ const RegisterPage2 = ({route}) =>{
       <Text style={styles.inputDivider}></Text>
 
       <TextInput style={{ alignSelf: 'stretch'}}
-      secureTextEntry
+        secureTextEntry
         label="Confirm Password"
         value={passConfirm}
         mode='outlined'
         error = {(pass == passConfirm) ? false : true}
         onChangeText={passConfirm => setPassConfirm(passConfirm)}
       />
+
       <HelperText type="error" visible={hasErrors()}>
-        Passwords do not match
+        Passwords do not match.
       </HelperText>
-        
+
       <Text style={styles.inputDivider}></Text>
 
-      <TouchableOpacity  disabled = {(pass == passConfirm) ? false : true} onPress={()=> goToNextPage (firstName, lastName, user, pass)} style={styles.regButton}>
+      <TouchableOpacity
+        disabled = {(pass == passConfirm) ? false : true}
+        onPress={()=> register(firstName, lastName, user, pass)}
+        style={styles.regButton}
+      >
         <Text style={styles.regButtonText}>REGISTER</Text>
       </TouchableOpacity>        
     </View>
@@ -134,4 +166,4 @@ const styles = StyleSheet.create({
   }, 
 });
 
-export default RegisterPage2;
+export default RegisterScreen2;
