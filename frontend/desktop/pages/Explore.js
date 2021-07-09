@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import EventCard from '../components/EventCard';
@@ -36,7 +36,7 @@ function Explore() {
                 date={item.date}
                 startTime={item.startTime}
                 endTime={item.endTime}
-                atendees={item.atendees}
+                attendees={item.attendees}
               />
             </Card>
           ))}
@@ -46,7 +46,7 @@ function Explore() {
         <View style={{flexDirection:'row'}}> 
           <TouchableOpacity 
             onPress={() => t.swiper.swipeLeft()}>
-          <Ionicons name="arrow-back-circle"  size={50} color="back" />
+            <Ionicons name="arrow-back-circle"  size={50} color="back" />
           </TouchableOpacity>
 
           <Text style={styles.buttonSpace} />

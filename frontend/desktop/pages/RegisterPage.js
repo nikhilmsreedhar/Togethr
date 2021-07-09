@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {
   useFonts,
   Comfortaa_400Regular,
@@ -8,7 +8,7 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import {  HelperText} from 'react-native-paper';
+import { HelperText } from 'react-native-paper';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -29,7 +29,6 @@ export default function RegisterPage() {
       }
     }
   });
-
   
   const navigation = useNavigation();
   function navigateBack() {
@@ -56,7 +55,7 @@ export default function RegisterPage() {
     var m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
     {
-        age_now--;
+      age_now--;
     }
     console.log(age_now);
     return age_now;
@@ -66,7 +65,7 @@ export default function RegisterPage() {
   const [fname, setFirst] = React.useState('');
   const [lname, setLast] = React.useState('');
   const [birthday, setBirthday] = React.useState(new Date());
-  const [registerMessage,setRegisterMessage] = React.useState('');
+  const [registerMessage, setRegisterMessage] = React.useState('');
 
   const handleFirstChange = (event) => {
     setFirst(event.target.value);
