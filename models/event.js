@@ -22,6 +22,10 @@ const EventSchema = new Schema({
         type: String, 
         required: true
     },
+    Maker: {
+        type: String,
+        required: true
+    },
     Attendees: {
         type: Array, 
         required: true
