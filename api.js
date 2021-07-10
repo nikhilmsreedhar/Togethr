@@ -160,13 +160,13 @@ app.post('/api/retrieveevents', async (req, res, next) => {
       })
       .catch(err => res.status(400).json("Error" + err));
     }
-    
+
     Event.find({Tag: Tags[i]}).then(event => {
       if(!event) 
-      return res.status(301).json({ warning: "no events come back later" });
-       res.json(
-         event
-         );
+        return res.status(301).json({ warning: "no events come back later" });
+      res.json(
+        event
+      );
     })
     i++;
   }
