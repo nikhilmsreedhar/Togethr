@@ -1,21 +1,18 @@
-var compression = require('compression');
-var express = require('express');
-var cors = require('cors');
-var helmet = require('helmet');
-var mongoose = require('mongoose');
-var path = require('path');
-
-require('dotenv').config();
-
+const compression = require('compression');
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const mongoose = require('mongoose');
+const path = require('path');
 
 // Create the express server
-var app = express();
+const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use(compression());
 app.use(cors());
 
-
+require('dotenv').config();
 
 const URI = process.env.MONGODB_URI;
 // Connect to MongoDB Atlas
@@ -30,16 +27,13 @@ mongoose
   const users = require('./api');
 
   users.setApp( app, mongoose );
-  
-
-
 
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
+  app.use(express.static('frontend/build'));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
   });
 }
 
