@@ -44,7 +44,7 @@ app.patch('/api/edituser', async (req, res, next) => {
   } catch (error){
     console.log(error.message);
   }
-})
+});
 
 app.delete('/api/deleteuser', async (req, res, next) => {
   const id = req.body.id;
@@ -54,7 +54,7 @@ app.delete('/api/deleteuser', async (req, res, next) => {
   }catch(error){
     console.log(error.message);
   }
-})
+});
 
 
 
@@ -128,7 +128,7 @@ app.patch('/api/editevent', async (req, res, next) => {
   } catch (error){
     console.log(error.message);
   }
-})
+});
 
 app.delete('/api/deleteevent', async (req, res, next) => {
   const id = req.body.id;
@@ -138,8 +138,9 @@ app.delete('/api/deleteevent', async (req, res, next) => {
   }catch(error){
     console.log(error.message);
   }
-})
+});
 
+// app.post('/api/retrievesliderevents', async (req, res, next) => {
 
 
 
