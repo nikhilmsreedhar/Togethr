@@ -140,20 +140,20 @@ app.delete('/api/deleteevent', async (req, res, next) => {
   }
 });
 
-app.post('/api/retrieveevents', async (req, res, next) => {
-  const Tags = req.body.Tags;
-  var len = Tags.length;
+// app.post('/api/retrieveevents', async (req, res, next) => {
+//   const Tags = req.body.Tags;
+//   var len = Tags.length;
   
-  if (len == 0){
-  	res.send('Choose your tags first!');
-  }
+//   if (len == 0){
+//   	res.send('Choose your tags first!');
+//   }
   
-  for (var i=0; i<len; i++) {
-    res.send(Tags[i]);
-    //Event.find(Tags[i]);
-  }
+//   for (var i=0; i<len; i++) {
+//     res.send(Tags[i]);
+//     //Event.find(Tags[i]);
+//   }
   
-});
+// });
 
 
 
