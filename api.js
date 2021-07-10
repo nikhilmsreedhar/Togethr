@@ -151,69 +151,29 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   while (i < len+1) {
     // res.write(JSON.stringify(Tags[i]));
     if(i == len) {
-      await Event.find(Tags[i]).then(event => {
+      Event.find({Tag: Tags[i]}).then(event => {
         if(!event) 
           return res.status(301).json({ warning: "no events come back later" });
-         res.json({
-            id: event.id,
-            EventName: event.EventName,
-            EventDescription: event.EventDescription,
-            EventLocation: event.EventLocation,
-            EventDate: event.EventDate,
-            EventTime: event.EventTime,
-            Maker: event.Maker,
-            Attendees: event.Attendees,
-            LikedUsers: event.LikedUsers,
-            Pictures: event.Pictures,
-            Tag: event.Tag
-          });
+         res.json(
+            event
+          );
       })
       .catch(err => res.status(400).json("Error" + err));
     }
-    await Event.find(Tags[i]).then(event => {
-       res.json({
-          id: event.id,
-          EventName: event.EventName,
-          EventDescription: event.EventDescription,
-          EventLocation: event.EventLocation,
-          EventDate: event.EventDate,
-          EventTime: event.EventTime,
-          Maker: event.Maker,
-          Attendees: event.Attendees,
-          LikedUsers: event.LikedUsers,
-          Pictures: event.Pictures,
-          Tag: event.Tag
-        });
+    
+    Event.find({Tag: Tags[i]}).then(event => {
+      if(!event) 
+      return res.status(301).json({ warning: "no events come back later" });
+       res.json(
+         event
+         );
     })
     i++;
   }
 
 });
 
-// .then(user => {
-//   if (!user)
-//     return res.status(301).json({ warning: "Incorrect Credentials" });
 
-//   User.findOne({ Password })
-//     .then(same => {
-//       if (!same)
-//         return res.status(301).json({ warning: "Incorrect Credentials" });
-
-//       res.json({
-//         id: user.id,
-//         UserName: user.UserName,
-//         FirstName: user.FirstName,
-//         LastName: user.LastName,
-//         Picture: user.Picture,
-//         Rating: user.Rating,
-//         Email: user.Email,
-//         Verified: user.Verified,
-//         Tags: user.Tags,
-//       });
-//     })
-//     .catch(err => res.status(400).json("Error" + err));
-// }
-// .catch(err => res.status(400).json("Error" + err));
 
 
 module.exports = router
