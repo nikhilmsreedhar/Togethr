@@ -143,14 +143,16 @@ app.delete('/api/deleteevent', async (req, res, next) => {
 app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = req.body.Tags;
   var len = Tags.length;
-  
+  const index;
   if (len == 0){
   	res.send('Choose your tags first!');
   }
   
   for (var i=0; i<len; i++) {
-    const index = Tags[i];
-    res.send(index);
+    index += Tags[i];
+    res.write(index);
+    if(i < len-1)
+      res.write(', ');
     //Event.find(Tags[i]);
   }
   
