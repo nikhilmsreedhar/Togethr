@@ -9,17 +9,17 @@ exports.setApp = function ( app, client )
 app.post('/api/adduser', async (req, res, next) => {
 
   const{ UserName,
-    Password, FirstName, LastName, DOB, Picture, Rating,Email, Tags} = req.body;
+    Password, FirstName, LastName, Picture, Rating, Email, Verified, Tags} = req.body;
 
   let user = new User({
     UserName,
     Password,
     FirstName,
     LastName,
-    DOB,
     Picture,
     Rating,
     Email,
+    Verified,
     Tags
   })
 
