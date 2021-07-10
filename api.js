@@ -147,6 +147,9 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   if (len == 0){
   	res.send('Choose your tags first!');
   }
+
+
+  
   
   for (var i=0; i<len; i++) {
     index += Tags[i];
