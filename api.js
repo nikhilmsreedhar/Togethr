@@ -144,7 +144,6 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = new Array(req.body.Tags);
   var len = Tags.length;
   var i = 0;
-  const index;
   if (len == 0){
   	res.send('Choose your tags first!');
   }
