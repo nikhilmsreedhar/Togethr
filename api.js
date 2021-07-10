@@ -142,7 +142,7 @@ app.delete('/api/deleteevent', async (req, res, next) => {
 
 app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = req.body.Tags;
-  const len = Tags.length;
+  var len = Tags.length;
   
   if (len == 0){
   	res.send('Choose your tags first!');
