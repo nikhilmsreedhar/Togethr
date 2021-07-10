@@ -38,6 +38,10 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  Verified: {
+    type: Boolean,
+    required: true
+  },
   Tags: {
     type: Array,
     required: false
