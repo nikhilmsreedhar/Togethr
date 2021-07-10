@@ -149,11 +149,10 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   }
 
 
-  
+
   
   for (var i=0; i<len; i++) {
-    index += Tags[i];
-    res.write(index);
+    res.write(Tags[i]);
     if(i < len-1){
       res.write(', ');
     }
