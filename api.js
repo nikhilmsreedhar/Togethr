@@ -4,6 +4,7 @@ const Event = require("./models/event.js");
 const router = express.Router();
 
 
+
 exports.setApp = function ( app, client )
 {
 app.post('/api/adduser', async (req, res, next) => {
@@ -33,6 +34,8 @@ app.post('/api/adduser', async (req, res, next) => {
 
 });
 
+
+
 app.patch('/api/edituser', async (req, res, next) => {
   try {
     const id = req.body.id;
@@ -45,6 +48,8 @@ app.patch('/api/edituser', async (req, res, next) => {
     console.log(error.message);
   }
 });
+
+
 
 app.delete('/api/deleteuser', async (req, res, next) => {
   const id = req.body.id;
@@ -92,7 +97,6 @@ app.post('/api/login', async (req, res, next) => {
 
 
 
-
 app.post('/api/addevent', async (req, res, next) => {
   const{ EventName, EventDescription, EventLocation, EventDate, EventTime, Attendees, LikedUsers, Pictures} = req.body;
 
@@ -117,6 +121,8 @@ app.post('/api/addevent', async (req, res, next) => {
 
 });
 
+
+
 app.patch('/api/editevent', async (req, res, next) => {
   try {
     const id = req.body.id;
@@ -130,6 +136,8 @@ app.patch('/api/editevent', async (req, res, next) => {
   }
 });
 
+
+
 app.delete('/api/deleteevent', async (req, res, next) => {
   const id = req.body.id;
   try{
@@ -139,6 +147,8 @@ app.delete('/api/deleteevent', async (req, res, next) => {
     console.log(error.message);
   }
 });
+
+
 
 app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = new Array(req.body.Tags);
@@ -160,7 +170,6 @@ app.post('/api/retrieveevents', async (req, res, next) => {
       })
       .catch(err => res.status(400).json("Error" + err));
     }
-
     Event.find({Tag: Tags[i]}).then(event => {
       if(!event) 
         return res.status(301).json({ warning: "no events come back later" });
