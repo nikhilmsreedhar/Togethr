@@ -23,7 +23,7 @@ const EventSchema = new Schema({
         required: true
     },
     Attendees: {
-        type: Number, 
+        type: String, 
         required: true
     },
     LikedUsers: {
