@@ -33,6 +33,10 @@ const EventSchema = new Schema({
     Pictures: {
         type: String,
         required: true
+    },
+    Tag: {
+        type: String,
+        required: true
     }
 });
 module.exports = Event = mongoose.model("Events", EventSchema);
