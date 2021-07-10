@@ -141,7 +141,7 @@ app.delete('/api/deleteevent', async (req, res, next) => {
 });
 
 app.post('/api/retrieveevents', async (req, res, next) => {
-  const Tags = req.body.Tags;
+  const Tags = new Array(req.body.Tags);
   var len = Tags.length;
   var i = 0;
   const index;
