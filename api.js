@@ -152,7 +152,7 @@ app.post('/api/retrieveevents', async (req, res, next) => {
 
   
   while (i < len) {
-    res.write(Tags[i]);
+    //res.write(Tags[i]);
     // if(i < len-1){
     //   res.write(', ');
     // }
@@ -161,8 +161,9 @@ app.post('/api/retrieveevents', async (req, res, next) => {
 
     //Event.find(Tags[i]);
   }
-  res.end();
-  
+  //res.end();
+  res.send(Tags);
+
 });
 
 
