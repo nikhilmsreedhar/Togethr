@@ -22,10 +22,6 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  DOB: {
-    type: String,
-    required: false
-  },
   Picture: {
     type: String,
     required: false
