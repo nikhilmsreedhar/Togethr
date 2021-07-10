@@ -140,7 +140,20 @@ app.delete('/api/deleteevent', async (req, res, next) => {
   }
 });
 
-// app.post('/api/retrievesliderevents', async (req, res, next) => {
+app.post('/api/retrieveevents', async (req, res, next) => {
+  const Tags = req.body.Tags;
+  const len = Tags.length;
+  
+  if (len == 0){
+  	res.send('Choose your tags first!');
+  }
+  
+  for (var i=0; i<len; i++) {
+    res.send(Tags[i]);
+    //Event.find(Tags[i]);
+  }
+  
+});
 
 
 
