@@ -109,7 +109,8 @@ app.post('/api/addevent', async (req, res, next) => {
     EventTime,
     Attendees,
     LikedUsers,
-    Pictures
+    Pictures, 
+    Tag
   })
 
   try{
@@ -166,7 +167,7 @@ app.post('/api/retrieveevents', async (req, res, next) => {
         if(!event) 
           return res.status(301).json({ warning: "no events come back later" });
          res.json(
-            event
+            Tag: event.Tag;
           );
       })
       .catch(err => res.status(400).json("Error" + err));
