@@ -191,7 +191,7 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
 
   while (i < len) {
     // res.write(JSON.stringify(LikedEvents[i]));
-    Event.find({EventName: LikedEvents[i]}).then(event => {
+    Event.find({_id: LikedEvents[i]}).then(event => {
       if(!event) {
         return res.status(301).json({ warning: "no events matching provided your likes come back later" });
       }
@@ -208,6 +208,40 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
   //res.end();
 
 });
+
+
+
+app.post('/api/viewattendingevents', async (req, res, next) => {
+  const Attending = new Array(req.body.AttendingEvents);
+  var len = Attending.length;
+  var i = 0;
+  // if (len === 0){
+  // 	res.send('Choose your tags first!');
+  // }
+
+  while (i < len) {
+    // res.write(JSON.stringify(LikedEvents[i]));
+    Event.find({_id: Attending[i]}).then(event => {
+      if(!event) {
+        return res.status(301).json({ warning: "no events matching provided your likes come back later" });
+      }
+      if(len === 0){
+        return res.status(301).json({ warning: "No liked events found" });
+      }
+      res.json(
+        event
+      );
+    })
+    .catch(err => res.status(400).json("Error" + err));
+    i++;
+  }
+  //res.end();
+
+});
+
+
+
+
 
 module.exports = router
 }
