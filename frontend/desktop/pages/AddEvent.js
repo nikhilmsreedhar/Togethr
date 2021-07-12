@@ -83,14 +83,14 @@ const post = (title, description, guests, category, day, start, end) => {
  return (
   
     <SafeAreaView style={{flex: 1}}>
-        <NavigationBar/>
-    <View style={styles.container}>
+    <NavigationBar/>
+     <View style={styles.container}>
     
-        <View style={styles.closeButton}>
+           <View style={styles.closeButton}>
             <TouchableOpacity onPress={() => navigateBack()}>
             <Ionicons  name="close"  size={30} color="back" />
             </TouchableOpacity>
-        </View>
+            </View>
 
         <View style={styles.center}>
         <Text h1 style={styles.title}>Create Activity</Text>
@@ -251,7 +251,7 @@ const post = (title, description, guests, category, day, start, end) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 45, 
+    fontSize: 60, 
     fontFamily: 'Comfortaa_400Regular',
     alignSelf: 'center', 
   },
@@ -263,7 +263,6 @@ const styles = StyleSheet.create({
   },
   center: {
     flex: 1,
-    justifyContent: 'center',
     alignContent: 'center',
     alignSelf: 'center'
   },

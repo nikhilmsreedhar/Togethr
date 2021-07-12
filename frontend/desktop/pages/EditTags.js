@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import axios from 'axios';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import {
   useFonts,
@@ -12,76 +11,66 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import {HelperText} from 'react-native-paper';
 import MultipleSelectChips from '../components/MultipleSelectChips';
-import '../../../models/user';
+import NavigationBar from '../components/NavigationBar';
 
 
 
 
-
-const InterestsPage = ({route}) =>{
+const EditTags = ({route}) =>{
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
     Roboto_700Bold,
     Roboto_300Light
   });
-
-  
-
   
   const navigation = useNavigation();
   function navigateBack() {
-    navigation.goBack();
-  }
+    navigation.navigate('Profile');
+}
 
   const [interests, setInterests] = useState([])
-  const [registerMessage,setRegisterMessage] = React.useState('');
+  const [message,setMessage] = React.useState('');
 	const [error, setError] = useState("")
 	const options = [
-  {value: "Animals", isSelected: false},
-  {value: "Beauty", isSelected: false},
-  {value: "Cars", isSelected: false},
-  {value: "Fine Arts", isSelected: false},
-  {value: "Food", isSelected: false},
-  {value: "DIY", isSelected: false},
-  {value: "Gaming", isSelected: false},
-  {value: "Lifestyle", isSelected: false},
-  {value: "Movies", isSelected: false},
-  {value: "Music", isSelected: false},
-  {value: "Outdoors", isSelected: false},
-  {value: "Performing Arts", isSelected: false},
-  {value: "Photography", isSelected: false},
-  {value: "Shopping", isSelected: false},
-  {value: "Sight Seeing", isSelected: false},
-  {value: "Sports", isSelected: false},
-  {value: "Technology", isSelected: false},
-  {value: "Travel", isSelected: false},
-  ]
-//check email formatting --listen to existing email response
-//unique username? --listen for existing username response
-//password formats? pw length > 7, parse + check for isdig()
+  {label: "Movie", value: "Movie"}, 
+  {label: "Music", value: "Music"}, 
+  {label: "Sports", value: "Sports"},
+  {label: "Outdoors", value:"Outdoors"}, 
+  {label: "Food", value: "Food"}, 
+  {label: "Animals", value: "Animals"},
+  {label: "Beauty", value:"Beauty"}, 
+  {label: "Gaming", value: "Gaming"}, 
+  {label: "Sight Seeing", value: "Sight Seeing"},
+  {label: "Technology", value: "Technology"}, 
+  {label: "DIY", value: "DIY"}, 
+  {label: "Travel", value: "Travel"},
+  {label: "Performing Arts", value: "Performing Arts"}, 
+  {label: "Fine Arts", value: "Fine Arts"}, 
+  {label: "Cars", value: "Cars"},
+  {label: "Photography", value: "Photography"}, 
+  {label: "Lifestyle", value: "Lifestyle"}, 
+  {label: "Shopping", value: "Shopping"},
+]
 
-
-//copy to mobile
-  const tags = (interests) => {
-    if (interests.length === 0){
-      alert('Please select at least one interest');
-    }
-    else{
-      alert(JSON.stringify(interests));
-      };
-    };
+// This is where you will add the logic for the edit function
+const edit = (interests) => {
+  if (interests.length === 0){
+    setMessage("Please select at least one interest");
+  }
+  else{
+    alert(' Interests: ' + JSON.stringify(interests)) ;
+  }
+  
+};
 
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <NavigationBar/>
     <View style={styles.container}>
-      
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
     <View style={styles.center}>
-        <Text h1 style={styles.title}>Register</Text>
+        <Text h1 style={styles.title}>Your Interests</Text>
 
         <MultipleSelectChips
           label="Your Interests"
@@ -92,7 +81,7 @@ const InterestsPage = ({route}) =>{
           setError={setError}
         />
          <HelperText type="error">
-            {registerMessage}
+            {message}
           </HelperText>
 
           <Text style={styles.inputDivider}></Text>
@@ -101,8 +90,8 @@ const InterestsPage = ({route}) =>{
           <Text style={styles.backButtonText}>BACK</Text>
        </TouchableOpacity>
        <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity onPress={() => register(firstName, lastName, username, password, birthday, interests)} style={styles.nextButton}>
-          <Text style={styles.nextButtonText}>REGISTER</Text>
+       <TouchableOpacity onPress={() => edit(interests)} style={styles.nextButton}>
+          <Text style={styles.nextButtonText}>CONFIRM</Text>
        </TouchableOpacity>
        </View>
         
@@ -188,4 +177,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InterestsPage;
+export default EditTags;

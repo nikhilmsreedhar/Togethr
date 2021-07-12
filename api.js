@@ -4,22 +4,23 @@ const Event = require("./models/event.js");
 const router = express.Router();
 
 
+
 exports.setApp = function ( app, client )
 {
 app.post('/api/adduser', async (req, res, next) => {
 
   const{ UserName,
-    Password, FirstName, LastName, DOB, Picture, Rating,Email, Tags} = req.body;
+    Password, FirstName, LastName, Picture, Rating, Email, Verified, Tags} = req.body;
 
   let user = new User({
     UserName,
     Password,
     FirstName,
     LastName,
-    DOB,
     Picture,
     Rating,
     Email,
+    Verified,
     Tags
   })
 
@@ -33,6 +34,8 @@ app.post('/api/adduser', async (req, res, next) => {
 
 });
 
+
+
 app.patch('/api/edituser', async (req, res, next) => {
   try {
     const id = req.body.id;
@@ -44,7 +47,9 @@ app.patch('/api/edituser', async (req, res, next) => {
   } catch (error){
     console.log(error.message);
   }
-})
+});
+
+
 
 app.delete('/api/deleteuser', async (req, res, next) => {
   const id = req.body.id;
@@ -54,8 +59,7 @@ app.delete('/api/deleteuser', async (req, res, next) => {
   }catch(error){
     console.log(error.message);
   }
-})
-
+});
 
 
 
@@ -77,15 +81,20 @@ app.post('/api/login', async (req, res, next) => {
           res.json({
             id: user.id,
             UserName: user.UserName,
+            Password: user.Password,
             FirstName: user.FirstName,
-            LastName: user.LastName
+            LastName: user.LastName,
+            Picture: user.Picture,
+            Rating: user.Rating,
+            Email: user.Email,
+            Verified: user.Verified,
+            Tags: user.Tags,
           });
         })
         .catch(err => res.status(400).json("Error" + err));
     })
     .catch(err => res.status(400).json("Error" + err));
 });
-
 
 
 
@@ -98,9 +107,11 @@ app.post('/api/addevent', async (req, res, next) => {
     EventLocation,
     EventDate,
     EventTime,
+    Maker,
     Attendees,
     LikedUsers,
-    Pictures
+    Pictures, 
+    Tag
   })
 
   try{
@@ -113,6 +124,8 @@ app.post('/api/addevent', async (req, res, next) => {
 
 });
 
+
+
 app.patch('/api/editevent', async (req, res, next) => {
   try {
     const id = req.body.id;
@@ -124,7 +137,9 @@ app.patch('/api/editevent', async (req, res, next) => {
   } catch (error){
     console.log(error.message);
   }
-})
+});
+
+
 
 app.delete('/api/deleteevent', async (req, res, next) => {
   const id = req.body.id;
@@ -134,8 +149,41 @@ app.delete('/api/deleteevent', async (req, res, next) => {
   }catch(error){
     console.log(error.message);
   }
-})
+});
 
+
+
+app.post('/api/retrieveevents', async (req, res, next) => {
+  const Tags = new Array(req.body.Tags);
+  var len = Tags.length;
+  var i = 0;
+  if (len == 0){
+  	res.send('Choose your tags first!');
+  }
+
+  while (i < len+1) {
+    // res.write(JSON.stringify(Tags[i]));
+    if(i == len) {
+      Event.find({Tag: Tags[i]}).then(event => {
+        if(!event) 
+          return res.status(301).json({ warning: "no events come back later" });
+         res.json(
+            event
+          );
+      })
+      .catch(err => res.status(400).json("Error" + err));
+    }
+    Event.find({Tag: Tags[i]}).then(event => {
+      if(!event) 
+        return res.status(301).json({ warning: "no events come back later" });
+      res.json(
+        event
+      );
+    })
+    i++;
+  }
+
+});
 
 
 

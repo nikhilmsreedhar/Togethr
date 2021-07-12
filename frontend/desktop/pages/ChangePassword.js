@@ -8,19 +8,13 @@ import {
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import {  HelperText} from 'react-native-paper';
+import {HelperText} from 'react-native-paper';
 import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import axios from 'axios'
+import NavigationBar from '../components/NavigationBar';
 
 
-const RegisterPage2 = ({route}) =>{
+const ChangePassword = ({route}) =>{
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -35,67 +29,22 @@ const RegisterPage2 = ({route}) =>{
     }
   });
 
-  const firstName = route.params.firstName
-  const lastName  = route.params.lastName
-  const birthday  = route.params.birthday
-
-
   
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
 }
 
-function goToNextPage (firstName, lastName, email, user, pass, passConfirm, birthday) {
-  if (user == "" || pass  == "" ||  email  == ""){
-    setRegisterMessage("Please enter all fields");
-  }
-  else if (user == "" && pass != "" && email != ""){
-    setRegisterMessage("Please enter username");
-  }
-  else if (user != "" && pass == "" && email != ""){
-    setRegisterMessage("Please enter password");
-  }
-  else if (user != "" && pass != "" && email == ""){
-    setRegisterMessage("Please enter email");
-  }
-  else if (pass != passConfirm){
-    setRegisterMessage("Passwords must match");
-  }
-  else{
-    alert('First: ' + firstName + ' Last: '+ lastName + ' Email: '+ email + ' Username: ' + user + ' Password: '+ pass + ' Birthday: ' + birthday) ;
-    axios.post('https://togethrgroup1.herokuapp.com/api/adduser', { 
-      UserName: user,
-      Password: pass,
-      FirstName: firstName,
-      LastName: lastName,
-      Email: email
-    })
-    .then((response) => {
-      handleClickOpen();
-      console.log(response);
-    }, (error) => {
-      setRegisterMessage('Invalid fields');
-      console.log(error);
-    });
-    //reg3 end
-  }
-  };
   
-  
-const [email, setEmail] = React.useState('');
-const [user, setUser] = React.useState('');
+const [curpass, setCurPass] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [passConfirm, setPassConfirm] = React.useState('');
-const [registerMessage,setRegisterMessage] = React.useState('');
-const [open, setOpen] = React.useState(false);
+const [message, setMessage] = React.useState('');
 
-const handleEmailChange = (event) => {
-  setEmail(event.target.value);
-};
-const handleUserChange = (event) => {
-  setUser(event.target.value);
-};
+
+const handleCurPassChange = (event) => {
+    setCurPass(event.target.value);
+  };
 const handlePassChange = (event) => {
   setPass(event.target.value);
 };
@@ -103,54 +52,42 @@ const handlePassConfirmChange = (event) => {
   setPassConfirm(event.target.value);
 };
 
-const handleClickOpen = () => {
-  setOpen(true);
-};
-
-const handleClose = () => {
-  setOpen(false);
-  navigation.navigate('HomePage')
-};
-
+// Add update pass function and check if old pass word is correct function
+function change(pass, passConfirm){
+    if (pass != passConfirm){
+        setMessage('Passwords must match');
+    }
+    else {
+        setMessage('Success');
+    }
+}
 
   return (
     <SafeAreaView style={{flex: 1}}>
+       <NavigationBar/>
     <View style={styles.container}>
-      
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
     <View style={styles.center}>
-        <Text h1 style={styles.title}>Register</Text>
+        <Text h1 style={styles.title}>Change Password</Text>
         <Text style={styles.verticalDivider}></Text>
         <MuiThemeProvider theme={theme}>
         <TextField 
           style={{width: 500}}
+          type="password"
           color = 'secondary'
-          label="Email" 
+          label="Current Password" 
           variant="outlined" 
-          value={email}
-          onChange={handleEmailChange}
+          value={curpass}
+          onChange={handleCurPassChange}
           />
-
+        
         <Text style={styles.inputDivider}></Text>
 
-        <TextField 
-          style={{width: 500}}
-          color = 'secondary'
-          label="Username" 
-          variant="outlined" 
-          value={user}
-          onChange={handleUserChange}
-          />
-
-        <Text style={styles.inputDivider}></Text>
 
         <TextField 
           style={{width: 500}}
           type="password"
           color = 'secondary'
-          label="Password" 
+          label="New Password" 
           variant="outlined" 
           value={pass}
           onChange={handlePassChange}
@@ -162,13 +99,13 @@ const handleClose = () => {
           style={{width: 500}}
           type="password"
           color = 'secondary'
-          label="Confirm Password" 
+          label="Confirm New Password" 
           variant="outlined" 
           value={passConfirm}
           onChange={handlePassConfirmChange}
           />
-        <HelperText type="error">
-            {registerMessage}
+          <HelperText type="error">
+            {message}
           </HelperText>
        
         <Text style={styles.inputDivider}></Text>
@@ -179,33 +116,14 @@ const handleClose = () => {
           <Text style={styles.backButtonText}>BACK</Text>
        </TouchableOpacity>
        <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity  onPress={() => goToNextPage(firstName, lastName, email, user, pass, passConfirm, birthday)} style={styles.nextButton}>
+       <TouchableOpacity  onPress={() =>change(pass, passConfirm)} style={styles.nextButton}>
           <Text style={styles.nextButtonText}>NEXT</Text>
        </TouchableOpacity>
         </View>
 
-        <Dialog
-        open={open}
-        onClose={handleClose}
-      >
-        <DialogTitle >{"Account creation successful!"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-          Please verify your account through the link sent to your email. This link will be valid for 1 hour.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            OKAY
-          </Button>
-        </DialogActions>
-      </Dialog>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
          </View>
-        
-   </View>
-  
-    
+      </View>
     </SafeAreaView>
     
 
@@ -281,4 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterPage2;
+export default ChangePassword;

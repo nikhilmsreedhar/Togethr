@@ -22,10 +22,6 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  DOB: {
-    type: String,
-    required: false
-  },
   Picture: {
     type: String,
     required: false
@@ -36,6 +32,10 @@ const UserSchema = new Schema({
   },
   Email: {
     type: String,
+    required: true
+  },
+  Verified: {
+    type: Boolean,
     required: true
   },
   Tags: {
