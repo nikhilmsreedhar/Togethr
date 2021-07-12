@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, PanResponder } from 'react-native';
 import {
   useFonts,
   Comfortaa_400Regular,
@@ -13,13 +13,15 @@ import { TextInput, HelperText } from 'react-native-paper';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
+
+
+
 export default function LoginPage() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
     Roboto_700Bold
   });
-
   const theme = createMuiTheme({
     palette: {
       secondary: {
@@ -27,99 +29,110 @@ export default function LoginPage() {
       }
     }
   });
+
   
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
+}
+
+
+const [user, setUser] = React.useState('');
+const [pass, setPass] = React.useState('');
+const [loginMessage,setLoginMessage] = React.useState('');
+
+const handleUserChange = (event) => {
+  setUser(event.target.value);
+};
+const handlePassChange = (event) => {
+  setPass(event.target.value);
+};
+
+// Thiis is where the logic for the login function will be added
+const login = (user, pass) => {
+  if (user == "" && pass  == ""){
+    setLoginMessage("Please enter username and password");
   }
-
-  const userBlank = () => {
-    return (username == "");
-  };
-
-  const [username, setUser] = React.useState('');
-  const [pass, setPass] = React.useState('');
-  const [loginMessage, setLoginMessage] = React.useState('');
-
-  const handleUserChange = (event) => {
-    setUser(event.target.value);
-  };
-
-  const handlePassChange = (event) => {
-    setPass(event.target.value);
-  };
-
-  // This is where the logic for the login function will be added
-  const login = (username, pass) => {
-    if (username == "" && pass  == "") {
-      setLoginMessage("Please enter username and password");
-    } else if (username == "" && pass != "") {
-      setLoginMessage("Please enter username");
-    } else if (username != "" && pass == "") {
-      setLoginMessage("Please enter password");
-    } else { //login to api post
+  else if (user == "" && pass != ""){
+    setLoginMessage("Please enter username");
+  }
+  else if (user != "" && pass == ""){
+    setLoginMessage("Please enter password");
+  }
+  else{
+      localStorage.clear();
       axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
-        UserName: username,
-        Password: pass
-      })
-      .then((response) => {
+      UserName: user,
+      Password: pass
+    })
+    .then((response) => {
+      console.log(response);
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, id:response.data.id, interests: response.data.Tags}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      // if tags are empty go to choose tags
+      if(response.data.Tags.length > 0){
         navigation.navigate('Explore');
-        console.log(response);
-      }, (error) => {
-        setLoginMessage('Incorrect Username or Password');
-        console.log(error);
-      });
-    }
+      }
+      else{
+        navigation.navigate('EditTags');
+      }
+    }, (error) => {
+      setLoginMessage('Incorrect Username or Password');
+      console.log(error);
+    });
+    
   }
+};
+
 
   return (
+    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigateBack()}>
-        <Ionicons name="arrow-back" size={30} color="back" />
-      </TouchableOpacity>
-
-      <View style={styles.center}>
+    <TouchableOpacity onPress={() => navigateBack()}>
+      <Ionicons name="arrow-back"  size={30} color="back" />
+    </TouchableOpacity>
+    <View style={styles.center}>
         <Text h1 style={styles.title}>Log In</Text>
-        <Text style={styles.verticalDivider} />
+        <Text style={styles.verticalDivider}></Text>
         
         <MuiThemeProvider theme={theme}>
-          <TextField 
-            style={{width: 500}}
-            color = 'secondary'
-            label="username" 
-            variant="outlined" 
-            value={username}
-            onChange={handleUserChange}
+        <TextField 
+          style={{width: 500}}
+          color = 'secondary'
+          label="Username" 
+          variant="outlined" 
+          value={user}
+          onChange={handleUserChange}
           />
 
-          <Text Text style={styles.inputDivider} />
+        <Text Text style={styles.inputDivider}></Text>
 
-          <TextField 
-            style={{width: 500}}
-            type="password"
-            color = 'secondary'
-            label="Password" 
-            variant="outlined" 
-            value={pass}
-            onChange={handlePassChange}
+        <TextField 
+          style={{width: 500}}
+          type="password"
+          color = 'secondary'
+          label="Password" 
+          variant="outlined" 
+          value={pass}
+          onChange={handlePassChange}
           />
-
-          <HelperText type="error">
-            {loginMessage}
+          <HelperText align= 'center' type="error">
+          {loginMessage}
           </HelperText>
+          </MuiThemeProvider>
 
-        </MuiThemeProvider>
+          <Text style={styles.inputDivider}></Text>
 
-        <Text style={styles.inputDivider} />
-
-        <TouchableOpacity
-          onPress={() => login(username, pass)}
-          style={styles.loginButton}
-        >
+         <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>LOG IN</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+         </TouchableOpacity>
+   </View>
+   </View>
+    
+    </SafeAreaView>
+    
+
+    
   );
 }
 
