@@ -10,7 +10,7 @@ exports.setApp = function ( app, client )
 app.post('/api/adduser', async (req, res, next) => {
 
   const{ UserName,
-    Password, FirstName, LastName, Picture, Rating, Email, Verified, Tags} = req.body;
+    Password, FirstName, LastName, Picture, Rating, Email, Verified, Tags, Liked} = req.body;
 
   let user = new User({
     UserName,
@@ -71,12 +71,12 @@ app.post('/api/login', async (req, res, next) => {
   User.findOne({ UserName })
     .then(user => {
       if (!user)
-        return res.status(301).json({ warning: "Incorrect Credentials" });
+        return res.status(301).json({ warning: "Incorrect username" });
 
       User.findOne({ Password })
         .then(same => {
           if (!same)
-            return res.status(301).json({ warning: "Incorrect Credentials" });
+            return res.status(301).json({ warning: "Incorrect password" });
 
           res.json({
             id: user.id,
@@ -88,7 +88,7 @@ app.post('/api/login', async (req, res, next) => {
             Rating: user.Rating,
             Email: user.Email,
             Verified: user.Verified,
-            Tags: user.Tags,
+            Tags: user.Tags
           });
         })
         .catch(err => res.status(400).json("Error" + err));
@@ -157,36 +157,57 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = new Array(req.body.Tags);
   var len = Tags.length;
   var i = 0;
-  if (len == 0){
-  	res.send('Choose your tags first!');
-  }
+  // if (len === 0){
+  // 	res.send('Choose your tags first!');
+  // }
 
-  while (i < len+1) {
+  while (i < len) {
     // res.write(JSON.stringify(Tags[i]));
-    if(i == len) {
-      Event.find({Tag: Tags[i]}).then(event => {
-        if(!event) 
-          return res.status(301).json({ warning: "no events come back later" });
-         res.json(
-            event
-          );
-      })
-      .catch(err => res.status(400).json("Error" + err));
-    }
     Event.find({Tag: Tags[i]}).then(event => {
-      if(!event) 
-        return res.status(301).json({ warning: "no events come back later" });
+      if(!event) {
+        return res.status(301).json({ warning: "no events matching provided tag(s) come back later" });
+      }
+      if(len === 0){
+        return res.status(301).json({ warning: "choose tags first" });
+      }
       res.json(
         event
       );
     })
+    .catch(err => res.status(400).json("Error" + err));
     i++;
   }
 
 });
 
 
+app.post('/api/viewlikedevents', async (req, res, next) => {
+  const LikedEvents= new Array(req.body.LikedEvents);
+  var len = LikedEvents.length;
+  var i = 0;
+  // if (len === 0){
+  // 	res.send('Choose your tags first!');
+  // }
 
+  while (i < len) {
+    // res.write(JSON.stringify(LikedEvents[i]));
+    Event.find({EventName: LikedEvents[i]}).then(event => {
+      if(!event) {
+        return res.status(301).json({ warning: "no events matching provided your likes come back later" });
+      }
+      if(len === 0){
+        return res.status(301).json({ warning: "No liked events found" });
+      }
+      res.json(
+        event
+      );
+    })
+    .catch(err => res.status(400).json("Error" + err));
+    i++;
+  }
+  //res.end();
+
+});
 
 module.exports = router
 }
