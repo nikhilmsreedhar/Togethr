@@ -49,6 +49,10 @@ const UserSchema = new Schema({
   LikedEvents: {
     type: Array,
     required: false
+  },
+  AttendingEvents: {
+    type: Array,
+    required: false
   }
 });
 module.exports = User = mongoose.model("Users", UserSchema);
