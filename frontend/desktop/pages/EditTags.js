@@ -59,7 +59,19 @@ const edit = (interests) => {
     setMessage("Please select at least one interest");
   }
   else{
-    alert(' Interests: ' + JSON.stringify(interests)) ;
+    axios.post('https://togethrgroup1.herokuapp.com/api/edituser', { 
+      Tags: tags
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, id:response.data.id, interests: response.data.Tags}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+      setMessage('You changed your Interests!');
+    }, (error) => {
+      console.log(error);
+      setMessage('Something went wrong! Try again.');
+    });
+    alert(' Interests: ' + JSON.stringify(interests));
   }
   
 };
