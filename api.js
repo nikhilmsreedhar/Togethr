@@ -81,7 +81,6 @@ app.post('/api/login', async (req, res, next) => {
           res.json({
             id: user.id,
             UserName: user.UserName,
-            Password: user.Password,
             FirstName: user.FirstName,
             LastName: user.LastName,
             Picture: user.Picture,
