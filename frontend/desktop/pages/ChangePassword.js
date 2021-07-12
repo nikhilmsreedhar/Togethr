@@ -58,7 +58,18 @@ function change(pass, passConfirm){
         setMessage('Passwords must match');
     }
     else {
-        setMessage('Success');
+      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
+        Password: pass
+      })
+      .then((response) => {
+        var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, id:response.data.id, interests: response.data.Tags}
+        localStorage.setItem('user_data', JSON.stringify(UserData));
+        console.log(response);
+        setMessage('Your Password was changed!');
+      }, (error) => {
+        console.log(error);
+        setMessage('Something went wrong! Try again.');
+      });
     }
 }
 
