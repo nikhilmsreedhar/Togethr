@@ -2,7 +2,19 @@ const express = require("express");
 const User = require("./models/user.js");
 const Event = require("./models/event.js");
 const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
 const router = express.Router();
+
+
+// const transporter = nodemailer.createTransport({
+//   service: 'Gmail',
+//   auth: {
+//     user: process.env.GMAIL,
+//     pass: process.env.GMAILPASS,
+//   },
+// });
+
+// const SECRET = 'sldkfnklaenfhilabsjkgn';
 
 
 
@@ -43,6 +55,9 @@ app.post('/api/adduser', async (req, res, next) => {
   }
 
 });
+
+
+
 
 
 
@@ -255,7 +270,16 @@ app.post('/api/viewattendingevents', async (req, res, next) => {
 
 
 
+// app.get('/api/verification/:token', async (req, res) => {
+//   try {
+//     const { user: { id } } = jwt.verify(req.params.token, SECRET);
+//     await models.user.update({ Verified: true }, { where: { id } });
+//   } catch (e) {
+//     res.send('error');
+//   }
 
+//   return res.redirect('http://localhost:3001/login');
+// });
 
 module.exports = router
 }
