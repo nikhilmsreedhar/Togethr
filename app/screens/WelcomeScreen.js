@@ -17,7 +17,7 @@ function WelcomeScreen() {
 
   const navigation = useNavigation();
 
-  //functions
+  //Functions
   function navigateToLogin() {
     navigation.navigate("LoginScreen");
   }
@@ -25,7 +25,8 @@ function WelcomeScreen() {
   function navigateToRegister() {
     navigation.navigate("RegisterScreen");
   }
- 
+
+  //Render
   return (
     <View style={styles.container}>
       <Text h1
