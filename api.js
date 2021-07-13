@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("./models/user.js");
 const Event = require("./models/event.js");
+const bcrypt = require("bcrypt");
 const router = express.Router();
 
 
@@ -12,6 +13,7 @@ app.post('/api/adduser', async (req, res, next) => {
   const{ UserName,
     Password, FirstName, LastName, Picture, Rating, Email, Verified, Tags} = req.body;
 
+  
   let user = new User({
     UserName,
     Password,
@@ -24,6 +26,14 @@ app.post('/api/adduser', async (req, res, next) => {
     Tags
   })
 
+  const salt = await bcrypt.genSalt(10);
+  const hashedPass = await bcrypt.hash(user.Password, salt);
+  user.Password = hashedPass;
+
+  
+
+
+
   try{
     user = await user.save();
     res.send(user);
@@ -33,6 +43,7 @@ app.post('/api/adduser', async (req, res, next) => {
   }
 
 });
+
 
 
 
@@ -66,6 +77,9 @@ app.delete('/api/deleteuser', async (req, res, next) => {
 app.post('/api/login', async (req, res, next) => {
   const UserName = req.body.UserName;
   const Password = req.body.Password;
+  const salt = await bcrypt.genSalt(10);
+  const hashedPass = await bcrypt.hash(Password, salt);
+
   
 
   User.findOne({ UserName })
@@ -73,10 +87,11 @@ app.post('/api/login', async (req, res, next) => {
       if (!user)
         return res.status(301).json({ warning: "Incorrect username" });
 
-      User.findOne({ Password })
+      bcrypt
+      .compare(Password, user.Password)
         .then(same => {
-          if (!same)
-            return res.status(301).json({ warning: "Incorrect password" });
+        if (!same)
+        return res.status(301).json({ warning: "Incorrect Password" });
 
           res.json({
             id: user.id,
