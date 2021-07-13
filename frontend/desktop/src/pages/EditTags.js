@@ -26,7 +26,7 @@ const EditTags = ({route}) =>{
   
   const navigation = useNavigation();
   function navigateBack() {
-    navigation.navigate('Profile');
+    navigation.goBack();
 }
 
   const [interests, setInterests] = useState([])
