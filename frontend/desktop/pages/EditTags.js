@@ -59,7 +59,7 @@ const edit = (interests) => {
     setMessage("Please select at least one interest");
   }
   else{
-    axios.post('https://togethrgroup1.herokuapp.com/api/edituser', { 
+    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
       Tags: tags
     })
     .then((response) => {
