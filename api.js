@@ -57,7 +57,25 @@ app.post('/api/adduser', async (req, res, next) => {
 });
 
 
+app.patch('/api/editpassword', async (req, res, next) => {
+  try {
+    const id = req.body.id;
+    const updates = req.body.Password;
+    const options = {new: true}
 
+    
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(updates, salt);
+    req.body.Password = hashedPass;
+    
+   
+
+    const result = await User.findByIdAndUpdate(id, req.body, options);
+    res.send(result);
+  } catch (error){
+    console.log(error.message);
+  }
+});
 
 
 
@@ -67,6 +85,7 @@ app.patch('/api/edituser', async (req, res, next) => {
     const id = req.body.id;
     const updates = req.body;
     const options = {new: true}
+
 
     const result = await User.findByIdAndUpdate(id, updates, options);
     res.send(result);
