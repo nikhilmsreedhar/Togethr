@@ -16,7 +16,6 @@ import axios from 'axios';
 
 
 
-
 const EditTags = ({route}) =>{
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
@@ -27,7 +26,7 @@ const EditTags = ({route}) =>{
   
   const navigation = useNavigation();
   function navigateBack() {
-    navigation.navigate('Profile');
+    navigation.goBack();
 }
 
   const [interests, setInterests] = useState([])
@@ -53,6 +52,10 @@ const EditTags = ({route}) =>{
   {label: "Lifestyle", value: "Lifestyle"}, 
   {label: "Shopping", value: "Shopping"},
 ]
+
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var userid = ud.id;
 
 // This is where you will add the logic for the edit function
 const edit = (interests) => {

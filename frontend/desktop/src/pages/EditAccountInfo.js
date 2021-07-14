@@ -7,14 +7,14 @@ import {
   Roboto_700Bold,
 } from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import {HelperText} from 'react-native-paper';
-import TextField from '@material-ui/core/TextField';
+import { HelperText } from 'react-native-paper';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Divider from '@material-ui/core/Divider';
 import NavigationBar from '../components/NavigationBar';
 
 
-const ChangePassword = ({route}) =>{
+export default function EditAccountInfo() {
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -29,13 +29,12 @@ const ChangePassword = ({route}) =>{
     }
   });
 
-  
-  const navigation = useNavigation();
-  function navigateBack() {
-    navigation.goBack();
-}
 
-  
+
+const [first, setFirst] = React.useState('VALUE');
+const [last, setLast] = React.useState('VALUE');
+const [email, setEmail] = React.useState('VALUE');
+const [user, setUser] = React.useState('VALUE');
 const [curpass, setCurPass] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [passConfirm, setPassConfirm] = React.useState('');
@@ -51,7 +50,19 @@ const handlePassChange = (event) => {
 const handlePassConfirmChange = (event) => {
   setPassConfirm(event.target.value);
 };
-
+const handleFirstChange = (event) => {
+  setFirst(event.target.value);
+};
+const handleLastChange = (event) => {
+    setLast(event.target.value);
+  };
+const handleUserChange = (event) => {
+    setUser(event.target.value);
+  };
+const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+  
 // Add update pass function and check if old pass word is correct function
 function change(pass, passConfirm){
     if (pass != passConfirm){
@@ -73,15 +84,81 @@ function change(pass, passConfirm){
     }
 }
 
-  return (
+
+
+
+ return (
+  
     <SafeAreaView style={{flex: 1}}>
-       <NavigationBar/>
-    <View style={styles.container}>
-    <View style={styles.center}>
-        <Text h1 style={styles.title}>Change Password</Text>
+    <NavigationBar/>
+     <View style={styles.container}>
+    
+        <View style={styles.center}>
+        <Text h1 style={styles.title}>Account </Text>
         <Text style={styles.verticalDivider}></Text>
+        <Text Text style={styles.inputDivider}></Text>
+        
         <MuiThemeProvider theme={theme}>
+        <Text style={styles.subtitle}>Profile</Text>
+
+        <Text Text style={styles.inputDivider}></Text>
+
         <TextField 
+          color = 'secondary'
+          label="First Name" 
+          variant="outlined" 
+          value={first}
+          onChange={handleFirstChange}
+          />
+
+        <Text Text style={styles.inputDivider}></Text>
+
+        <TextField 
+          color = 'secondary'
+          label="Last Name" 
+          variant="outlined" 
+          value={last}
+          onChange={handleLastChange}
+          />
+
+        <Text Text style={styles.inputDivider}></Text>
+
+        <TextField 
+          color = 'secondary'
+          label="Username" 
+          variant="outlined" 
+          value={user}
+          onChange={handleUserChange}
+          />
+
+        <Text Text style={styles.inputDivider}></Text>
+
+        <TextField 
+          color = 'secondary'
+          label="Email Address" 
+          variant="outlined" 
+          value={email}
+          onChange={handleEmailChange}
+          />
+     
+
+        <Text Text style={styles.inputDivider}></Text>
+
+         <TouchableOpacity onPress={() => alert(email)} style={styles.postButton}>
+          <Text style={styles.postButtonText}>SAVE</Text>
+         </TouchableOpacity>
+
+         <Text Text style={styles.inputDivider}></Text>
+
+         <Divider/>
+
+         <Text Text style={styles.inputDivider}></Text>
+
+         <Text style={styles.subtitle}>Password</Text>
+
+         <Text Text style={styles.inputDivider}></Text>
+
+         <TextField 
           style={{width: 500}}
           type="password"
           color = 'secondary'
@@ -119,25 +196,21 @@ function change(pass, passConfirm){
             {message}
           </HelperText>
        
-        <Text style={styles.inputDivider}></Text>
+          <Text Text style={styles.inputDivider}></Text>
 
-       
-         <View style={styles.fixToText}>
-        <TouchableOpacity   onPress={()=>navigateBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>BACK</Text>
-       </TouchableOpacity>
-       <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity  onPress={() =>change(pass, passConfirm)} style={styles.nextButton}>
-          <Text style={styles.nextButtonText}>NEXT</Text>
-       </TouchableOpacity>
+        <TouchableOpacity onPress={() =>change(pass, passConfirm)} style={styles.postButton}>
+        <Text style={styles.postButtonText}>UPDATE PASSWORD</Text>
+        </TouchableOpacity>
+
+        <Text Text style={styles.inputDivider}></Text>
+
+            <Divider/>
+
+         </MuiThemeProvider>
         </View>
-
-        </MuiThemeProvider>
-         </View>
-      </View>
+    </View>
     </SafeAreaView>
-    
-
+   
     
   );
 }
@@ -145,18 +218,24 @@ function change(pass, passConfirm){
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 50, 
+    fontSize: 60, 
     fontFamily: 'Comfortaa_400Regular',
+    alignSelf: 'center', 
+  },
+  subtitle: {
+    fontSize: 30, 
   },
   input:{
     width: 500,
  },
- center: {
-  flex: 1,
-  justifyContent: 'center',
-  alignContent: 'center',
-  alignSelf: 'center'
-},
+  closeButton:{
+    alignSelf: 'flex-end'
+  },
+  center: {
+    flex: 1,
+    alignContent: 'center',
+    alignSelf: 'center'
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -165,7 +244,7 @@ const styles = StyleSheet.create({
     margin: 25
   },
    verticalDivider: {
-    height:25,
+    height:10,
   },
   inputDivider: {
     height:20,
@@ -174,40 +253,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  nextButton: {
+  buttonDivider: {
+    width:10,
+  },
+  postButton: {
     backgroundColor: "black",
     borderColor:"black",
-    alignSelf: 'stretch',
+    width:500,
     height:50,
-    width: 245,
     borderWidth:3,
     alignItems:'center',
     justifyContent:'center',
     borderRadius: 5,
   },
-  nextButtonText: {
+  postButtonText: {
     fontSize: 18,
     color: 'white',
     fontFamily: 'Roboto_500Medium'
   }, 
-  backButton: {
-    backgroundColor: "grey",
-    borderColor:"grey",
-    width:245,
-    height:50,
-    borderWidth:3,
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius: 5,
-  },
-  backButtonText: {
-    fontSize: 18,
-    color: 'black',
-    fontFamily: 'Roboto_500Medium'
-  }, 
-  buttonDivider: {
-    width:10,
-  },
 });
-
-export default ChangePassword;
+  
