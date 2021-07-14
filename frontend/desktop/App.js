@@ -24,7 +24,6 @@ function App() {
         <Stack.Screen name="LoginPage" component={LoginPage} />
         <Stack.Screen name="RegisterPage" component={RegisterPage} />
         <Stack.Screen name="RegisterPage2" component={RegisterPage2} />
-        <Stack.Screen name="RegisterPage3" component={RegisterPage3} />
         <Stack.Screen name="AddEvent" component={AddEvent} />
         <Stack.Screen name="Explore" component={Explore} />
         <Stack.Screen name="Events" component={Events} />
