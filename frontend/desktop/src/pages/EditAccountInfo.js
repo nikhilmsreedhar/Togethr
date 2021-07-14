@@ -29,11 +29,7 @@ export default function EditAccountInfo() {
     }
   });
 
-  
-  const navigation = useNavigation();
-  function navigateBack() {
-    navigation.goBack();
-}
+
 
 const [first, setFirst] = React.useState('VALUE');
 const [last, setLast] = React.useState('VALUE');
