@@ -42,11 +42,15 @@ export default function EditAccountInfo() {
 const [first, setFirst] = React.useState(stringify(fname));
 const [last, setLast] = React.useState(stringify(lname));
 const [email, setEmail] = React.useState(stringify(uemail));
-const [user, setUser] = React.useState(stringify(uuser));
+const [username, setUser] = React.useState(stringify(uuser));
 const [curpass, setCurPass] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [passConfirm, setPassConfirm] = React.useState('');
+const [pwerrormessage, setPWErrorMessage] = React.useState('');
+const [successmessage, setSuccessMessage] = React.useState('');
+const [pwmessage, setPWMessage] = React.useState('');
 const [message, setMessage] = React.useState('');
+const [errormessage, setErrorMessage] = React.useState('');
 
 
 const handleCurPassChange = (event) => {
@@ -71,32 +75,88 @@ const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
-  function stringify(object) {
+function stringify(object) {
     var str = JSON.stringify(object);
-    str = str.replace(/\"/g, "");
-    return str;
+    return ((str === "") ?  str : str.replace(/\"/g, ""));
+    
+    
 }
 
+function editProfile(first, last, username, email, uuser, uemail){
+  if (username != uuser){
+    // send security email
+  }
+  if (email != uemail){
+    // send security emails to email and uemail
+  }
+  axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: ud.id, 
+      FirstName: first,
+      LastName: last,
+      UserName: username,
+      Email: email
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+        id:response.data.id, interests: response.data.Tags, emailAddress: response.data.Email}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+      setMessage('Your information was updated!');
+    }, (error) => {
+      console.log(error);
+      setErrorMessage('Something went wrong! Try again.');
+  });
+}
+
+
+
 // Add update pass function and check if old pass word is correct function
-function change(pass, passConfirm){
-    if (pass != passConfirm){
-        setMessage('Passwords must match');
+function change(curpass, pass, passConfirm){
+    if (curpass === "" || pass === "" || passConfirm === ""){
+      setPWMessage();
+      setSuccessMessage();
+      setPWErrorMessage('Please fill in all fields');
     }
-    else {
-      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
-        Password: pass
+    else{
+        // first check that old pw is correct for security
+        axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+        UserName: username,
+        Password: curpass
       })
       .then((response) => {
-        var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, id:response.data.id, interests: response.data.Tags}
-        localStorage.setItem('user_data', JSON.stringify(UserData));
         console.log(response);
-        setMessage('Your Password was changed!');
+        if (pass != passConfirm){
+          setPWMessage();
+          setSuccessMessage();
+          setPWErrorMessage('Passwords must match');
+        }
+        else {
+            // hash pw
+            axios.patch('https://togethrgroup1.herokuapp.com/api/editpassword', { 
+            id: ud.id,
+            Password: pass
+          })
+          .then((response) => {
+            console.log(response);
+            setPWMessage();
+            setPWErrorMessage();
+            setSuccessMessage('Your password was updated!');
+          }, (error) => {
+            console.log(error);
+            setPWMessage();
+            setSuccessMessage();
+            setPWErrorMessage('Something went wrong! Try again.');
+          });
+        }
+
       }, (error) => {
         console.log(error);
-        setMessage('Something went wrong! Try again.');
+        setSuccessMessage();
+        setPWErrorMessage();
+        setPWMessage('Incorrect Password');
       });
     }
-}
+  }
 
 
 
@@ -141,7 +201,7 @@ function change(pass, passConfirm){
           color = 'secondary'
           label="Username" 
           variant="outlined" 
-          value={user}
+          value={username}
           onChange={handleUserChange}
           />
 
@@ -156,9 +216,16 @@ function change(pass, passConfirm){
           />
      
 
-        <Text Text style={styles.inputDivider}></Text>
+          <HelperText type="error">
+            {errormessage}
+          </HelperText>
+          <HelperText type="success">
+            {message}
+          </HelperText>
+                 
+          <Text Text style={styles.inputDivider}></Text>
 
-         <TouchableOpacity onPress={() => alert(email)} style={styles.postButton}>
+         <TouchableOpacity onPress={() => editProfile(first, last, username, email, uuser, uemail)} style={styles.postButton}>
           <Text style={styles.postButtonText}>SAVE</Text>
          </TouchableOpacity>
 
@@ -181,6 +248,9 @@ function change(pass, passConfirm){
           value={curpass}
           onChange={handleCurPassChange}
           />
+          <HelperText type="error">
+            {pwmessage}
+          </HelperText>
         
         <Text style={styles.inputDivider}></Text>
 
@@ -207,12 +277,15 @@ function change(pass, passConfirm){
           onChange={handlePassConfirmChange}
           />
           <HelperText type="error">
-            {message}
+            {pwerrormessage}
           </HelperText>
-       
+          <HelperText type="success">
+            {successmessage}
+          </HelperText>
+                 
           <Text Text style={styles.inputDivider}></Text>
 
-        <TouchableOpacity onPress={() =>change(pass, passConfirm)} style={styles.postButton}>
+        <TouchableOpacity onPress={() =>change(curpass, pass, passConfirm)} style={styles.postButton}>
         <Text style={styles.postButtonText}>UPDATE PASSWORD</Text>
         </TouchableOpacity>
 
