@@ -13,7 +13,6 @@ import Explore from './pages/Explore'
 import Events from './pages/Events'
 import Likes from './pages/Likes'
 import Profile from './pages/Profile'
-import ChangePassword from './pages/ChangePassword'
 import EditAccountInfo from './pages/EditAccountInfo'
 
 const Stack = createStackNavigator();
