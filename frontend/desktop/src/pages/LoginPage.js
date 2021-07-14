@@ -67,7 +67,8 @@ const login = (user, pass) => {
     })
     .then((response) => {
       console.log(response);
-      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, id:response.data.id, interests: response.data.Tags}
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+                      id:response.data.id, interests: response.data.Tags, emailAddress: response.data.Email}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       // if tags are empty go to choose tags
       if(response.data.Tags.length > 0){
