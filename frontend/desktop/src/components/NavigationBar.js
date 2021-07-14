@@ -65,9 +65,9 @@ export default function NavigationBar() {
     setOpen(false);
     navigation.navigate('HomePage')
   };
-  const goToChangePassword = () => {
+  const goToSettings = () => {
     setOpen(false);
-    navigation.navigate('ChangePassword')
+    navigation.navigate('EditAccountInfo')
   };
   const goToEditInterests = () => {
     setOpen(false);
@@ -94,9 +94,9 @@ export default function NavigationBar() {
            
 
             <View style={styles.iconItems}>
-            <TouchableOpacity onPress={()=> navigation.navigate("AddEvent")}>
+            <Button onClick={()=> navigation.navigate("AddEvent")}>
              <Ionicons name="add"  size={30} color="white" />
-            </TouchableOpacity>
+            </Button>
             <Text style={styles.buttonDivider}></Text>
             <Button
               ref={anchorRef}
@@ -119,8 +119,8 @@ export default function NavigationBar() {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={goToEditInterests}>Edit Interests</MenuItem>
-                    <MenuItem onClick={goToChangePassword}>Change Password</MenuItem>
+                    <MenuItem onClick={goToEditInterests}>Your Interests</MenuItem>
+                    <MenuItem onClick={goToSettings}>Account Settings </MenuItem>
                     <MenuItem onClick={logout}><Ionicons name="exit-outline"  size={24} color="back" />Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
