@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import {HelperText} from 'react-native-paper';
 import MultipleSelectChips from '../components/MultipleSelectChips';
 import NavigationBar from '../components/NavigationBar';
+import axios from 'axios';
 
 
 
@@ -59,8 +60,8 @@ const edit = (interests) => {
     setMessage("Please select at least one interest");
   }
   else{
-    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
-      Tags: tags
+    const response = await axios.patch('https://togethrgroup1.herokuapp.com/api/edituser/{ud.id}', { 
+      Tags: interests
     })
     .then((response) => {
       var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, id:response.data.id, interests: response.data.Tags}
@@ -71,6 +72,7 @@ const edit = (interests) => {
       console.log(error);
       setMessage('Something went wrong! Try again.');
     });
+    axios.post('https://togethrgroup1.herokuapp.com/api/login')
     alert(' Interests: ' + JSON.stringify(interests));
   }
   

@@ -58,7 +58,7 @@ function change(pass, passConfirm){
         setMessage('Passwords must match');
     }
     else {
-      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
+      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser/{ud.id}', { 
         Password: pass
       })
       .then((response) => {
