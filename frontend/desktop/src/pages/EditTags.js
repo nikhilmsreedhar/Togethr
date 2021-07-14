@@ -29,17 +29,9 @@ const EditTags = ({route}) =>{
     navigation.goBack();
 }
 
-  var _ud = localStorage.getItem('user_data');
-  var ud = JSON.parse(_ud);
-  var tags = ud.interests;
-  var userid = ud.id;
-
-
-  const [interests, setInterests] = useState(tags)
+  const [interests, setInterests] = useState([])
   const [message,setMessage] = React.useState('');
-  const [successmessage,setSuccessMessage] = React.useState('');
 	const [error, setError] = useState("")
-
 	const options = [
   {label: "Movie", value: "Movie"}, 
   {label: "Music", value: "Music"}, 
@@ -61,12 +53,14 @@ const EditTags = ({route}) =>{
   {label: "Shopping", value: "Shopping"},
 ]
 
-
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var userid = ud.id;
+  var tags = ud.Tags;
 
 // This is where you will add the logic for the edit function
-function edit (interests) {
+const edit = (interests) => {
   if (interests.length === 0){
-    setSuccessMessage();
     setMessage("Please select at least one interest");
   }
   else{
@@ -79,13 +73,12 @@ function edit (interests) {
         id:response.data.id, interests: response.data.Tags, emailAddress: response.data.Email}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       console.log(response);
-      setMessage();
-      setSuccessMessage('You changed your Interests!');
+      setMessage('You changed your Interests!');
     }, (error) => {
       console.log(error);
-      setSuccessMessage();
       setMessage('Something went wrong! Try again.');
     });
+    alert(' Interests: ' + JSON.stringify(interests));
   }
   
 };
@@ -106,22 +99,20 @@ function edit (interests) {
           error={error}
           setError={setError}
         />
-        <View style={{alignSelf: 'center'}}> 
          <HelperText type="error">
             {message}
           </HelperText>
-          <HelperText type="succcess">
-            {successmessage}
-          </HelperText>
-          </View>
-          
-        <Text style={styles.inputDivider}></Text>
-        
-          
-          <TouchableOpacity onPress={() => edit(interests)} style={styles.nextButton}>
-              <Text style={styles.nextButtonText}>CONFIRM</Text>
-          </TouchableOpacity>
-     
+
+          <Text style={styles.inputDivider}></Text>
+         <View style={styles.fixToText}>
+        <TouchableOpacity   onPress={()=>navigateBack()} style={styles.backButton}>
+          <Text style={styles.backButtonText}>BACK</Text>
+       </TouchableOpacity>
+       <Text style={styles.buttonDivider}></Text>
+       <TouchableOpacity onPress={() => edit(interests)} style={styles.nextButton}>
+          <Text style={styles.nextButtonText}>CONFIRM</Text>
+       </TouchableOpacity>
+       </View>
         
         </View>
    </View>
@@ -138,7 +129,7 @@ function edit (interests) {
 const styles = StyleSheet.create({
   title: {
     alignSelf: 'center',
-    fontSize: 60, 
+    fontSize: 50, 
     fontFamily: 'Comfortaa_400Regular',
   },
   input:{
@@ -174,7 +165,7 @@ const styles = StyleSheet.create({
     borderColor:"black",
     alignSelf: 'stretch',
     height:50,
-    width: 500,
+    width: 245,
     borderWidth:3,
     alignItems:'center',
     justifyContent:'center',
@@ -185,7 +176,24 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Roboto_500Medium'
   }, 
-  
+  backButton: {
+    backgroundColor: "grey",
+    borderColor:"grey",
+    width:245,
+    height:50,
+    borderWidth:3,
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius: 5,
+  },
+  backButtonText: {
+    fontSize: 18,
+    color: 'black',
+    fontFamily: 'Roboto_500Medium'
+  }, 
+  buttonDivider: {
+    width:10,
+  },
 });
 
 export default EditTags;
