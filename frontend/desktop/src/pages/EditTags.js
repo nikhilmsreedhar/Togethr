@@ -63,11 +63,13 @@ const edit = (interests) => {
     setMessage("Please select at least one interest");
   }
   else{
-    const response = await axios.patch('https://togethrgroup1.herokuapp.com/api/edituser/{ud.id}', { 
+    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
+      id: userid,
       Tags: interests
     })
     .then((response) => {
-      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, id:response.data.id, interests: response.data.Tags}
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+        id:response.data.id, interests: response.data.Tags, emailAddress: response.data.Email}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       console.log(response);
       setMessage('You changed your Interests!');
@@ -75,7 +77,6 @@ const edit = (interests) => {
       console.log(error);
       setMessage('Something went wrong! Try again.');
     });
-    axios.post('https://togethrgroup1.herokuapp.com/api/login')
     alert(' Interests: ' + JSON.stringify(interests));
   }
   

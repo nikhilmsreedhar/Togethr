@@ -77,17 +77,18 @@ const handleEmailChange = (event) => {
     return str;
 }
 
-// Add update pass function and check if old pass word is correct function
-function change(pass, passConfirm){
+function changePass(pass, passConfirm){
     if (pass != passConfirm){
         setMessage('Passwords must match');
     }
     else {
-      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser/{ud.id}', { 
+      axios.patch('https://togethrgroup1.herokuapp.com/api/editpassword', {
+        id: ud.id, 
         Password: pass
       })
       .then((response) => {
-        var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, id:response.data.id, interests: response.data.Tags}
+        var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+          id:response.data.id, interests: response.data.Tags, emailAddress: response.data.Email}
         localStorage.setItem('user_data', JSON.stringify(UserData));
         console.log(response);
         setMessage('Your Password was changed!');
@@ -98,8 +99,31 @@ function change(pass, passConfirm){
     }
 }
 
-
-
+function editProfile(first, last, user, email, uuser, uemail){
+  if (user != uuser){
+    // send security email
+  }
+  if (email != uemail){
+    // send security emails to email and uemail
+  }
+  axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: ud.id, 
+      FirstName: first,
+      LastName: last,
+      UserName: user,
+      Email: email
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+        id:response.data.id, interests: response.data.Tags, emailAddress: response.data.Email}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+      setMessage('Your first name was updated!');
+    }, (error) => {
+      console.log(error);
+      setMessage('Something went wrong! Try again.');
+  });
+}
 
  return (
   
