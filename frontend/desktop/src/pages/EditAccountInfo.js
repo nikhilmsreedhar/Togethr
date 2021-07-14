@@ -6,7 +6,7 @@ import {
   Roboto_500Medium,
   Roboto_700Bold,
 } from '@expo-google-fonts/dev';
-import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import { HelperText } from 'react-native-paper';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -29,12 +29,20 @@ export default function EditAccountInfo() {
     }
   });
 
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var fname = ud.firstName;
+  var lname = ud.lastName;
+  var uemail = ud.emailAddress;
+  var uuser = ud.username;
 
 
-const [first, setFirst] = React.useState('VALUE');
-const [last, setLast] = React.useState('VALUE');
-const [email, setEmail] = React.useState('VALUE');
-const [user, setUser] = React.useState('VALUE');
+
+
+const [first, setFirst] = React.useState(stringify(fname));
+const [last, setLast] = React.useState(stringify(lname));
+const [email, setEmail] = React.useState(stringify(uemail));
+const [user, setUser] = React.useState(stringify(uuser));
 const [curpass, setCurPass] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [passConfirm, setPassConfirm] = React.useState('');
@@ -62,7 +70,13 @@ const handleUserChange = (event) => {
 const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
-  
+
+  function stringify(object) {
+    var str = JSON.stringify(object);
+    str = str.replace(/\"/g, "");
+    return str;
+}
+
 // Add update pass function and check if old pass word is correct function
 function change(pass, passConfirm){
     if (pass != passConfirm){
@@ -203,8 +217,6 @@ function change(pass, passConfirm){
         </TouchableOpacity>
 
         <Text Text style={styles.inputDivider}></Text>
-
-            <Divider/>
 
          </MuiThemeProvider>
         </View>
