@@ -36,11 +36,7 @@ export default function AddEvent() {
     }
   });
 
-  
-  const navigation = useNavigation();
-  function navigateBack() {
-    navigation.goBack();
-}
+ 
 
 const [title, setTitle] = React.useState('');
 const [location, setLocation] = React.useState('');
@@ -86,12 +82,6 @@ const post = (title, description, guests, category, day, start, end) => {
     <NavigationBar/>
      <View style={styles.container}>
     
-           <View style={styles.closeButton}>
-            <TouchableOpacity onPress={() => navigateBack()}>
-            <Ionicons  name="close"  size={30} color="back" />
-            </TouchableOpacity>
-            </View>
-
         <View style={styles.center}>
         <Text h1 style={styles.title}>Create Activity</Text>
         <Text style={styles.verticalDivider}></Text>
