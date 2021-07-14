@@ -7,12 +7,14 @@ import  HomePage from './pages/HomePage'
 import  LoginPage from './pages/LoginPage'
 import  RegisterPage from './pages/RegisterPage'
 import  RegisterPage2 from './pages/RegisterPage2'
-import  RegisterPage3 from './pages/RegisterPage3'
+import  EditTags from './pages/EditTags'
 import  AddEvent from './pages/AddEvent'
 import Explore from './pages/Explore'
 import Events from './pages/Events'
 import Likes from './pages/Likes'
 import Profile from './pages/Profile'
+import ChangePassword from './pages/ChangePassword'
+import EditAccountInfo from './pages/EditAccountInfo'
 
 const Stack = createStackNavigator();
 
@@ -24,12 +26,13 @@ function App() {
         <Stack.Screen name="LoginPage" component={LoginPage} />
         <Stack.Screen name="RegisterPage" component={RegisterPage} />
         <Stack.Screen name="RegisterPage2" component={RegisterPage2} />
-        <Stack.Screen name="RegisterPage3" component={RegisterPage3} />
+        <Stack.Screen name="EditTags" component={EditTags} />
         <Stack.Screen name="AddEvent" component={AddEvent} />
         <Stack.Screen name="Explore" component={Explore} />
         <Stack.Screen name="Events" component={Events} />
         <Stack.Screen name="Likes" component={Likes} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="EditAccountInfo" component={EditAccountInfo} />
       </Stack.Navigator>
    
     </NavigationContainer>
