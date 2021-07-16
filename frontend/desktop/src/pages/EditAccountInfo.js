@@ -29,13 +29,15 @@ export default function EditAccountInfo() {
     }
   });
 
+  
+
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
   var fname = ud.firstName;
   var lname = ud.lastName;
   var uemail = ud.emailAddress;
   var uuser = ud.username;
-
+  var userid = ud.id;
 
 
 
@@ -90,7 +92,7 @@ function editProfile(first, last, username, email, uuser, uemail){
     // send security emails to email and uemail
   }
   axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
-      id: ud.id, 
+      id: userid, 
       FirstName: first,
       LastName: last,
       UserName: username,
@@ -98,7 +100,7 @@ function editProfile(first, last, username, email, uuser, uemail){
     })
     .then((response) => {
       var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
-        id:response.data.id, interests: response.data.Tags, emailAddress: response.data.Email}
+        id:userid, interests: response.data.Tags, emailAddress: response.data.Email}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       console.log(response);
       setMessage('Your information was updated!');
@@ -133,7 +135,7 @@ function change(curpass, pass, passConfirm){
         else {
             // hash pw
             axios.patch('https://togethrgroup1.herokuapp.com/api/editpassword', { 
-            id: ud.id,
+            id: userid,
             Password: pass
           })
           .then((response) => {
