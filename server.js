@@ -36,10 +36,10 @@ mongoose
 
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('frontend/desktop/build'));
+  app.use(express.static('frontend/desktop/public'));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'desktop', 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'desktop', 'public', 'index.html'));
   });
 }
 
