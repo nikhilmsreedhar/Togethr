@@ -31,6 +31,7 @@ export default function EditAccountInfo() {
 
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
+  var ID = ud.id;
   var fname = ud.firstName;
   var lname = ud.lastName;
   var uemail = ud.emailAddress;
@@ -90,7 +91,7 @@ function editProfile(first, last, username, email, uuser, uemail){
     // send security emails to email and uemail
   }
   axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
-      id: ud.id, 
+      id: ID, 
       FirstName: first,
       LastName: last,
       UserName: username,
@@ -133,7 +134,7 @@ function change(curpass, pass, passConfirm){
         else {
             // hash pw
             axios.patch('https://togethrgroup1.herokuapp.com/api/editpassword', { 
-            id: ud.id,
+            id: ID,
             Password: pass
           })
           .then((response) => {

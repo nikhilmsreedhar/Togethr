@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 // var Int32 = require('mongoose-int32');
 //Create Schema
 const UserSchema = new Schema({
-  // _id: {
-  //   type: Number
-  // },
+  _id: {
+     type: Number
+  },
   UserName: {
     type: String,
     required: true

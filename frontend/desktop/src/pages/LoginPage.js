@@ -60,8 +60,8 @@ const login = (user, pass) => {
     setLoginMessage("Please enter password");
   }
   else{
-      localStorage.clear();
-      axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+    localStorage.removeItem('user_data');
+    axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
       UserName: user,
       Password: pass
     })
