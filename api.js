@@ -27,6 +27,7 @@ app.post('/api/adduser', async (req, res, next) => {
 
   
   let user = new User({
+    _id,
     UserName,
     Password,
     FirstName,
@@ -154,10 +155,10 @@ app.post('/api/addevent', async (req, res, next) => {
     EventDescription,
     EventLocation,
     EventDate,
-    EventTime,
+    EventStartTime,
+    EventEndTime,
     Maker,
     Attendees,
-    LikedUsers,
     Pictures, 
     Tag
   })

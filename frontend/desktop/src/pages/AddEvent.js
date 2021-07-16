@@ -66,11 +66,30 @@ const handleDescriptionChange = (event) => {
   setDescrip(event.target.value)
 }
 
-const post = (title, description, guests, category, day, start, end) => {
-  if (title == "" || description  == "" || guests == "" || category  == "" || day  == "" || start   == "" || end  == ""){
+const post = (title, description, location, guests, category, day, start, end) => {
+  if (title == "" || description  == "" || location  == "" || guests == "" || category  == "" || day  == "" || start   == "" || end  == ""){
     setAddMessage("Please fill in all fields");
   }
   else{
+    axios.post('https://togethrgroup1.herokuapp.com/api/addevent', { 
+      EventName: title,
+      EventDescription: description,
+      EventLocation: location,
+      EventDate: day,
+      EventStartTime: start,
+      EventEndTime: end,
+      Maker: userID,
+      Attendees: guests,
+      Pictures: null, // for now is null
+      Tag: category
+    })
+    .then((response) => {
+      console.log(response);
+      setAddMessage('Your event was posted!');
+    }, (error) => {
+      console.log(error);
+      setAddMessage('Something went wrong. Try again.');
+    });
     alert('Title: ' + title + ' Description: '+ description + ' Location: ' + location + 'Guests: '+ guests + ' Day: '+ day + ' Start: '+ start + ' End: '+ end);
   }
   
