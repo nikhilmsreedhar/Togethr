@@ -17,6 +17,7 @@ import axios from 'axios';
 
 
 const EditTags = ({route}) =>{
+  const t = {};
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -24,16 +25,10 @@ const EditTags = ({route}) =>{
     Roboto_300Light
   });
   
-  const navigation = useNavigation();
-  function navigateBack() {
-    navigation.goBack();
-}
-
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
   var tags = ud.interests;
   var userid = ud.id;
-
 
   const [interests, setInterests] = useState(tags)
   const [message,setMessage] = React.useState('');
@@ -64,19 +59,19 @@ const EditTags = ({route}) =>{
 
 
 // This is where you will add the logic for the edit function
-function edit (interests) {
-  if (interests.length === 0){
+function edit (tagList) {
+   if (tagList.length === 0){
     setSuccessMessage();
     setMessage("Please select at least one interest");
   }
   else{
-    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
+      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
       id: userid,
-      Tags: interests
+      Tags: tagList
     })
     .then((response) => {
       var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
-        id:response.data.id, interests: response.data.Tags, emailAddress: response.data.Email}
+      id: userid, interests: response.data.Tags, emailAddress: response.data.Email}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       console.log(response);
       setMessage();
@@ -87,7 +82,6 @@ function edit (interests) {
       setMessage('Something went wrong! Try again.');
     });
   }
-  
 };
 
 

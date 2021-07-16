@@ -204,20 +204,17 @@ app.delete('/api/deleteevent', async (req, res, next) => {
 
 app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = new Array(req.body.Tags);
-  var len = Tags.length;
+  var len = req.body.Tags.length;
   var i = 0;
-  // if (len === 0){
-  // 	res.send('Choose your tags first!');
-  // }
+  if (req.body.Tags.length === 0){
+    return res.status(301).json({ warning: "choose tags first" });
+  }
 
   while (i < len) {
     // res.write(JSON.stringify(Tags[i]));
     Event.find({Tag: Tags[i]}).then(event => {
       if(!event) {
         return res.status(301).json({ warning: "no events matching provided tag(s) come back later" });
-      }
-      if(len === 0){
-        return res.status(301).json({ warning: "choose tags first" });
       }
       res.json(
         event
@@ -232,11 +229,11 @@ app.post('/api/retrieveevents', async (req, res, next) => {
 
 app.post('/api/viewlikedevents', async (req, res, next) => {
   const LikedEvents= new Array(req.body.LikedEvents);
-  var len = LikedEvents.length;
+  var len = req.body.LikedEvents.length;
   var i = 0;
-  // if (len === 0){
-  // 	res.send('Choose your tags first!');
-  // }
+  if (req.body.LikedEvents.length === 0){
+    return res.status(301).json({ warning: "you have no liked events" });
+  }
 
   while (i < len) {
     // res.write(JSON.stringify(LikedEvents[i]));
@@ -244,9 +241,9 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
       if(!event) {
         return res.status(301).json({ warning: "no events matching provided your likes come back later" });
       }
-      if(len === 0){
-        return res.status(301).json({ warning: "No liked events found" });
-      }
+      // if(len === 0){
+      //   return res.status(301).json({ warning: "No liked events found" });
+      // }
       res.json(
         event
       );
@@ -262,20 +259,17 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
 
 app.post('/api/viewattendingevents', async (req, res, next) => {
   const Attending = new Array(req.body.AttendingEvents);
-  var len = Attending.length;
+  var len = req.body.AttendingEvents.length;
   var i = 0;
-  // if (len === 0){
-  // 	res.send('Choose your tags first!');
-  // }
+  if (req.body.AttendingEvents.length === 0){
+    return res.status(301).json({ warning: "please select an event to attend" });
+  }
 
   while (i < len) {
     // res.write(JSON.stringify(LikedEvents[i]));
     Event.find({_id: Attending[i]}).then(event => {
       if(!event) {
         return res.status(301).json({ warning: "no events matching provided your likes come back later" });
-      }
-      if(len === 0){
-        return res.status(301).json({ warning: "No liked events found" });
       }
       res.json(
         event
