@@ -22,13 +22,26 @@ const EventSchema = new Schema({
         type: String, 
         required: true
     },
+    Maker: {
+        type: String,
+        required: true
+    },
     Attendees: {
-        type: Number, 
+        type: Array, 
+        required: true
+    },
+    LikedUsers: {
+        type: Number,
         required: true
     },
     Pictures: {
         type: String,
         required: true
-    }
+    },
+    Tag: {
+        type: String,
+        required: true
+    },
+    
 });
 module.exports = Event = mongoose.model("Events", EventSchema);
