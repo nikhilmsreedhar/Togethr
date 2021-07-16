@@ -32,7 +32,6 @@ const EventSchema = new Schema({
     },
     LikedUsers: {
         type: Number,
-        type: Number, 
         required: true
     },
     Pictures: {
