@@ -4,23 +4,30 @@ const Event = require("./models/event.js");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+const _ = require("lodash");
 
 
-// const transporter = nodemailer.createTransport({
-//   service: 'Gmail',
-//   auth: {
-//     user: process.env.GMAIL,
-//     pass: process.env.GMAILPASS,
-//   },
-// });
 
-// const SECRET = 'sldkfnklaenfhilabsjkgn';
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: process.env.GMAIL,
+    pass: process.env.GMAILPASS,
+  },
+});
+
+const SECRET = 'sldkfnklaenfhilabsjkgn';
+
+
 
 
 
 exports.setApp = function ( app, client )
 {
 app.post('/api/adduser', async (req, res, next) => {
+
+  const token = req.headers['x-token'];
 
   const{ UserName,
     Password, FirstName, LastName, Picture, Rating, Email, Verified, Tags} = req.body;
@@ -42,9 +49,27 @@ app.post('/api/adduser', async (req, res, next) => {
   const hashedPass = await bcrypt.hash(user.Password, salt);
   user.Password = hashedPass;
 
-  
+  //create email verification
+jwt.sign(
+  {
+    user: _.pick(user, 'id'),
+  },
+  SECRET,
+  {
+    expiresIn: '1d',
+  },
+  (err, emailToken) => {
+    const url = `https://togethrgroup1.herokuapp.com/api/verification/${emailToken}`;
 
+    transporter.sendMail({
+      to: user.Email,
+      subject: 'Confirm Email',
+      html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+    });
+  },
+);
 
+ 
 
   try{
     user = await user.save();
@@ -283,16 +308,39 @@ app.post('/api/viewattendingevents', async (req, res, next) => {
 
 
 
-// app.get('/api/verification/:token', async (req, res) => {
+// app.patch('/api/editpassword', async (req, res, next) => {
 //   try {
-//     const { user: { id } } = jwt.verify(req.params.token, SECRET);
-//     await models.user.update({ Verified: true }, { where: { id } });
-//   } catch (e) {
-//     res.send('error');
-//   }
+//     const id = req.body.id;
+//     const updates = req.body.Password;
+//     const options = {new: true}
 
-//   return res.redirect('http://localhost:3001/login');
+    
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPass = await bcrypt.hash(updates, salt);
+//     req.body.Password = hashedPass;
+    
+   
+
+//     const result = await User.findByIdAndUpdate(id, req.body, options);
+//     res.send(result);
+//   } catch (error){
+//     console.log(error.message);
+//   }
 // });
+
+app.get('/api/verification/:token', async (req, res) => {
+  try {
+    const { user: { id } } = jwt.verify(req.params.token, SECRET);
+    req.body.Verified = true;
+    const options = {new: true}
+    const result = await User.findByIdAndUpdate(id, req.body, options);
+    res.send("your email has been verified!");
+  } catch (e) {
+    
+    res.send('Unbale to verify email try again later');
+  }
+
+});
 
 module.exports = router
 }
