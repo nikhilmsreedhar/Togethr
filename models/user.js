@@ -40,7 +40,7 @@ const UserSchema = new Schema({
   },
   Verified: {
     type: Boolean,
-    required: false,
+    required: true,
     defaultValue: false
   },
   Tags: {
