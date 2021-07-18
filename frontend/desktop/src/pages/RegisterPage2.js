@@ -63,13 +63,13 @@ function goToNextPage (firstName, lastName, email, user, pass, passConfirm, birt
     setRegisterMessage("Passwords must match");
   }
   else{
-    alert('First: ' + firstName + ' Last: '+ lastName + ' Email: '+ email + ' Username: ' + user + ' Password: '+ pass + ' Birthday: ' + birthday) ;
     axios.post('https://togethrgroup1.herokuapp.com/api/adduser', { 
       UserName: user,
       Password: pass,
       FirstName: firstName,
       LastName: lastName,
-      Email: email
+      Email: email, 
+      Verified: 'false'
     })
     .then((response) => {
       handleClickOpen();
