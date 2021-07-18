@@ -36,12 +36,11 @@ mongoose
 
 
 if (process.env.NODE_ENV === 'production') {
-  const root = require('path').join(__dirname, 'frontend', 'desktop', 'public', 'build')
-  app.use(express.static(root));
-  app.get("*", (req, res) => {
-      res.sendFile('index.html', { root });
-  })
+  app.use(express.static('frontend/desktop/public/build'));
 
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'desktop', 'public', 'build', 'index.html'));
+  });
 }
 
 const PORT = process.env.PORT || 5000;
