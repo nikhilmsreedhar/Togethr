@@ -1,6 +1,6 @@
   
 {
-  "root": "public/",
+  "root": "frontend/desktop/public/",
   "clean_urls": false,
   "routes": {
     "/**": "index.html"
