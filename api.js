@@ -7,7 +7,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 
-
+ 
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
