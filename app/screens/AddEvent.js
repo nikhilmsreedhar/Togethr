@@ -37,6 +37,36 @@ const AddEvent = () => {
     setDescription(event.target.value)
   }
 
+  const post = (title, description, location, guests, category, day, start, end) => {
+    if (title == "" || description  == "" || guests == "" || category  == "" || day  == "" || start   == "" || end  == ""){
+      setAddMessage();
+      setAddErrorMessage("Please fill in all fields");
+    } else {
+      axios.post('https://togethrgroup1.herokuapp.com/api/addevent', { 
+        EventName: title,
+        EventDescription: description,
+        EventLocation: location,
+        EventDate: day,
+        EventStartTime: start,
+        EventEndTime: end,
+        Maker: userid,
+        LikedUsers: 0,
+        Attendees: guests,
+        Pictures: null, // for now is null
+        Tag: category
+      })
+      .then((response) => {
+        console.log(response);
+        setAddErrorMessage();
+        setAddMessage('Your event was posted!');
+      }, (error) => {
+        console.log(error);
+        setAddMessage();
+        setAddErrorMessage('Something went wrong. Try again.');
+      });
+    }
+    
+  };
 
   return (
     <View style={styles.container}>
