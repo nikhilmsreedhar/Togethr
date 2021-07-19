@@ -1,22 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView} from 'react-native';
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from '@expo-google-fonts/dev';
+import { StyleSheet, View, TouchableOpacity, SafeAreaView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput, Checkbox } from 'react-native-paper';
+import { Button, Text, TextInput, Checkbox } from 'react-native-paper';
 
 
-export default function RegisterScreen() {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold
-  });
+const RegisterScreen = () => {
   
   const navigation = useNavigation();
   const [fname, setFirst] = React.useState('');
@@ -60,9 +49,12 @@ export default function RegisterScreen() {
       <TouchableOpacity onPress={() => navigateBack()}>
         <Ionicons name="arrow-back"  size={30} color="back" />
       </TouchableOpacity>
-      <Text style={styles.verticalDivider}></Text>
+      <Button 
+        icon="arrow-left"
+        style={{size: 100}}
+      />
+
       <Text h1 style={styles.title}>Register</Text>
-      <Text style={styles.verticalDivider}></Text>
           
       <TextInput
         style={{ alignSelf: 'stretch'}}
@@ -146,3 +138,4 @@ const styles = StyleSheet.create({
   }, 
 });
   
+export default RegisterScreen;

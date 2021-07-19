@@ -1,19 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from '@expo-google-fonts/dev';
+import { StyleSheet, View, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Button, Text } from 'react-native-paper';
 
-function WelcomeScreen() {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold
-  });
+const WelcomeScreen = () => {
 
   const navigation = useNavigation();
 
@@ -32,20 +22,31 @@ function WelcomeScreen() {
       <Text h1
         style={{
           fontSize: 100,
-          fontFamily: 'Comfortaa_400Regular'
+          fontFamily: 'Comfortaa_400Regular',
+          marginBottom: 50
         }}
       >
         Togethr
       </Text>
-      <View style={{height: 50}} />
-      <View style={styles.fixToText}>
-        <TouchableOpacity onPress={() => navigateToLogin()} style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>LOG IN</Text>
-        </TouchableOpacity>
-        <View style={styles.buttonDivider} />
-        <TouchableOpacity onPress={() => navigateToRegister()} style={styles.registerButton}>
-          <Text style={styles.registerButtonText}>REGISTER</Text>
-        </TouchableOpacity>
+
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: "space-around",
+      }}>
+        <Button
+          style= {{ borderWidth: 3, marginHorizontal: 5 }}
+          mode="outlined"
+          onPress={() => navigateToLogin()}
+        >
+        LOG IN
+        </Button>
+        <Button
+          style = {{ borderWidth: 3, marginHorizontal: 5 }}
+          mode="contained"
+          onPress={() => navigateToRegister()}
+        >
+        REGISTER
+        </Button>
       </View>
     </View>
   );

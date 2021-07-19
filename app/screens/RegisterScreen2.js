@@ -1,23 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from '@expo-google-fonts/dev';
+import { StyleSheet, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput, HelperText, Checkbox } from 'react-native-paper';
+import { Text, TextInput, HelperText, Checkbox } from 'react-native-paper';
 //import DatePicker from 'react-native-date-picker';
 import axios from 'axios';
 
 const RegisterScreen2 = ({route}) => {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold
-  });
 
   const firstName = route.params.firstName
   const lastName  = route.params.lastName
@@ -77,9 +66,9 @@ const RegisterScreen2 = ({route}) => {
         <Ionicons name="arrow-back"  size={30} color="back" />
       </TouchableOpacity>
 
-      <Text style={styles.verticalDivider}></Text>
+      <Text style={styles.verticalDivider} />
       <Text h1 style={styles.title}>Register</Text>
-      <Text style={styles.verticalDivider}></Text>
+      <Text style={styles.verticalDivider} />
       
       <TextInput style={{ alignSelf: 'stretch'}}
         label="Username"
@@ -88,7 +77,7 @@ const RegisterScreen2 = ({route}) => {
         onChangeText={user => setUser(user)}
       />
 
-      <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider} />
 
       <TextInput style={{ alignSelf: 'stretch'}}
         secureTextEntry
@@ -98,7 +87,7 @@ const RegisterScreen2 = ({route}) => {
         onChangeText={pass => setPass(pass)}
       />
         
-      <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider} />
 
       <TextInput style={{ alignSelf: 'stretch'}}
         secureTextEntry
@@ -113,7 +102,7 @@ const RegisterScreen2 = ({route}) => {
         Passwords do not match.
       </HelperText>
 
-      <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider} />
 
       <TouchableOpacity
         disabled = {(pass == passConfirm) ? false : true}

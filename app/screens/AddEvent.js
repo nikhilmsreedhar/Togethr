@@ -1,44 +1,31 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
 import { TextInput, HelperText } from 'react-native-paper';
-import TextField from '@material-ui/core/TextField';
 
 
-export default function LoginPage() {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold
-  });
+const AddEvent = () => {
   
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
   }
 
-  const [title, setTitle] = React.useState('');
-  const [location, setLocation] = React.useState('');
-  const [description, setDescription] = React.useState('');
-  const [guests, setGuests] = React.useState('');
-  const [category, setCat] = React.useState('');
-  const [day, setDay] = React.useState(new Date());
-  const [startTime, setStartTime] = React.useState(new Date());
-  const [endTime, setEndTime] = React.useState();
-  const [addMessage, setAddMessage] = React.useState();
+  const [title, setTitle] = useState('');
+  const [location, setLocation] = useState('');
+  const [description, setDescription] = useState('');
+  const [guests, setGuests] = useState('');
+  const [category, setCategory] = useState('');
+  const [day, setDay] = useState(new Date());
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState();
+  const [addMessage, setAddMessage] = useState();
 
   const handleGuestChange = (event) => {
     setGuests(event.target.value);
   };
   const handleCatChange = (event) => {
-    setCat(event.target.value);
+    setCategory(event.target.value);
   };
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -52,17 +39,13 @@ export default function LoginPage() {
 
 
   return (
-    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
-      <View style={styles.closeButton}>
-        <TouchableOpacity onPress={() => navigateBack()}>
-          <Ionicons  name="close"  size={30} color="back" />
-        </TouchableOpacity>
-      </View>
+      <Button
+        icon="arrow-left"
+        onPress={() => navigateBack()}
+      />
 
-      <Text style={styles.verticalDivider}></Text>
       <Text h1 style={styles.title}>Create Activity</Text>
-      <Text style={styles.verticalDivider}></Text>
       
       <TextInput style={{ alignSelf: 'stretch'}}
         label="Title"
@@ -71,17 +54,14 @@ export default function LoginPage() {
         onChangeText={title => setTitle(title)}
       />
 
-      <Text style={styles.inputDivider}></Text>
-
       <TextInput style={{ alignSelf: 'stretch'}}
         label="Description"
-        value={descrip}
+        value={description}
         mode='outlined'
-        onChangeText={descrip => setDescrip(descrip)}
+        onChangeText={description => setDescription(description)}
       />
 
     </View>
-    </SafeAreaView>
   );
 }
 
@@ -112,4 +92,5 @@ const styles = StyleSheet.create({
   },
  
 });
-  
+
+export default AddEvent;

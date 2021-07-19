@@ -1,38 +1,24 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from '@expo-google-fonts/dev';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import { TextInput, HelperText } from 'react-native-paper';
+import { Button, Text, TextInput, HelperText, Surface } from 'react-native-paper';
 
-export default function LoginScreen() {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold
-  });
+const LoginScreen = () => {
   
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
   }
 
-  const userBlank = () => {
-    return (user == "");
-  }
-
-  const [user, setUser] = React.useState('');
-  const [pass, setPass] = React.useState('');
-  const [loginMessage, setLoginMessage] = React.useState('');
+  const [user, setUser] = useState('');
+  const [pass, setPass] = useState('');
+  const [loginMessage, setLoginMessage] = useState('');
 
   const login = (user, pass) => {
-    if (user == "" && pass  == "") {            //no username or password
+    navigation.navigate('Main');
+    /*
+    if (user == "" && pass  == "") {         //no username or password
       setLoginMessage("Please enter username and password");
     } else if (user == "" && pass != "") {  //no username
       setLoginMessage("Please enter username");
@@ -51,53 +37,66 @@ export default function LoginScreen() {
         console.log(error);
       }); 
     }
+    */
   };
 
   var userEmpty = false;
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigateBack()}>
-        <Ionicons name="arrow-back" size={30} color="back" />
-      </TouchableOpacity>
-      <View style={styles.verticalDivider} />
-      <Text h1 style={styles.title}>Log In</Text>
-      <View style={styles.verticalDivider} />
-        
-      <TextInput style={{ alignSelf: 'stretch'}}
-        label="Username"
-        value={user}
-        mode='outlined'
-        onChangeText={user => setUser(user)}
+    <View style={{
+      flex: 1,
+      position: 'relative'
+    }}>
+      <Button
+        icon="arrow-left"
+        onPress={() => navigateBack()}
       />
 
-      <Text style={styles.inputDivider} />
-
-      <TextInput style={{ alignSelf: 'stretch'}}
-        secureTextEntry
-        //right={<TextInput.Icon name="eye"/>}
-        label="Password"
-        value={pass}
-        mode='outlined'
-        onChangeText={pass => setPass(pass)}
-      />
-
-      <HelperText type="error">
-        {loginMessage}
-      </HelperText>
-
-      <Text style={styles.inputDivider} />
-
-      <TouchableOpacity
-        onPress={() => login(user, pass)}
-        style={styles.loginButton}
+      <Text h1 style={{fontSize: 50, fontFamily: 'Comfortaa_400Regular'}}>Log In</Text>
+      
+      <Surface
+        style={{
+          width: '80%',
+          alignSelf: 'center',
+          borderRadius: 4,
+          paddingHorizontal: 15,
+          paddingVertical: 30
+        }}
       >
-        <Text style={styles.loginButtonText}>LOG IN</Text>
-      </TouchableOpacity>
+        <TextInput
+          style={{paddingHorizontal: 10}}
+          label="Username"
+          value={user}
+          mode='outlined'
+          onChangeText={user => setUser(user)}
+        />
+
+        <TextInput
+          secureTextEntry
+          style={{paddingHorizontal: 10}}
+          label="Password"
+          value={pass}
+          mode='outlined'
+          onChangeText={pass => setPass(pass)}
+        />
+
+        <HelperText type="error">
+          {loginMessage}
+        </HelperText>
+
+        <Button
+          style={{borderWidth: 3}}
+          onPress={() => login(user, pass)}
+          mode='outlined'
+        >
+        LOG IN
+        </Button>
+      </Surface>
     </View>
   );
 }
 
+/* Replace with Paper theme?
 const styles = StyleSheet.create({
   title: {
     fontSize: 50, 
@@ -135,4 +134,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto_500Medium'
   }, 
 });
-  
+*/
+
+export default LoginScreen;
