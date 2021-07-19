@@ -1,8 +1,8 @@
   
 {
-  "root": "frontend/desktop/public/",
+  "root": "frontend/desktop/web-build/",
   "clean_urls": false,
   "routes": {
-    "/**": "index.html"
+    "/": "index.html"
   }
 }
