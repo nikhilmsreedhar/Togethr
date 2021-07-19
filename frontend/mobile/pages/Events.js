@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    margin: 25
+    margin: 30
   },
    verticalDivider: {
     height:50,
