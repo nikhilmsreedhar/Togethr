@@ -7,14 +7,14 @@ import BottomNavigator from '../components/BottomNavigator'
 
 
 function Explore() {
-
+  const t = {};
   return (    
     <SafeAreaView style={{flex: 1}}>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <CardStack 
       disableTopSwipe = 'true'
       style={styles.content}
-      ref={swiper => { this.swiper = swiper }}
+      ref={swiper => { t.swiper = swiper }}
       renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}
       onSwipedLeft={() => alert('swiped left')}
       onSwipedRight={() => alert('swiped right')}
