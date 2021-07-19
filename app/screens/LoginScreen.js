@@ -45,26 +45,28 @@ const LoginScreen = () => {
   return (
     <View style={{
       flex: 1,
-      position: 'relative'
+      alignItems: 'flex-start',
+      margin: 25
     }}>
       <Button
         icon="arrow-left"
         onPress={() => navigateBack()}
       />
-
-      <Text h1 style={{fontSize: 50, fontFamily: 'Comfortaa_400Regular'}}>Log In</Text>
       
       <Surface
         style={{
-          width: '80%',
+          justifyContent: 'center',
+          alignContent: 'center',
           alignSelf: 'center',
           borderRadius: 4,
           paddingHorizontal: 15,
           paddingVertical: 30
         }}
       >
+        <Text h1 style={{fontSize: 50, fontFamily: 'Comfortaa_400Regular'}}>Log In</Text>
+
         <TextInput
-          style={{paddingHorizontal: 10}}
+          style={{width: 500}}
           label="Username"
           value={user}
           mode='outlined'
@@ -73,7 +75,7 @@ const LoginScreen = () => {
 
         <TextInput
           secureTextEntry
-          style={{paddingHorizontal: 10}}
+          style={{width: 500}}
           label="Password"
           value={pass}
           mode='outlined'
