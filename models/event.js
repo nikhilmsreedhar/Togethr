@@ -41,6 +41,7 @@ const EventSchema = new Schema({
     Tag: {
         type: String,
         required: true
-    }
+    },
+    
 });
 module.exports = Event = mongoose.model("Events", EventSchema);

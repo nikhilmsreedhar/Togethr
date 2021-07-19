@@ -2,7 +2,7 @@ module.exports = [
 	{
         title:'Title',
         description:'Description',
-        date:'MM/DD/YYY',
+        date:'MM/DD/YYYY',
         startTime:'0:00pm',
         endTime:'0:00pm',
         atendees:'0/0',
@@ -22,7 +22,5 @@ module.exports = [
         startTime:'4:00pm',
         endTime:'5:00pm',
         atendees:'0/4',
-    }
-    
-
+    }   
 ];

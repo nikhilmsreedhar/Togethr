@@ -12,11 +12,12 @@ import { Ionicons } from '@expo/vector-icons';
 import {HelperText} from 'react-native-paper';
 import MultipleSelectChips from '../components/MultipleSelectChips';
 import NavigationBar from '../components/NavigationBar';
-
+import axios from 'axios';
 
 
 
 const EditTags = ({route}) =>{
+  const t = {};
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -24,14 +25,16 @@ const EditTags = ({route}) =>{
     Roboto_300Light
   });
   
-  const navigation = useNavigation();
-  function navigateBack() {
-    navigation.navigate('Profile');
-}
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var tags = ud.interests;
+  var userid = ud.id;
 
-  const [interests, setInterests] = useState([])
+  const [interests, setInterests] = useState(tags)
   const [message,setMessage] = React.useState('');
+  const [successmessage,setSuccessMessage] = React.useState('');
 	const [error, setError] = useState("")
+
 	const options = [
   {label: "Movie", value: "Movie"}, 
   {label: "Music", value: "Music"}, 
@@ -53,15 +56,32 @@ const EditTags = ({route}) =>{
   {label: "Shopping", value: "Shopping"},
 ]
 
+
+
 // This is where you will add the logic for the edit function
-const edit = (interests) => {
-  if (interests.length === 0){
+function edit (tagList) {
+   if (tagList.length === 0){
+    setSuccessMessage();
     setMessage("Please select at least one interest");
   }
   else{
-    alert(' Interests: ' + JSON.stringify(interests)) ;
+      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
+      id: userid,
+      Tags: tagList
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+      id: userid, interests: response.data.Tags, emailAddress: response.data.Email}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+      setMessage();
+      setSuccessMessage('You changed your Interests!');
+    }, (error) => {
+      console.log(error);
+      setSuccessMessage();
+      setMessage('Something went wrong! Try again.');
+    });
   }
-  
 };
 
 
@@ -80,20 +100,22 @@ const edit = (interests) => {
           error={error}
           setError={setError}
         />
+        <View style={{alignSelf: 'center'}}> 
          <HelperText type="error">
             {message}
           </HelperText>
-
-          <Text style={styles.inputDivider}></Text>
-         <View style={styles.fixToText}>
-        <TouchableOpacity   onPress={()=>navigateBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>BACK</Text>
-       </TouchableOpacity>
-       <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity onPress={() => edit(interests)} style={styles.nextButton}>
-          <Text style={styles.nextButtonText}>CONFIRM</Text>
-       </TouchableOpacity>
-       </View>
+          <HelperText type="succcess">
+            {successmessage}
+          </HelperText>
+          </View>
+          
+        <Text style={styles.inputDivider}></Text>
+        
+          
+          <TouchableOpacity onPress={() => edit(interests)} style={styles.nextButton}>
+              <Text style={styles.nextButtonText}>CONFIRM</Text>
+          </TouchableOpacity>
+     
         
         </View>
    </View>
@@ -110,7 +132,7 @@ const edit = (interests) => {
 const styles = StyleSheet.create({
   title: {
     alignSelf: 'center',
-    fontSize: 50, 
+    fontSize: 60, 
     fontFamily: 'Comfortaa_400Regular',
   },
   input:{
@@ -146,7 +168,7 @@ const styles = StyleSheet.create({
     borderColor:"black",
     alignSelf: 'stretch',
     height:50,
-    width: 245,
+    width: 500,
     borderWidth:3,
     alignItems:'center',
     justifyContent:'center',
@@ -157,24 +179,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Roboto_500Medium'
   }, 
-  backButton: {
-    backgroundColor: "grey",
-    borderColor:"grey",
-    width:245,
-    height:50,
-    borderWidth:3,
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius: 5,
-  },
-  backButtonText: {
-    fontSize: 18,
-    color: 'black',
-    fontFamily: 'Roboto_500Medium'
-  }, 
-  buttonDivider: {
-    width:10,
-  },
+  
 });
 
 export default EditTags;

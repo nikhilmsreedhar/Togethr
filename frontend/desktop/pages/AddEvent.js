@@ -17,7 +17,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider, KeyboardDatePicker, TimePicker  } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import TextField from '@material-ui/core/TextField';
-
+import axios from 'axios';
 import NavigationBar from '../components/NavigationBar';
 
 
@@ -36,11 +36,11 @@ export default function AddEvent() {
     }
   });
 
-  
-  const navigation = useNavigation();
-  function navigateBack() {
-    navigation.goBack();
-}
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var userid = ud.id;
+
+ 
 
 const [title, setTitle] = React.useState('');
 const [location, setLocation] = React.useState('');
@@ -51,6 +51,7 @@ const [day, setDay] = React.useState(new Date());
 const [startTime, setStartTime] = React.useState(new Date());
 const [endTime, setEndTime] = React.useState();
 const [addMessage, setAddMessage] = React.useState();
+const [addErrorMessage, setAddErrorMessage] = React.useState();
 
 
 const handleGuestChange = (event) => {
@@ -70,12 +71,34 @@ const handleDescriptionChange = (event) => {
   setDescrip(event.target.value)
 }
 
-const post = (title, description, guests, category, day, start, end) => {
+const post = (title, description, location, guests, category, day, start, end) => {
   if (title == "" || description  == "" || guests == "" || category  == "" || day  == "" || start   == "" || end  == ""){
-    setAddMessage("Please fill in all fields");
+    setAddMessage();
+    setAddErrorMessage("Please fill in all fields");
   }
   else{
-    alert('Title: ' + title + ' Description: '+ description + ' Location: ' + location + 'Guests: '+ guests + ' Day: '+ day + ' Start: '+ start + ' End: '+ end);
+    axios.post('https://togethrgroup1.herokuapp.com/api/addevent', { 
+      EventName: title,
+      EventDescription: description,
+      EventLocation: location,
+      EventDate: day,
+      EventStartTime: start,
+      EventEndTime: end,
+      Maker: userid,
+      LikedUsers: 0,
+      Attendees: guests,
+      Pictures: null, // for now is null
+      Tag: category
+    })
+    .then((response) => {
+      console.log(response);
+      setAddErrorMessage();
+      setAddMessage('Your event was posted!');
+    }, (error) => {
+      console.log(error);
+      setAddMessage();
+      setAddErrorMessage('Something went wrong. Try again.');
+    });
   }
   
 };
@@ -86,12 +109,6 @@ const post = (title, description, guests, category, day, start, end) => {
     <NavigationBar/>
      <View style={styles.container}>
     
-           <View style={styles.closeButton}>
-            <TouchableOpacity onPress={() => navigateBack()}>
-            <Ionicons  name="close"  size={30} color="back" />
-            </TouchableOpacity>
-            </View>
-
         <View style={styles.center}>
         <Text h1 style={styles.title}>Create Activity</Text>
         <Text style={styles.verticalDivider}></Text>
@@ -230,11 +247,14 @@ const post = (title, description, guests, category, day, start, end) => {
          <HelperText type="error">
             {addMessage}
           </HelperText>
+          <HelperText type="error">
+            {addErrorMessage}
+          </HelperText>
          </MuiPickersUtilsProvider>
 
          <Text Text style={styles.inputDivider}></Text>
 
-         <TouchableOpacity onPress={() => post(title, description, guests, category, day, startTime, endTime)} style={styles.postButton}>
+         <TouchableOpacity onPress={() => post(title, description, location, guests, category, day, startTime, endTime)} style={styles.postButton}>
           <Text style={styles.postButtonText}>POST</Text>
        </TouchableOpacity>
 

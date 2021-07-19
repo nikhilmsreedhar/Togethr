@@ -31,15 +31,21 @@ mongoose
 
   users.setApp( app, mongoose );
   
-
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", 'https://togethrgroup1.herokuapp.com');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
+});
 
 
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('frontend/build'));
+  app.use(express.static('frontend/desktop/public/build'));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'frontend', 'desktop', 'public', 'build', 'index.html'));
   });
 }
 
