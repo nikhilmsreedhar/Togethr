@@ -9,7 +9,7 @@ import  RegisterPage from './pages/RegisterPage'
 import  RegisterPage2 from './pages/RegisterPage2'
 import  RegisterPage3 from './pages/RegisterPage3'
 import  AddEvent from './pages/AddEvent'
-import BottomNavigator from './components/BottomNavigator'
+import LoggedIn from './pages/LoggedIn'
 const Stack = createStackNavigator();
 
 function App() {
@@ -22,13 +22,9 @@ function App() {
         <Stack.Screen name="RegisterPage2" component={RegisterPage2} />
         <Stack.Screen name="RegisterPage3" component={RegisterPage3} />
         <Stack.Screen name="AddEvent" component={AddEvent} />
+        <Stack.Screen name="LoggedIn" component={LoggedIn} />
       </Stack.Navigator>
-   
     </NavigationContainer>
-
-    // <NavigationContainer>
-    //   <BottomNavigator />
-    // </NavigationContainer>
   );
 }
 

@@ -22,6 +22,10 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  DOB: {
+    type: String,
+    required: false
+  },
   Picture: {
     type: String,
     required: false
@@ -36,9 +40,18 @@ const UserSchema = new Schema({
   },
   Verified: {
     type: Boolean,
-    required: true
+    required: true,
+  
   },
   Tags: {
+    type: Array,
+    required: false
+  },
+  LikedEvents: {
+    type: Array,
+    required: false
+  },
+  AttendingEvents: {
     type: Array,
     required: false
   }
