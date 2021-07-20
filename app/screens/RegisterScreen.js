@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, SafeAreaView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Button, Text, TextInput, Checkbox } from 'react-native-paper';
-
+import { DatePickerModal } from 'react-native-paper-dates';
 
 const RegisterScreen = () => {
   
@@ -15,7 +15,7 @@ const RegisterScreen = () => {
   const [checked, setChecked] = React.useState(false);
   const [registerMessage, setRegisterMessage] = React.useState('');
   
-  function navigateBack() {
+  const navigateBack = () => {
     navigation.goBack();
   }
 
@@ -29,29 +29,26 @@ const RegisterScreen = () => {
     }
   }
 
-  /* TO BE ADDED
-  function calculateAge(dob1){
+
+  function calculateAge(dob) {
     var today = new Date();
-    var birthDate = new Date(dob1);  
-    var age_now = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+    var bday = new Date(dob);  
+    var age = today.getFullYear() - bday.getFullYear();
+    var m = today.getMonth() - bday.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < bday.getDate())) 
     {
-        age_now--;
+      age--;
     }
-    console.log(age_now);
-    return age_now;
+    console.log(age);
+    return age;
   }
-  */
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigateBack()}>
-        <Ionicons name="arrow-back"  size={30} color="back" />
-      </TouchableOpacity>
       <Button 
         icon="arrow-left"
         style={{size: 100}}
+        onPress={() => navigateBack()}
       />
 
       <Text h1 style={styles.title}>Register</Text>

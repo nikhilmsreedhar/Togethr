@@ -1,7 +1,7 @@
 module.exports = [
 	{
         id: 1,
-        title:'Tite',
+        title:'Title',
         description:'Description',
         date:'MM/DD/YYYY',
         startTime:'0:00pm',

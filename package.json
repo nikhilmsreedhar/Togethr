@@ -17,8 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongoose": "^5.9.25",
-    "nodemailer": "^6.6.2",
-    "react-native-date-picker": "^3.3.2"
+    "nodemailer": "^6.6.2"
   },
   "engines": {
     "node": ">= 13.8.0",

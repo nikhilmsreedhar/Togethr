@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Chip } from 'react-native-paper';
+import * as SecureStore from 'expo-secure-store';
 
 const interestList = [
   {value: "Animals", isSelected: false},
@@ -23,38 +24,43 @@ const interestList = [
   {value: "Travel", isSelected: false}
 ]
 
+async function getTagList() {
+
+}
 
 //Needs to receive the interest bool array to
 const Interests = () => {
   //for setting selection state of chips
-  const [selected, setSelection] = useState(false);
-  
+  const [selected, setSelection] = useState([]);
+  const [tags, setTags] = useState([]);
+
   const handlePress = () => {
     console.log("Test")
   };
 
-  <View style = {{flex:1}}>
-    {
-    interestList.map((item, index) => {
-      return (
-        <View style={{ margin:5, flexWrap: 'wrap'}}>
-          <Chip
-            selectedColor='#5b06d5'
-            onPress={() => {
-              const updatedList = selections.map(val =>
-                (val.value === item.value)
-                  ? {...val, isSelected: !val.isSelected}
-                  : val);
-              setSelection(updatedList);
-            }}
-          >
-            {item}
-          </Chip>
-        </View>
-      );
-    })
-    }
-  </View>
+  return (
+    <View style = {{flex:1}}>
+      {
+      interestList.map((item, index) => {
+        return (
+          <View style={{ margin:5, flexWrap: 'wrap'}}>
+            <Chip
+              onPress={() => {
+                const updatedList = tags.map(val =>
+                  (val.value === item.value)
+                    ? {...val, isSelected: !val.isSelected}
+                    : val);
+                setSelection(updatedList);
+              }}
+            >
+              {item}
+            </Chip>
+          </View>
+        );
+      })
+      }
+    </View>
+  );
 }
 
 export default Interests;

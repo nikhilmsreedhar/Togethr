@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, TextInput, HelperText, Checkbox } from 'react-native-paper';
-//import DatePicker from 'react-native-date-picker';
+import { Button, Text, TextInput, HelperText, Checkbox } from 'react-native-paper';
 import axios from 'axios';
 
 const RegisterScreen2 = ({route}) => {
@@ -16,7 +15,7 @@ const RegisterScreen2 = ({route}) => {
     navigation.goBack();
   }
 
-  function register(firstName, lastName, user, pass) {
+  function register(firstName, lastName, email, user, pass) {
     if (user == "" || pass  == "" ||  email  == "") {
       setRegisterMessage("Please enter all fields");
     } else if (user == "" && pass != "" && email != "") { //missing username
@@ -38,7 +37,8 @@ const RegisterScreen2 = ({route}) => {
         Password: pass,
         FirstName: firstName,
         LastName: lastName,
-        Email: email
+        Email: email,
+        Verified: 'false'
       })
       .then((response) => {
         handleClickOpen();
@@ -50,9 +50,11 @@ const RegisterScreen2 = ({route}) => {
     }
   }; //end register function
 
-  const [user, setUser] = React.useState('');
-  const [pass, setPass] = React.useState('');
-  const [passConfirm, setPassConfirm] = React.useState('');
+  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  const [passConfirm, setPassConfirm] = useState('');
+  const [registerMessage, setRegisterMessage] = useState('');
 
   const hasErrors = () => {
     return !(pass == passConfirm);
@@ -65,6 +67,9 @@ const RegisterScreen2 = ({route}) => {
       <TouchableOpacity onPress={() => navigateBack()}>
         <Ionicons name="arrow-back"  size={30} color="back" />
       </TouchableOpacity>
+      <Button 
+        onPress={() => navigateBack()}
+      />
 
       <Text style={styles.verticalDivider} />
       <Text h1 style={styles.title}>Register</Text>
@@ -77,7 +82,12 @@ const RegisterScreen2 = ({route}) => {
         onChangeText={user => setUser(user)}
       />
 
-      <Text style={styles.inputDivider} />
+      <TextInput style={{ alignSelf: 'stretch'}}
+        label="Email"
+        value={email}
+        mode='outlined'
+        onChangeText={email => setEmail(email)}
+      />
 
       <TextInput style={{ alignSelf: 'stretch'}}
         secureTextEntry
@@ -86,8 +96,6 @@ const RegisterScreen2 = ({route}) => {
         mode='outlined'
         onChangeText={pass => setPass(pass)}
       />
-        
-      <Text style={styles.inputDivider} />
 
       <TextInput style={{ alignSelf: 'stretch'}}
         secureTextEntry
@@ -102,15 +110,23 @@ const RegisterScreen2 = ({route}) => {
         Passwords do not match.
       </HelperText>
 
-      <Text style={styles.inputDivider} />
-
-      <TouchableOpacity
-        disabled = {(pass == passConfirm) ? false : true}
-        onPress={()=> register(firstName, lastName, user, pass)}
-        style={styles.regButton}
+      <View
+        style={{flexDirection: 'row'}}
       >
-        <Text style={styles.regButtonText}>REGISTER</Text>
-      </TouchableOpacity>        
+        <Button
+          disabled={(pass == passConfirm) ? false : true}
+          onPress={() => navigateBack()}
+        >
+          BACK
+        </Button>
+
+        <Button
+          disabled={(pass == passConfirm) ? false : true}
+          onPress={() => register(firstName, lastName, email, user, pass, passConfirm, birthday)}
+        >
+          REGISTER
+        </Button>
+      </View>
     </View>
     </SafeAreaView>
   );

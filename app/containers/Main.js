@@ -5,6 +5,7 @@ import ExploreScreen from "../screens/Explore";
 import AttendingScreen from "../screens/AttendingEvents";
 import SavedEventsScreen from "../screens/SavedEvents";
 import ProfileScreen from "../screens/Profile";
+import InterestsScreen from "../screens/Interests";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -27,10 +28,15 @@ const Main = () => {
       <Tab.Screen
         name="Liked"
         component={SavedEventsScreen}
-        />
+      />
       <Tab.Screen 
         name="Profile"
-        component={ProfileScreen}  />
+        component={ProfileScreen}
+      />
+      <Tab.Screen
+        name="Interests"
+        component={InterestsScreen}
+      />
     </Tab.Navigator>
   );
 }

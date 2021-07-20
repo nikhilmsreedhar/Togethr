@@ -6,14 +6,17 @@ import EventCard from '../components/EventCard';
 
 //Needs to be replaced with data from database
 import EventsData from '../assets/EventsData';
+
 /*
   userId:
   tags: [0, 0, ...0]
   events:
 */
 //pass in user events
+
 const Explore = () => {
-  
+  const t = {};
+
   return (
     <View>
       <View style={{
@@ -33,11 +36,11 @@ const Explore = () => {
         disableRightSwipe = 'true'
         verticalSwipe = 'false'
         horizontalSwipe = 'false'
-        ref={swiper => { this.swiper = swiper }}
+        ref={swiper => { t.swiper = swiper }}
         renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}
-        onSwipedLeft={() => alert('swiped left')}
-        onSwipedRight={() => alert('swiped right')}
-        onSwipedBottom={() => alert('swiped down')}
+        onSwipedLeft={() => alert('swiped left')}   //no
+        onSwipedRight={() => alert('swiped right')} //yes
+        onSwipedBottom={() => alert('swiped down')} //swipe down to save
       >
         {EventsData.map((item, index) => (
           <Card key={index}>
