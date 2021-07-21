@@ -12,24 +12,28 @@ function Explore() {
     <SafeAreaView style={{flex: 1}}>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <CardStack 
-      disableTopSwipe = 'true'
-      style={styles.content}
-      ref={swiper => { t.swiper = swiper }}
-      renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}
-      onSwipedLeft={() => alert('swiped left')}
-      onSwipedRight={() => alert('swiped right')}
-      onSwipedBottom={() => alert('swiped down')}>
+        disableTopSwipe = 'true'
+        style={styles.content}
+        ref={swiper => { t.swiper = swiper }}
+        renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}
+        onSwipedLeft={() => alert('swiped left')}
+        onSwipedRight={() => alert('swiped right')}
+        onSwipedBottom={() => alert('swiped down')}>
         {Data.map((item, index) => (
-        <Card key={index}>
-          <EventCard
-            title={item.title}
-            description={item.description}
-            date={item.date}
-            startTime={item.startTime}
-            endTime={item.endTime}
-            atendees={item.atendees}
-            />
-        </Card>
+          <Card key={index}
+            onSwipedLeft={() => alert('swiped left')}
+            onSwipedRight={() => alert('swiped right')}
+            onSwipedBottom={() => alert('swiped down')}
+          >
+            <EventCard
+              title={item.title}
+              description={item.description}
+              date={item.date}
+              startTime={item.startTime}
+              endTime={item.endTime}
+              attendees={item.attendees}
+              />
+          </Card>
          ))}
       </CardStack>
     </View>
