@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TextInput, HelperText } from 'react-native-paper';
-
+import * as SecureStorage from 'expo-secure-store';
 
 const AddEvent = () => {
   
@@ -14,12 +14,13 @@ const AddEvent = () => {
   const [title, setTitle] = useState('');
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
-  const [guests, setGuests] = useState('');
+  const [numGuests, setNumGuests] = useState('');
   const [category, setCategory] = useState('');
   const [day, setDay] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState();
   const [addMessage, setAddMessage] = useState();
+  const [addErrorMessage, setAddErrorMessage] = React.useState();
 
   const handleGuestChange = (event) => {
     setGuests(event.target.value);
@@ -81,14 +82,28 @@ const AddEvent = () => {
         label="Title"
         value={title}
         mode='outlined'
-        onChangeText={title => setTitle(title)}
+        onChangeText={handleTitleChange}
       />
 
       <TextInput style={{ alignSelf: 'stretch'}}
         label="Description"
         value={description}
         mode='outlined'
-        onChangeText={description => setDescription(description)}
+        onChangeText={handleDescriptionChange}
+      />
+
+      <TextInput style={{ alignSelf: 'stretch'}}
+        label="Location"
+        value={location}
+        mode='outlined'
+        onChangeText={handleLocationChange}
+      />
+
+      <TextInput style={{ alignSelf: 'stretch'}}
+        label="Number of Guests"
+        value={numGuests}
+        mode='outlined'
+        onChangeText={handleGuestChange}
       />
 
     </View>

@@ -11,25 +11,49 @@ const ChangePassword = ({route}) => {
     navigation.goBack();
   }
 
-  function changePassword(oldpass, newpass) {
-    if (oldpass == newpass) {                     //passwords mismatched
-      setRegisterMessage("Password is the same.");
+  function changePassword(currentPass, newPass, passConfirm) {
+    if (currentPass === "" || newPass === "" || passConfirm === ""){
+      setPWMessage();
+      setSuccessMessage();
+      setPWErrorMessage('Please fill in all fields');
     } else {
-      alert('Old Password: ' + oldpass +
-            ' New Password: '+ newpass);
-      axios.post('https://togethrgroup1.herokuapp.com/api/changepassword', { 
-        OldPassword: oldpass,
-        Password: newpass,
+      // first check that old pw is correct for security
+      axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+        UserName: username,
+        Password: currentPass
       })
       .then((response) => {
-        handleClickOpen();
         console.log(response);
+        if (newPass != passConfirm) {
+          setPWMessage();
+          setSuccessMessage();
+          setPWErrorMessage('Passwords must match');
+        } else {
+          // hash pw
+          axios.patch('https://togethrgroup1.herokuapp.com/api/editpassword', { 
+            id: userid,
+            Password: newPass
+          })
+          .then((response) => {
+            console.log(response);
+            setPWMessage();
+            setPWErrorMessage();
+            setSuccessMessage('Your password was updated!');
+          }, (error) => {
+            console.log(error);
+            setPWMessage();
+            setSuccessMessage();
+            setPWErrorMessage('Something went wrong! Try again.');
+          });
+        }
       }, (error) => {
-        setRegisterMessage('Invalid fields');
         console.log(error);
+        setSuccessMessage();
+        setPWErrorMessage();
+        setPWMessage('Incorrect Password');
       });
-    }
-  };
+    } //end else
+  }
 
   const [pass, setPass] = React.useState('');
   const [passConfirm, setPassConfirm] = React.useState('');

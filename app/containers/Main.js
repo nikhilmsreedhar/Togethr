@@ -12,30 +12,39 @@ const Tab = createMaterialBottomTabNavigator();
 const Main = () => {
   return(
     <Tab.Navigator
-      initialRouteName="Profile"
+      initialRouteName="Explore"
     >
       <Tab.Screen
         name="Explore"
         component={ExploreScreen}
         options={{
           tabBarLabel: 'Explore',
+          tabBarIcon: 'calendar-multiple'
         }}
       />
       <Tab.Screen 
         name="My Events"
         component={AttendingScreen}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: 'binoculars'
+        }}
       />
       <Tab.Screen
         name="Liked"
         component={SavedEventsScreen}
+        options={{
+          tabBarLabel: 'Explore',
+          tabBarIcon: 'calendar-multiple'
+        }}
       />
       <Tab.Screen 
         name="Profile"
         component={ProfileScreen}
-      />
-      <Tab.Screen
-        name="Interests"
-        component={InterestsScreen}
+        options={{
+          tabBarLabel: 'Explore',
+          tabBarIcon: 'calendar-multiple'
+        }}
       />
     </Tab.Navigator>
   );
