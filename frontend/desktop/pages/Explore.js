@@ -14,9 +14,9 @@ function Explore() {
   var ud = JSON.parse(_ud);
   var tags = ud.Tags;
 
-  axios.post('https://togethrgroup1.herokuapp.com/api/addevent', {
-    Tags: tags
-  })
+  //axios.post('https://togethrgroup1.herokuapp.com/api/addevent', {
+  //  Tags: tags
+  //})
 
   return (
     <SafeAreaView style={{flex: 1}}>
