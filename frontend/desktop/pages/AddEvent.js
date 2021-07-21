@@ -85,7 +85,6 @@ const post = (title, description, location, guests, category, day, start, end) =
       EventStartTime: start,
       EventEndTime: end,
       Maker: userid,
-      LikedUsers: 0,
       Attendees: guests,
       Pictures: null, // for now is null
       Tag: category
