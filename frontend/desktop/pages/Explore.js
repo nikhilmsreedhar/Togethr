@@ -5,9 +5,18 @@ import CardStack, { Card } from 'react-native-card-stack-swiper';
 import EventCard from '../components/EventCard';
 import Data from '../assets/data.js'
 import NavigationBar from '../components/NavigationBar';
+import axios from 'axios';
 
 function Explore() {
   const t = {};
+
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var tags = ud.Tags;
+
+  axios.post('https://togethrgroup1.herokuapp.com/api/addevent', {
+    Tags: tags
+  })
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -24,8 +33,13 @@ function Explore() {
       style={styles.content}
       ref={swiper => {t.swiper = swiper }}
       renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}
-      onSwipedLeft={() => alert('swiped left')}
-      onSwipedRight={() => alert('swiped right')}
+      onSwipedLeft={() => 
+        
+        alert('swiped left')
+      }
+      onSwipedRight={() => 
+        alert('swiped right')
+      }
       onSwipedBottom={() => alert('swiped down')}>
         {Data.map((item, index) => (
         <Card key={index}>
@@ -35,7 +49,7 @@ function Explore() {
             date={item.date}
             startTime={item.startTime}
             endTime={item.endTime}
-            atendees={item.atendees}
+            attendees={item.attendees}
             />
         </Card>
          ))}
