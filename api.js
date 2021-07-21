@@ -50,24 +50,24 @@ app.post('/api/adduser', async (req, res, next) => {
   user.Password = hashedPass;
 
   //create email verification
-// jwt.sign(
-//   {
-//     user: _.pick(user, 'id'),
-//   },
-//   SECRET,
-//   {
-//     expiresIn: '1d',
-//   },
-//   (err, emailToken) => {
-//     const url = `https://togethrgroup1.herokuapp.com/api/verification/${emailToken}`;
+jwt.sign(
+  {
+    user: _.pick(user, 'id'),
+  },
+  SECRET,
+  {
+    expiresIn: '1d',
+  },
+  (err, emailToken) => {
+    const url = `https://togethrgroup1.herokuapp.com/api/verification/${emailToken}`;
 
-//     transporter.sendMail({
-//       to: user.Email,
-//       subject: 'Confirm Email',
-//       html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
-//     });
-//   },
-// );
+    transporter.sendMail({
+      to: user.Email,
+      subject: 'Confirm Email',
+      html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+    });
+  },
+);
 
  
 
@@ -308,39 +308,20 @@ app.post('/api/viewattendingevents', async (req, res, next) => {
 
 
 
-// app.patch('/api/editpassword', async (req, res, next) => {
-//   try {
-//     const id = req.body.id;
-//     const updates = req.body.Password;
-//     const options = {new: true}
 
+app.get('/api/verification/:token', async (req, res) => {
+  try {
+    const { user: { id } } = jwt.verify(req.params.token, SECRET);
+    req.body.Verified = true;
+    const options = {new: true}
+    const result = await User.findByIdAndUpdate(id, req.body, options);
+    res.send("your email has been verified!");
+  } catch (e) {
     
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPass = await bcrypt.hash(updates, salt);
-//     req.body.Password = hashedPass;
-    
-   
+    res.send('Unbale to verify email try again later');
+  }
 
-//     const result = await User.findByIdAndUpdate(id, req.body, options);
-//     res.send(result);
-//   } catch (error){
-//     console.log(error.message);
-//   }
-// });
-
-// app.get('/api/verification/:token', async (req, res) => {
-//   try {
-//     const { user: { id } } = jwt.verify(req.params.token, SECRET);
-//     req.body.Verified = true;
-//     const options = {new: true}
-//     const result = await User.findByIdAndUpdate(id, req.body, options);
-//     res.send("your email has been verified!");
-//   } catch (e) {
-    
-//     res.send('Unbale to verify email try again later');
-//   }
-
-// });
+});
 
 module.exports = router
 }
