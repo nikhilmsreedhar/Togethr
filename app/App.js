@@ -4,11 +4,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import {
+  useFonts,
   Comfortaa_400Regular,
   Roboto_500Medium,
   Roboto_700Bold,
 } from '@expo-google-fonts/dev';
-import { useFonts } from 'expo-font';
 
 //Screens
 import WelcomeScreen from './screens/WelcomeScreen';
@@ -24,6 +24,7 @@ const theme = {
   roundness: 4,
   colors: {
     ...DefaultTheme.colors,
+    background: 'white',
     primary: 'black',
     accent: 'cyan'
   }

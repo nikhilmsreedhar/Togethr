@@ -23,7 +23,7 @@ const AddEvent = () => {
   const [addErrorMessage, setAddErrorMessage] = React.useState();
 
   const handleGuestChange = (event) => {
-    setGuests(event.target.value);
+    setNumGuests(event.target.value);
   };
   const handleCatChange = (event) => {
     setCategory(event.target.value);

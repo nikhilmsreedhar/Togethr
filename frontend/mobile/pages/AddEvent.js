@@ -1,53 +1,88 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput } from 'react-native-paper';
+import { Button, Menu, Provider, TextInput } from 'react-native-paper';
 
-
-
-
-export default function AddEvent() {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold
-  });
-
+const AddEvent = () => {
   
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
-
-const [title, setTitle] = React.useState('');
-const [descrip, setDescrip] = React.useState('');
-
-const login = (user, pass) => {
-  if (user == "" || pass  == ""){
-    alert("Please fill in all fields");
   }
-  else{
-    alert('Username: ' + user + ' Password: '+ pass);
+
+  const [visible, setVisible] = React.useState('');
+  const [title, setTitle] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [location, setLocation] = useState('');
+  const [numGuests, setNumGuests] = useState('');
+  const [category, setCategory] = useState('');
+  const [day, setDay] = useState(new Date());
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState();
+  const [addMessage, setAddMessage] = useState();
+  const [addErrorMessage, setAddErrorMessage] = React.useState();
+
+  const handleGuestChange = (event) => {
+    setNumGuests(event.target.value);
+  };
+  const handleCatChange = (event) => {
+    setCategory(event.target.value);
+  };
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+  const handleLocationChange = (event) => {
+    setLocation(event.target.value);
+  };
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value)
   }
-  
-};
 
- return (
+  const openMenu = () => setVisible(true);
+  const closeMenu = () => setVisible(false);
 
+  const postEvent = (title, description, location, guests, category, day, start, end) => {
+    if (title == "" || description  == "" || guests == "" || category  == "" || day  == "" || start   == "" || end  == ""){
+      setAddMessage();
+      setAddErrorMessage("Please fill in all fields");
+    } else {
+      axios.post('https://togethrgroup1.herokuapp.com/api/addevent', { 
+        EventName: title,
+        EventDescription: description,
+        EventLocation: location,
+        EventDate: day,
+        EventStartTime: start,
+        EventEndTime: end,
+        Maker: userid,
+        LikedUsers: 0,
+        Attendees: guests,
+        Pictures: null, // for now is null
+        Tag: category
+      })
+      .then((response) => {
+        console.log(response);
+        setAddErrorMessage();
+        setAddMessage('Your event was posted!');
+      }, (error) => {
+        console.log(error);
+        setAddMessage();
+        setAddErrorMessage('Something went wrong. Try again.');
+      });
+    }
+    
+  };  
+
+  return (
+    <Provider>
     <SafeAreaView style={{flex: 1}}>
-    <View style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.closeButton}>
-            <TouchableOpacity onPress={() => navigateBack()}>
+          <TouchableOpacity onPress={() => navigateBack()}>
             <Ionicons  name="close"  size={30} color="back" />
-            </TouchableOpacity>
+          </TouchableOpacity>
         </View>
+
         <Text style={styles.verticalDivider}></Text>
         <Text h1 style={styles.title}>Create Activity</Text>
         <Text style={styles.verticalDivider}></Text>
@@ -63,35 +98,88 @@ const login = (user, pass) => {
 
         <TextInput style={{ alignSelf: 'stretch'}}
           label="Description"
-          value={descrip}
+          value={description}
           mode='outlined'
-          onChangeText={descrip => setDescrip(descrip)}
+          onChangeText={descrip => setDescription(descrip)}
         />
 
-        
+        <TextInput style={{ alignSelf: 'stretch'}}
+          label="Location"
+          value={location}
+          mode='outlined'
+          onChangeText={handleLocationChange}
+        />
 
-    </View>
-  
+        <TextInput style={{ alignSelf: 'stretch'}}
+          label="Number of Guests"
+          value={numGuests}
+          mode='outlined'
+          onChangeText={handleGuestChange}
+        />
+
+        <Menu
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={<Button onPress={openMenu}>Category</Button>}
+        >
+          <Menu.Item title={"Movie"} />
+          <Menu.Item title={"Music"} />
+          <Menu.Item title={"Sports"} />
+          <Menu.Item title={"Outdoors"} />
+          <Menu.Item title={"Food"} />
+          <Menu.Item title={"Animals"} />
+          <Menu.Item title={"Beauty"} />
+          <Menu.Item title={"Gaming"} />
+          <Menu.Item title={"Sight Seeing"} />
+          <Menu.Item title={"Technology"} />
+          <Menu.Item title={"DIY"} />
+          <Menu.Item title={"Travel"} />
+          <Menu.Item title={"Performing Arts"} />
+          <Menu.Item title={"Fine Arts"} />
+          <Menu.Item title={"Cars"} />
+          <Menu.Item title={"Photography"} />
+          <Menu.Item title={"Lifestyle"} />
+          <Menu.Item title={"Shopping"} />
+        </Menu>
+
+        <Button
+          onPress={() => postEvent(
+            title, 
+            description, 
+            location, 
+            numGuests,
+            category,
+            day,
+            startTime, 
+            endTime
+          )}
+          style={styles.postButton}
+        >
+          POST
+        </Button>
+      </View>
     
     </SafeAreaView>
-   
-    
+    </Provider>
   );
 }
 
-
 const styles = StyleSheet.create({
   title: {
-    fontSize: 45, 
+    fontSize: 60, 
     fontFamily: 'Comfortaa_400Regular',
     alignSelf: 'center', 
   },
   input:{
-    padding: 20, 
-  
- },
+    width: 500,
+  },
   closeButton:{
     alignSelf: 'flex-end'
+  },
+  center: {
+    flex: 1,
+    alignContent: 'center',
+    alignSelf: 'center'
   },
   container: {
     flex: 1,
@@ -106,6 +194,28 @@ const styles = StyleSheet.create({
   inputDivider: {
     height:20,
   },
- 
+  fixToText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  buttonDivider: {
+    width:10,
+  },
+  postButton: {
+    backgroundColor: "black",
+    borderColor:"black",
+    width:500,
+    height:50,
+    borderWidth:3,
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius: 5,
+  },
+  postButtonText: {
+    fontSize: 18,
+    color: 'white',
+    fontFamily: 'Roboto_500Medium'
+  }, 
 });
-  
+
+export default AddEvent;

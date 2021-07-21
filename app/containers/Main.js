@@ -5,7 +5,6 @@ import ExploreScreen from "../screens/Explore";
 import AttendingScreen from "../screens/AttendingEvents";
 import SavedEventsScreen from "../screens/SavedEvents";
 import ProfileScreen from "../screens/Profile";
-import InterestsScreen from "../screens/Interests";
 
 const Tab = createMaterialBottomTabNavigator();
 

@@ -1,15 +1,18 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Explore from '../pages/Explore'
 import Events from '../pages/Events'
 import Likes from '../pages/Likes'
 import AddEvent from '../pages/AddEvent'
 import Profile from '../pages/Profile'
+
 const Tab = createBottomTabNavigator();
 
 function BottomNavigator() {
+
   return (
     <Tab.Navigator
       initialRouteName="Explore"

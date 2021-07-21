@@ -24,7 +24,7 @@ const Profile = () => {
 
   function deleteAccount() {
     axios.delete('https://togethrgroup1.herokuapp.com/api/login')
-      .then(() => navigation.navigate('WelcomeScreena'));
+      .then(() => navigation.navigate('WelcomeScreen'));
   }
 
   return (

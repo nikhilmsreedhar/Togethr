@@ -11,8 +11,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { TextInput, HelperText} from 'react-native-paper';
 
 
-
-
 const RegisterPage2 = ({route}) =>{
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,

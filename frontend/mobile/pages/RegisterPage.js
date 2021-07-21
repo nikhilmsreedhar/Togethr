@@ -49,46 +49,40 @@ const next = (fname, lname) => {
     <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
-    <Text style={styles.verticalDivider}></Text>
-        <Text h1 style={styles.title}>Register</Text>
-        <Text style={styles.verticalDivider}></Text>
+      <TouchableOpacity onPress={() => navigateBack()}>
+        <Ionicons name="arrow-back"  size={30} color="back" />
+      </TouchableOpacity>
+      
+      <Text style={styles.verticalDivider}></Text>
+      <Text h1 style={styles.title}>Register</Text>
+      <Text style={styles.verticalDivider}></Text>
         
-        <TextInput style={{ alignSelf: 'stretch'}}
-          label="First Name"
-          value={fname}
-          mode='outlined'
-          onChangeText={fname => setFirst(fname)}
-        />
+      <TextInput style={{ alignSelf: 'stretch'}}
+        label="First Name"
+        value={fname}
+        mode='outlined'
+        onChangeText={fname => setFirst(fname)}
+      />
 
-        <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider}></Text>
 
-        <TextInput style={{ alignSelf: 'stretch'}}
-          label="Last Name"
-          value={lname}
-          mode='outlined'
-          onChangeText={lname => setLast(lname)}
-         />
+      <TextInput style={{ alignSelf: 'stretch'}}
+        label="Last Name"
+        value={lname}
+        mode='outlined'
+        onChangeText={lname => setLast(lname)}
+      />
 
-          <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider}></Text>
 
-         <TouchableOpacity  onPress={()=>{goToNextPage(fname, lname)}} style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>NEXT</Text>
-         </TouchableOpacity>
+      <TouchableOpacity  onPress={()=>{goToNextPage(fname, lname)}} style={styles.loginButton}>
+      <Text style={styles.loginButtonText}>NEXT</Text>
+      </TouchableOpacity>
 
-        
-   </View>
-  
-    
+    </View>
     </SafeAreaView>
-    
-
-    
   );
 }
-
 
 const styles = StyleSheet.create({
   title: {

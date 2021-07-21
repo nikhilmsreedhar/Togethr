@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Chip } from 'react-native-paper';
-import * as SecureStore from 'expo-secure-store';
 
 const interestList = [
   {value: "Animals", isSelected: false},

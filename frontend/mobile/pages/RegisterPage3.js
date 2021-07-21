@@ -1,24 +1,11 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-  Roboto_300Light,
-} from '@expo-google-fonts/dev';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 
 
 const RegisterPage3 = ({route}) =>{
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular,
-    Roboto_500Medium,
-    Roboto_700Bold,
-    Roboto_300Light
-  });
 
   const firstName = route.params.firstName
   const lastName  = route.params.lastName
@@ -29,23 +16,23 @@ const RegisterPage3 = ({route}) =>{
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
-}
+  }
 
 
 
   return (
     <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
-      
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
-    <Text style={styles.verticalDivider}></Text>
-        <Text h1 style={styles.title}>Register</Text>
-        <Text style={styles.verticalDivider}></Text>
         
-   </View>
-  
+      <TouchableOpacity onPress={() => navigateBack()}>
+        <Ionicons name="arrow-back"  size={30} color="back" />
+      </TouchableOpacity>
+
+      <Text style={styles.verticalDivider}></Text>
+        <Text h1 style={styles.title}>Add Your Interests!</Text>
+      <Text style={styles.verticalDivider}></Text>
+        
+    </View>
     </SafeAreaView>
   
   );
