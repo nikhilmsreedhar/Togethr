@@ -62,7 +62,7 @@ export default function NavigationBar() {
   }, [open]);
 
   const logout = () => {
-    localStorage.remove('user_data');
+    localStorage.removeItem('user_data');
     setOpen(false);
     navigation.navigate('HomePage')
   };
