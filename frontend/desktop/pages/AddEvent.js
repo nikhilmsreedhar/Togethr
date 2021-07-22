@@ -87,7 +87,7 @@ const post = (title, description, location, guests, category, start, end) => {
       EndDate: end,
       NumGuests: guests,
       Attendees: attendees,
-      Picture: 't',
+      Picture: 't', // for now is t
       Tag: category
     })
     .then((response) => {
