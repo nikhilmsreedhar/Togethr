@@ -37,6 +37,33 @@ const Interests = () => {
     console.log("Test")
   };
 
+  function editTags (tagList) {
+    if (tagList.length === 0){
+     setSuccessMessage();
+     setMessage("Please select at least one interest");
+   } else {
+       axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
+       id: userid,
+       Tags: tagList
+      })
+      .then((response) => {
+       var UserData = {
+         firstName:response.data.FirstName,
+         lastName:response.data.LastName,
+         username:response.data.UserName, 
+        id: userid, interests: response.data.Tags, emailAddress: response.data.Email}
+       localStorage.setItem('user_data', JSON.stringify(UserData));
+       console.log(response);
+       setMessage();
+       setSuccessMessage('You changed your Interests!');
+     }, (error) => {
+       console.log(error);
+       setSuccessMessage();
+       setMessage('Something went wrong! Try again.');
+     });
+   }
+  };
+
   return (
     <View style = {{flex:1}}>
       {

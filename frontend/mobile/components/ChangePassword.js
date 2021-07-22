@@ -65,7 +65,7 @@ const ChangePassword = () => {
         label="Current Password"
         value={currentPass}
         mode='outlined'
-        onChangeText={currentPass => setUser(currentPass)}
+        onChangeText={currentPass => setCurrentPass(currentPass)}
       />
 
       <TextInput style={{ alignSelf: 'stretch'}}

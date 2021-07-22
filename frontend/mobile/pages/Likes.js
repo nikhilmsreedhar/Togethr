@@ -3,6 +3,8 @@ import { Button, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Chip } from 'react-native-paper';
 
+const STORAGE_KEY = 'user_data';
+
 const interestList = [
   {value: "Animals", isSelected: false},
   {value: "Beauty", isSelected: false},
@@ -25,9 +27,14 @@ const interestList = [
 ]
 
 const Tags = () => {
+
+  React.useEffect(() => {
+    getTagList()
+  }, [])
+
   //for setting selection state of chips
   const [selected, setSelection] = useState([]);
-  const [tags, setTags] = useState([]);
+  const [tagList, setTagList] = useState([]);
 
   const handlePress = () => {
     console.log("Test")
@@ -35,9 +42,24 @@ const Tags = () => {
 
   const getTagList = async () => {
 
+    try {
+      const udJSON = await AsyncStorage.getItem(STORAGE_KEY);
+      const userData = udJSON != null ? JSON.parse(udJSON) : null;
+
+      if(userData !== null) {
+        setFname(userData.firstName);
+        setLname(userData.lastName);
+      } else {
+        setFname(UserData.firstName);
+        setLname(UserData.lastName);
+      }
+
+    } catch(e) {
+      console.error("Unable to get tags")
+    }
   }
 
-  function editTags (tagList) {
+  const editTags = ({tagList}) => {
     if (tagList.length === 0) {
       setSuccessMessage();
       setMessage("Please select at least one interest");
@@ -69,26 +91,27 @@ const Tags = () => {
   return (
     <View style = {{flex:1}}>
       <View style = {{padding: 50}}>
-      {interestList.map((item, index) => {
-        return (
-          <Text></Text>
-          // <Chip
-          //   key={index}
-          //   //mode={selected}
-          //   selected={item.isSelected}
-          //   style={{width:''}}
-          //   onPress={() => {
-          //     // const updatedList = tags.map(val =>
-          //     //   (val.value === item.value)
-          //     //     ? {...val, isSelected: !val.isSelected}
-          //     //     : val);
-          //     setSelection(updatedList);
-          //     }}
-          // >
-          //   {item.value}
-          // </Chip>
-        );
-      })}
+        {interestList.map((item, index) => {
+          return (
+            <View style={{margin: 5, flexWrap: 'wrap'}}>
+              <Chip
+                key={index}
+                mode={selected}
+                selected={item.isSelected}
+                style={{width:''}}
+                // onPress={() => {
+                //   // const updatedList = tags.map(val =>
+                //   //   (val.value === item.value)
+                //   //     ? {...val, isSelected: !val.isSelected}
+                //   //     : val);
+                //   setSelection(updatedList);
+                // }}
+              >
+                {item.value}
+              </Chip>
+            </View>
+          );
+        })}
       </View>
 
       <Button>SUBMIT</Button>

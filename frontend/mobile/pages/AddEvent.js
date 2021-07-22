@@ -23,22 +23,6 @@ const AddEvent = () => {
   const [addMessage, setAddMessage] = useState();
   const [addErrorMessage, setAddErrorMessage] = React.useState();
 
-  const handleGuestChange = (event) => {
-    setNumGuests(event.target.value);
-  };
-  const handleCatChange = (event) => {
-    setCategory(event.target.value);
-  };
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-  const handleLocationChange = (event) => {
-    setLocation(event.target.value);
-  };
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value)
-  }
-
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
@@ -51,9 +35,8 @@ const AddEvent = () => {
         EventName: title,
         EventDescription: description,
         EventLocation: location,
-        EventDate: day,
-        EventStartTime: start,
-        EventEndTime: end,
+        StartDate: startdate,
+        EndDate: enddate,
         Maker: userid,
         LikedUsers: 0,
         Attendees: guests,
@@ -71,11 +54,10 @@ const AddEvent = () => {
       });
     }
     
-  };  
+  }; 
 
   return (
     <Provider>
-    <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={styles.closeButton}>
           <TouchableOpacity onPress={() => navigateBack()}>
@@ -107,14 +89,14 @@ const AddEvent = () => {
           label="Location"
           value={location}
           mode='outlined'
-          onChangeText={handleLocationChange}
+          onChangeText={location => setLocation(location)}
         />
 
         <TextInput style={{ alignSelf: 'stretch'}}
           label="Number of Guests"
           value={numGuests}
           mode='outlined'
-          onChangeText={handleGuestChange}
+          onChangeText={numGuests => setNumGuests(numGuests)}
         />
 
         <Menu
@@ -158,8 +140,6 @@ const AddEvent = () => {
           POST
         </Button>
       </View>
-    
-    </SafeAreaView>
     </Provider>
   );
 }

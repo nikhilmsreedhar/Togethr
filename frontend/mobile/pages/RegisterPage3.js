@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 
-
 const RegisterPage3 = ({route}) =>{
 
   const firstName = route.params.firstName
@@ -19,7 +18,6 @@ const RegisterPage3 = ({route}) =>{
   }
 
 
-
   return (
     <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
@@ -31,6 +29,8 @@ const RegisterPage3 = ({route}) =>{
       <Text style={styles.verticalDivider}></Text>
         <Text h1 style={styles.title}>Add Your Interests!</Text>
       <Text style={styles.verticalDivider}></Text>
+
+      <Tags />
         
     </View>
     </SafeAreaView>

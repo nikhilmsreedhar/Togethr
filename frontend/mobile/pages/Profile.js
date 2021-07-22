@@ -31,6 +31,7 @@ const Profile = () => {
   const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
   const [changePassVisible, setChangePassVisible] = React.useState(false);
   const [tags, setTags] = React.useState([]);
+
   const showChangePassModal = () => setChangePassVisible(true);
   const confirmDelete = () => setDeleteModalVisible(true);
   const hidePassDeleteWarning = () => setDeleteModalVisible(false);
@@ -45,6 +46,7 @@ const Profile = () => {
       if(userData !== null) {
         setFname(userData.firstName);
         setLname(userData.lastName);
+        setTags(userData.tags);
       } else {
         setFname(UserData.firstName);
         setLname(UserData.lastName);
@@ -93,8 +95,9 @@ const Profile = () => {
         fontFamily: 'Comfortaa_400Regular'
       }}>Your Profile</Text>
 
-      <Surface
+      <View
         style={{
+          flex: 1,
           justifyContent: 'center',
           alignItems: 'center'
         }}
@@ -104,7 +107,11 @@ const Profile = () => {
         
         <View>
           <Text>Name: {fname} {lname}</Text>
-          <Text>Your Interests: {tags}</Text>
+          <Text>Your Interests:
+            {tags.map(tag => {
+              return JSON.stringify(tag)
+            })}
+          </Text>
         </View>
 
         <Button
@@ -121,7 +128,7 @@ const Profile = () => {
         >
           Delete Account
         </Button>
-      </Surface>
+      </View>
     </Provider>
   );
 }

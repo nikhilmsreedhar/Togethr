@@ -38,7 +38,7 @@ export default function LoginPage() {
           lastName: response.data.LastName,
           username: response.data.UserName, 
           id: response.data.id,
-          interests: response.data.Tags,
+          tags: response.data.Tags,
           emailAddress: response.data.Email
         };
         // store JSON object

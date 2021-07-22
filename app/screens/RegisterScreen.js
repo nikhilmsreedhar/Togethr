@@ -10,7 +10,7 @@ const RegisterScreen = () => {
   const navigation = useNavigation();
   const [fname, setFirst] = React.useState('');
   const [lname, setLast] = React.useState('');
-  //const [birthday, setBirthday] = React.useState(new Date());
+  const [birthday, setBirthday] = React.useState(new Date());
   const [confirmAge, setConfirmAge] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
   const [registerMessage, setRegisterMessage] = React.useState('');
@@ -22,26 +22,26 @@ const RegisterScreen = () => {
   function goToNextPage(fname, lname, birthday) {
     if (fname == "" || lname == "") {
       setRegisterMessage("Please fill in all fields");
-    //} else if (calculateAge(birthday) < 18) {
-    //  setRegisterMessage("Must be over 18 to create an account.");
+    } else if (calculateAge(birthday) < 18) {
+     setRegisterMessage("Must be over 18 to create an account.");
     } else {
       navigation.navigate('RegisterScreen2', {firstName: fname, lastName: lname});
     }
   }
 
 
-  function calculateAge(dob) {
-    var today = new Date();
-    var bday = new Date(dob);  
-    var age = today.getFullYear() - bday.getFullYear();
-    var m = today.getMonth() - bday.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < bday.getDate())) 
-    {
-      age--;
-    }
-    console.log(age);
-    return age;
-  }
+  // function calculateAge(dob) {
+  //   var today = new Date();
+  //   var bday = new Date(dob);  
+  //   var age = today.getFullYear() - bday.getFullYear();
+  //   var m = today.getMonth() - bday.getMonth();
+  //   if (m < 0 || (m === 0 && today.getDate() < bday.getDate())) 
+  //   {
+  //     age--;
+  //   }
+  //   console.log(age);
+  //   return age;
+  // }
 
   return (
     <View style={styles.container}>

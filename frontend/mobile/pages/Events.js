@@ -13,14 +13,30 @@ import EventCard from '../components/EventCard';
 import EventsData from '../assets/data';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const STORAGE_KEY = 'events_data';
+
 const Events = () => {
 
   React.useEffect(() => {
     getEventsData()
   }, [])
 
-  const getEventsData = () => {
-    
+  const [eventsData, setEventsData] = React.useState([]);
+
+  const getEventsData = async () => {
+    try {
+      const edJSON = await AsyncStorage.getItem(STORAGE_KEY);
+      const ed = edJSON != null ? JSON.parse(udJSON) : null;
+
+      if(ed !== null) {
+        setEventsData(ed);
+      } else {
+        setEventsData(EventsData);
+      }
+
+    } catch(e) {
+      console.error("Unable to get user info")
+    }
   }
 
   return (
@@ -33,16 +49,16 @@ const Events = () => {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center"
-        }}>
-          <Text h1 style={styles.title}>Your Events</Text>
-          <Button icon="dots-vertical"/>
+        }}
+      >
+        <Text h1 style={styles.title}>Your Events</Text>
       </View>
 
       <ScrollView>
         <FlatList
           style={{alignSelf: "center"}}
           numColumns={1}
-          data={EventsData}
+          data={eventsData}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity>
