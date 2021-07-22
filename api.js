@@ -173,16 +173,16 @@ app.post('/api/login', async (req, res, next) => {
 
 
 app.post('/api/addevent', async (req, res, next) => {
-  const{ EventName, EventDescription, EventLocation, EventDate, EventStartTime, EventEndTime, Attendees, Pictures} = req.body;
+  const{ EventName, EventDescription, EventLocation, StartDate, EndDate, NumGuests, Attendees, Pictures} = req.body;
 
   let event = new Event({
+    Maker,
     EventName,
     EventDescription,
     EventLocation,
-    EventDate,
-    EventStartTime,
-    EventEndTime,
-    Maker,
+    StartDate,
+    EndDate,
+    NumGuests,
     Attendees,
     Pictures, 
     Tag
@@ -248,7 +248,6 @@ app.post('/api/retrieveevents', async (req, res, next) => {
     .catch(err => res.status(400).json("Error" + err));
     i++;
   }
-
 });
 
 
