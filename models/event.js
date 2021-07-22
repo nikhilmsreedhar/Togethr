@@ -26,6 +26,10 @@ const EventSchema = new Schema({
         type: Date, 
         required: true
     },
+    NumGuests: {
+        type: Number,
+        required: true
+    },
     Attendees: {
         type: Array, 
         required: true
