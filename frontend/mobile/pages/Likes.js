@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Button, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Chip } from 'react-native-paper';
+import { Chip, Checkbox } from 'react-native-paper';
+import UserData from '../assets/UserData';
 
 const STORAGE_KEY = 'user_data';
 
@@ -26,6 +27,13 @@ const interestList = [
   {value: "Travel", isSelected: false}
 ]
 
+//Recieve an array of strings corresponding to tags
+//Render two columns of checkboxes with tags
+//Check boxes that correspond to strings in tag array
+//On checking the box, add that value to the array
+//On clicking submit, send that array 
+
+
 const Tags = () => {
 
   React.useEffect(() => {
@@ -33,12 +41,8 @@ const Tags = () => {
   }, [])
 
   //for setting selection state of chips
-  const [selected, setSelection] = useState([]);
+  const [checked, setChecked] = useState('unchecked');
   const [tagList, setTagList] = useState([]);
-
-  const handlePress = () => {
-    console.log("Test")
-  };
 
   const getTagList = async () => {
 
@@ -47,11 +51,9 @@ const Tags = () => {
       const userData = udJSON != null ? JSON.parse(udJSON) : null;
 
       if(userData !== null) {
-        setFname(userData.firstName);
-        setLname(userData.lastName);
+        setTagList(userData.tags);
       } else {
-        setFname(UserData.firstName);
-        setLname(UserData.lastName);
+        setTagList(UserData.tags);
       }
 
     } catch(e) {
@@ -70,11 +72,11 @@ const Tags = () => {
       })
       .then(async (response) => {
         var UserData = {
-          firstName:response.data.FirstName,
-          lastName:response.data.LastName,
-          username:response.data.UserName, 
+          firstName: response.data.FirstName,
+          lastName: response.data.LastName,
+          username: response.data.UserName, 
           id: userid,
-          interests: response.data.Tags,
+          tags: response.data.Tags,
           emailAddress: response.data.Email}
         await AsyncStorage.setItem('user_data', JSON.stringify(UserData));
         console.log(response);
@@ -91,30 +93,30 @@ const Tags = () => {
   return (
     <View style = {{flex:1}}>
       <View style = {{padding: 50}}>
+        {/* Map to loop through the array of items */}
         {interestList.map((item, index) => {
           return (
-            <View style={{margin: 5, flexWrap: 'wrap'}}>
-              <Chip
-                key={index}
-                mode={selected}
-                selected={item.isSelected}
-                style={{width:''}}
-                // onPress={() => {
-                //   // const updatedList = tags.map(val =>
-                //   //   (val.value === item.value)
-                //   //     ? {...val, isSelected: !val.isSelected}
-                //   //     : val);
-                //   setSelection(updatedList);
-                // }}
-              >
-                {item.value}
-              </Chip>
+            //{text}   {CheckBox}//
+            <View style={{flexDirection: "row"}}>
+              <Text>{item.value}</Text>
+              <Checkbox
+                status={item.isSelected ? "checked" : "unchecked"}
+                onPress={() => {
+                  const updatedInterests = interests.map((val) =>
+                    val.value === item.value
+                      ? { ...val, isSelected: !val.isSelected }
+                      : val);
+
+                  setInterests(updatedInterests);
+                }}
+              />
             </View>
           );
         })}
       </View>
-
-      <Button>SUBMIT</Button>
+      
+      {/*Add tags to array*/}
+      <Button onPress={() => {editTags(tags)}}>CONFIRM</Button>
     </View>
   );
 }

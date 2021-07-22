@@ -67,19 +67,21 @@ const Profile = () => {
     <Provider>
       <Portal>
         {/* Change Password Warning */}
-        <Modal
-          visible = {deleteModalVisible}
-          onDismiss= { hidePassDeleteWarning }
-        >
-          <Text>Are you sure you want to delete your account?</Text>
-          <Button
-            color="red"
-            mode="contained"
-            onPress={deleteAccount}
+        <View style={{justifyContent: 'center', alignContent: 'center'}}>
+          <Modal
+            visible = {deleteModalVisible}
+            onDismiss= { hidePassDeleteWarning }
           >
-            DELETE
-          </Button>
-        </Modal>
+            <Text style={{padding: 50}}>Are you sure you want to delete your account?</Text>
+            <Button
+              color="red"
+              mode="contained"
+              onPress={deleteAccount}
+            >
+              DELETE
+            </Button>
+          </Modal>
+        </View>
 
         {/* Change Password */}
         <Modal
@@ -109,7 +111,7 @@ const Profile = () => {
           <Text>Name: {fname} {lname}</Text>
           <Text>Your Interests:
             {tags.map(tag => {
-              return JSON.stringify(tag)
+              return (<Text>{JSON.stringify(tag)}</Text>)
             })}
           </Text>
         </View>
