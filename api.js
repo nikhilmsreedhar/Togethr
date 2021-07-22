@@ -172,7 +172,7 @@ app.post('/api/login', async (req, res, next) => {
 
 
 app.post('/api/addevent', async (req, res, next) => {
-  const{ Maker, EventName, EventDescription, EventLocation, StartDate, EndDate, Attendees, Pictures, Tag} = req.body;
+  const{ Maker, EventName, EventDescription, EventLocation, StartDate, EndDate, NumGuests, Attendees, Pictures, Tag} = req.body;
 
   let event = new Event({
     Maker,
@@ -181,6 +181,7 @@ app.post('/api/addevent', async (req, res, next) => {
     EventLocation,
     StartDate,
     EndDate,
+    NumGuests,
     Attendees,
     Pictures, 
     Tag
