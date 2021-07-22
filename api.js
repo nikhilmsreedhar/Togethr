@@ -172,17 +172,16 @@ app.post('/api/login', async (req, res, next) => {
 
 
 app.post('/api/addevent', async (req, res, next) => {
-  const{ EventName, EventDescription, EventLocation, EventDate, EventTime, Attendees, LikedUsers, Pictures} = req.body;
+  const{ Maker, EventName, EventDescription, EventLocation, StartDate, EndDate, Attendees, Pictures, Tag} = req.body;
 
   let event = new Event({
+    Maker,
     EventName,
     EventDescription,
     EventLocation,
-    EventDate,
-    EventTime,
-    Maker,
+    StartDate,
+    EndDate,
     Attendees,
-    LikedUsers,
     Pictures, 
     Tag
   })
