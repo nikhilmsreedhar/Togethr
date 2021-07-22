@@ -10,22 +10,23 @@ const HBUFFER = (Dimensions.get('window').height) * 0.3
 const EventCard = ({
     title, 
     description,
-    date,
+    location,
     startTime,
     endTime,
-    atendees,
+    guests,
+    attendees,
+    tag
 }) => {
     return (
       <View style={styles.containerCardItem}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>{description}</Text>
-        <Text style={styles.info}>{date}</Text>
         <View style={{flexDirection: 'row'}}>
         <Text style={styles.info}>{startTime}</Text>
         <Text style={styles.info}> - </Text>
         <Text style={styles.info}>{endTime}</Text>
         </View>
-        <Text style={styles.info}>{atendees}</Text>
+        <Text style={styles.info}>{attendees}</Text>
       </View>
    );
 }

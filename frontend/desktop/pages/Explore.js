@@ -14,9 +14,16 @@ function Explore() {
   var ud = JSON.parse(_ud);
   var tags = ud.Tags;
 
-  //axios.post('https://togethrgroup1.herokuapp.com/api/addevent', {
-  //  Tags: tags
-  //})
+  axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents', {
+    Tags: tags
+  })
+  .then((response) => {
+    console.log(response);
+
+  }, (error) => {
+    console.log(error);
+    
+  });
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -46,7 +53,6 @@ function Explore() {
           <EventCard
             title={item.title}
             description={item.description}
-            date={item.date}
             startTime={item.startTime}
             endTime={item.endTime}
             attendees={item.attendees}
