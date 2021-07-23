@@ -60,38 +60,39 @@ export default function LoginPage() {
   return (
     <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
-    <TouchableOpacity onPress={() => navigateBack()}>
-      <Ionicons name="arrow-back"  size={30} color="back" />
-    </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigateBack()}>
+        <Ionicons name="arrow-back"  size={30} color="back" />
+      </TouchableOpacity>
       <Text style={styles.verticalDivider}></Text>
         <Text h1 style={styles.title}>Log In</Text>
       <Text style={styles.verticalDivider}></Text>
         
-        <TextInput style={{ alignSelf: 'stretch'}}
-          label="Username"
-          value={user}
-          mode='outlined'
-          onChangeText={user => setUser(user)}
-        />
+      <TextInput style={{ alignSelf: 'stretch'}}
+        label="Username"
+        value={user}
+        mode='outlined'
+        onChangeText={user => setUser(user)}
+      />
      
-        <Text style={styles.inputDivider}></Text>
+      <Text style={styles.inputDivider}></Text>
 
-        <TextInput style={{ alignSelf: 'stretch'}}
-          secureTextEntry
-          label="Password"
-          value={pass}
-          mode='outlined'
-          onChangeText={pass => setPass(pass)}
-         />
-         <HelperText type="error">
-          {loginMessage}
-        </HelperText>
+      <TextInput style={{ alignSelf: 'stretch'}}
+        secureTextEntry
+        label="Password"
+        value={pass}
+        mode='outlined'
+        onChangeText={pass => setPass(pass)}
+      />
 
-          <Text style={styles.inputDivider}></Text>
+      <HelperText type="error">
+        {loginMessage}
+      </HelperText>
 
-         <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>LOG IN</Text>
-         </TouchableOpacity>
+      <Text style={styles.inputDivider}></Text>
+
+      <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
+        <Text style={styles.loginButtonText}>LOG IN</Text>
+      </TouchableOpacity>
    </View>
   
     

@@ -22,6 +22,16 @@ function BottomNavigator() {
       }}
     >
       <Tab.Screen
+        name="Explore"
+        component={Explore}
+        options={{
+          tabBarLabel: 'Explore',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="binoculars" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Events"
         component={Events}
         options={{
@@ -50,16 +60,6 @@ function BottomNavigator() {
           tabBarLabel: 'AddEvent',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="plus-circle" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Explore"
-        component={Explore}
-        options={{
-          tabBarLabel: 'Explore',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="binoculars" color={color} size={size} />
           ),
         }}
       />

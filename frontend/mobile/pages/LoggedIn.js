@@ -10,9 +10,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createStackNavigator();
 
 function LoggedIn() {
+  const [loading, setLoading] = useState(true);
 
-  return (
-    
+  return (  
     <NavigationContainer independent={true}>
       <BottomNavigator />
     </NavigationContainer>

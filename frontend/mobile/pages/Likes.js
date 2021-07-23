@@ -6,35 +6,7 @@ import UserData from '../assets/UserData';
 
 const STORAGE_KEY = 'user_data';
 
-const interestList = [
-  {value: "Animals", isSelected: false},
-  {value: "Beauty", isSelected: false},
-  {value: "Cars", isSelected: false},
-  {value: "Fine Arts", isSelected: false},
-  {value: "Food", isSelected: false},
-  {value: "DIY", isSelected: false},
-  {value: "Gaming", isSelected: false},
-  {value: "Lifestyle", isSelected: false},
-  {value: "Movies", isSelected: false},
-  {value: "Music", isSelected: false},
-  {value: "Outdoors", isSelected: false},
-  {value: "Performing Arts", isSelected: false},
-  {value: "Photography", isSelected: false},
-  {value: "Shopping", isSelected: false},
-  {value: "Sight Seeing", isSelected: false},
-  {value: "Sports", isSelected: false},
-  {value: "Technology", isSelected: false},
-  {value: "Travel", isSelected: false}
-]
-
-//Recieve an array of strings corresponding to tags
-//Render two columns of checkboxes with tags
-//Check boxes that correspond to strings in tag array
-//On checking the box, add that value to the array
-//On clicking submit, send that array 
-
-
-const Tags = () => {
+const Tags = ({}) => {
 
   React.useEffect(() => {
     getTagList()
@@ -42,18 +14,17 @@ const Tags = () => {
 
   //for setting selection state of chips
   const [checked, setChecked] = useState('unchecked');
-  const [tagList, setTagList] = useState([]);
+  const [interests, setInterests] = useState([]);
 
   const getTagList = async () => {
-
     try {
       const udJSON = await AsyncStorage.getItem(STORAGE_KEY);
       const userData = udJSON != null ? JSON.parse(udJSON) : null;
 
       if(userData !== null) {
-        setTagList(userData.tags);
+        setInterests(userData.tags);
       } else {
-        setTagList(UserData.tags);
+        setInterests(UserData.tags);
       }
 
     } catch(e) {
@@ -92,9 +63,8 @@ const Tags = () => {
 
   return (
     <View style = {{flex:1}}>
-      <View style = {{padding: 50}}>
         {/* Map to loop through the array of items */}
-        {interestList.map((item, index) => {
+        {interestList.map((item) => {
           return (
             //{text}   {CheckBox}//
             <View style={{flexDirection: "row"}}>
@@ -106,14 +76,12 @@ const Tags = () => {
                     val.value === item.value
                       ? { ...val, isSelected: !val.isSelected }
                       : val);
-
                   setInterests(updatedInterests);
                 }}
               />
             </View>
           );
         })}
-      </View>
       
       {/*Add tags to array*/}
       <Button onPress={() => {editTags(tags)}}>CONFIRM</Button>
