@@ -12,7 +12,6 @@ import  AddEvent from './pages/AddEvent'
 import Explore from './pages/Explore'
 import Events from './pages/Events'
 import Likes from './pages/Likes'
-import Profile from './pages/Profile'
 import EditAccountInfo from './pages/EditAccountInfo'
 
 const Stack = createStackNavigator();
@@ -30,7 +29,6 @@ function App() {
         <Stack.Screen name="Explore" component={Explore} />
         <Stack.Screen name="Events" component={Events} />
         <Stack.Screen name="Likes" component={Likes} />
-        <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="EditAccountInfo" component={EditAccountInfo} />
       </Stack.Navigator>
    
