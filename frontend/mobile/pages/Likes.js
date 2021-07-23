@@ -1,92 +1,66 @@
-import React, { useState } from 'react';
-import { Button, View } from 'react-native';
+import * as React from 'react';
+import {
+  FlatList,
+  Text,
+  View, 
+  StyleSheet, 
+  SafeAreaView,
+  TouchableOpacity
+} from 'react-native';
+import { Button } from 'react-native-paper';
+import LikedCard from '../components/LikedCard';
+import EventsData from '../assets/data';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Chip, Checkbox } from 'react-native-paper';
+import Tags from './Tags';
 import UserData from '../assets/UserData';
 
 const STORAGE_KEY = 'user_data';
 
-const Tags = ({}) => {
+const Likes = () => {
 
   React.useEffect(() => {
-    getTagList()
-  }, [])
+    getTagData();
+  }, []);
 
-  //for setting selection state of chips
-  const [checked, setChecked] = useState('unchecked');
-  const [interests, setInterests] = useState([]);
+  const [tags, setTags] = React.useState([]);
 
-  const getTagList = async () => {
+  const getTagData = async () => {
     try {
       const udJSON = await AsyncStorage.getItem(STORAGE_KEY);
       const userData = udJSON != null ? JSON.parse(udJSON) : null;
 
-      if(userData !== null) {
-        setInterests(userData.tags);
+      if (userData !== null) {
+        setTags(userData.tags);
       } else {
-        setInterests(UserData.tags);
+        setTags(UserData.tags);
       }
-
-    } catch(e) {
-      console.error("Unable to get tags")
-    }
-  }
-
-  const editTags = ({tagList}) => {
-    if (tagList.length === 0) {
-      setSuccessMessage();
-      setMessage("Please select at least one interest");
-    } else {
-      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
-        id: userid,
-        Tags: tagList
-      })
-      .then(async (response) => {
-        var UserData = {
-          firstName: response.data.FirstName,
-          lastName: response.data.LastName,
-          username: response.data.UserName, 
-          id: userid,
-          tags: response.data.Tags,
-          emailAddress: response.data.Email}
-        await AsyncStorage.setItem('user_data', JSON.stringify(UserData));
-        console.log(response);
-        setMessage();
-        setSuccessMessage('You changed your Interests!');
-      }, (error) => {
-        console.log(error);
-        setSuccessMessage();
-        setMessage('Something went wrong! Try again.');
-      });
+    } catch (e) {
+      console.error("Unable to get user info");
     }
   };
 
   return (
-    <View style = {{flex:1}}>
-        {/* Map to loop through the array of items */}
-        {interestList.map((item) => {
-          return (
-            //{text}   {CheckBox}//
-            <View style={{flexDirection: "row"}}>
-              <Text>{item.value}</Text>
-              <Checkbox
-                status={item.isSelected ? "checked" : "unchecked"}
-                onPress={() => {
-                  const updatedInterests = interests.map((val) =>
-                    val.value === item.value
-                      ? { ...val, isSelected: !val.isSelected }
-                      : val);
-                  setInterests(updatedInterests);
-                }}
-              />
-            </View>
-          );
-        })}
-      
-      {/*Add tags to array*/}
-      <Button onPress={() => {editTags(tags)}}>CONFIRM</Button>
-    </View>
+    <Tags interests={tags}/>
   );
 }
 
-export default Tags;
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 50, 
+    fontFamily: 'Comfortaa_400Regular',
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+   verticalDivider: {
+    height:50,
+  },
+  inputDivider: {
+    height:20,
+  },
+});
+
+export default Likes;

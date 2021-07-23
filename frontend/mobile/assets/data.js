@@ -1,11 +1,11 @@
 module.exports = [
 	{
-        title:'Tite',
+        title:'Title',
         description:'Description',
-        date:'MM/DD/YYY',
+        date:'MM/DD/YYYY',
         startTime:'0:00pm',
         endTime:'0:00pm',
-        atendees:'0/0',
+        attendees:[],
     },
     {
         title:'Let\'s go Shopping',
@@ -13,7 +13,7 @@ module.exports = [
         date:'10/09/2020',
         startTime:'4:00pm',
         endTime:'5:00pm',
-        atendees:'0/4',
+        attendees: [],
     },
     {
         title:'Puppy Playdate',
@@ -21,7 +21,7 @@ module.exports = [
         date:'10/09/2020',
         startTime:'4:00pm',
         endTime:'5:00pm',
-        atendees:'0/4',
+        attendees: [],
     }
     
 

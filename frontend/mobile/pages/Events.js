@@ -9,7 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Button } from 'react-native-paper';
-import EventCard from '../components/EventCard';
+import AttendingCard from '../components/AttendingCard';
 import EventsData from '../assets/data';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -44,34 +44,31 @@ const Events = () => {
     <View style={styles.container}>
       <View 
         style={{
-          paddingTop: 50,
+          paddingTop: 20,
           marginHorizontal: 10,
           flexDirection: "row",
           justifyContent: "space-between",
-          alignItems: "center"
         }}
       >
         <Text h1 style={styles.title}>Your Events</Text>
       </View>
 
-      <ScrollView>
-        <FlatList
-          style={{alignSelf: "center"}}
-          numColumns={1}
-          data={eventsData}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity>
-              <EventCard
-                image={item.image}
-                name={item.name}
-                status={item.status}
-                variant
-              />
-            </TouchableOpacity>
-          )}
-        />
-      </ScrollView>
+      <FlatList
+        style={{width:"100%"}}
+        numColumns={1}
+        data={eventsData}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity>
+            <AttendingCard
+              title={item.name}
+              description={item.description}
+              date={item.date}
+              startTime={item.startTime}
+            />
+          </TouchableOpacity>
+        )}
+      />
     </View>
   
   </SafeAreaView>
@@ -88,7 +85,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    margin: 30
   },
    verticalDivider: {
     height:50,
