@@ -78,16 +78,18 @@ const post = (title, description, location, guests, category, start, end) => {
     setAddErrorMessage("Please fill in all fields");
   }
   else{
+    const startUTC = new Date(start).toISOString();
+    const endUTC = new Date(end).toISOString();
     axios.post('https://togethrgroup1.herokuapp.com/api/addevent', { 
       Maker: userid,
       EventName: title,
       EventDescription: description,
       EventLocation: location,
-      StartDate: start,
-      EndDate: end,
+      StartDate: startUTC,
+      EndDate: endUTC,
       NumGuests: guests,
       Attendees: attendees,
-      Picture: 't', // for now is t
+      Pictures: 't', // for now is t
       Tag: category
     })
     .then((response) => {
@@ -100,9 +102,8 @@ const post = (title, description, location, guests, category, start, end) => {
       setAddErrorMessage('Something went wrong. Try again.');
     });
   }
-  
 };
-
+  
  return (
   
     <SafeAreaView style={{flex: 1}}>
