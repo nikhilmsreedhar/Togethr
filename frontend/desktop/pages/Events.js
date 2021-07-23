@@ -22,10 +22,9 @@ function Events() {
         <Card 
          title={item.title}
          description={item.description}
-         date={item.date}
-         startTime={item.startTime}
-         endTime={item.endTime}
-         atendees={item.atendees}/>
+         startTime={item.startDate}
+         endTime={item.endDate}
+         atendees={item.attendees}/>
       
     </Accordion> 
     ))}
