@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import {
   useFonts,
   Comfortaa_400Regular,
@@ -107,6 +107,7 @@ const post = (title, description, location, guests, category, start, end) => {
   
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
+    <ScrollView>
      <View style={styles.container}>
     
         <View style={styles.center}>
@@ -245,7 +246,7 @@ const post = (title, description, location, guests, category, start, end) => {
       </MuiThemeProvider>
     </View>
     </View>
-    
+    </ScrollView>
     </SafeAreaView>
    
     
