@@ -47,10 +47,12 @@ const useStyles = makeStyles((theme) => ({
 const ViewCard = ({
   title, 
   description,
-  date,
-  startTime,
-  endTime,
-  atendees,
+  location,
+  startDate,
+  endDate,
+  guests,
+  attendees,
+  tag
 }) => {
   const classes = useStyles();
   return (
@@ -68,7 +70,13 @@ const ViewCard = ({
             </Typography>
           </div>
         </AccordionSummary>
-        <AccordionDetails className={classes.details}></AccordionDetails>
+        <AccordionDetails className={classes.details}>
+        <Typography>{location}</Typography>
+        <Typography>{startDate} to {endDate}</Typography>
+        <Typography>{attendees.length}/{guests}</Typography>
+        <Typography>{attendees}</Typography>
+        <Typography>{tag}</Typography>
+        </AccordionDetails>
         <Divider />
         <AccordionActions>
           <Button size="small">Cancel</Button>

@@ -80,7 +80,6 @@ const post = (title, description, location, guests, category, start, end) => {
   else{
     const startUTC = new Date(start).toISOString();
     const endUTC = new Date(end).toISOString();
-    console.log(userid, title, description, location, startUTC, endUTC, guests, attendees, category);
     axios.post('https://togethrgroup1.herokuapp.com/api/addevent', { 
       Maker: userid,
       EventName: title,
@@ -90,7 +89,7 @@ const post = (title, description, location, guests, category, start, end) => {
       EndDate: endUTC,
       NumGuests: guests,
       Attendees: attendees,
-      Picture: 't', // for now is t
+      Pictures: 't', // for now is t
       Tag: category
     })
     .then((response) => {
