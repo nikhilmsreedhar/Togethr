@@ -102,9 +102,8 @@ const post = (title, description, location, guests, category, start, end) => {
       setAddErrorMessage('Something went wrong. Try again.');
     });
   }
-  
 };
-
+  
  return (
   
     <SafeAreaView style={{flex: 1}}>
