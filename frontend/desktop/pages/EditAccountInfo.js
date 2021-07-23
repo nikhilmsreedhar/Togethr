@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import {
   useFonts,
   Comfortaa_400Regular,
@@ -174,6 +174,7 @@ function change(curpass, pass, passConfirm){
   
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
+   
      <View style={styles.container}>
     
         <View style={styles.center}>
@@ -303,6 +304,7 @@ function change(curpass, pass, passConfirm){
          </MuiThemeProvider>
         </View>
     </View>
+    
     </SafeAreaView>
    
     
