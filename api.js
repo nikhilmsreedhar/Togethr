@@ -6,6 +6,10 @@ const nodemailer = require("nodemailer");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
+const app = express()
+
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
  
 
@@ -130,8 +134,6 @@ app.delete('/api/deleteuser', async (req, res, next) => {
     console.log(error.message);
   }
 });
-
-
 
 
 
@@ -285,9 +287,9 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
 
 app.post('/api/viewattendingevents', async (req, res, next) => {
   const Attending = new Array(req.body.AttendingEvents);
-  var len = Object.keys(AttendingEvents).length;
+  var len = req.body.AttendingEvents.length;
   var i = 0;
-  if (Object.keys(AttendingEvents).length === 0){
+  if (req.body.AttendingEvents.length === 0){
     return res.status(301).json({ warning: "please select an event to attend" });
   }
 
@@ -298,7 +300,7 @@ app.post('/api/viewattendingevents', async (req, res, next) => {
         return res.status(301).json({ warning: "no events matching provided your likes come back later" });
       }
       res.json(
-        event 
+        event
       );
     })
     .catch(err => res.status(400).json("Error" + err));
