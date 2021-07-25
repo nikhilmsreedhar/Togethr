@@ -233,24 +233,35 @@ app.delete('/api/deleteevent', async (req, res, next) => {
 app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = new Array(req.body.Tags);
   var len = req.body.Tags.length;
-  var i = 0;
-  if (req.body.Tags.length === 0){
+   if (req.body.Tags.length === 0){
     return res.status(301).json({ warning: "choose tags first" });
   }
-
-  while (i < len) {
-    // res.write(JSON.stringify(Tags[i]));
-    Event.find({Tag: Tags[i]}).then(event => {
-      if(!event) {
-        return res.status(301).json({ warning: "no events matching provided tag(s) come back later" });
-      }
-      res.json(
-        event
-      );
-    })
-    .catch(err => res.status(400).json("Error" + err));
-    i++;
+  var i = 0;
+  try{
+    while (i < len) {
+      await Event.find({Tag: req.body.Tags[i]}).then(event => {
+        if(!event) {
+          return res.status(301).json({ warning: "no events matching provided tag(s) come back later" });
+        }
+        
+        
+         
+         res.write(
+          JSON.stringify(event)
+        );
+      })
+      .catch(err => res.status(400).json("Error" + err));
+      i++;
+    
+      
+    }
+  
+     res.end();
+  }catch(error){
+    console.log(error.message);
   }
+ 
+  
 
 });
 
