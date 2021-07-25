@@ -6,6 +6,10 @@ const nodemailer = require("nodemailer");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
+const app = express()
+
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
  
 
@@ -172,17 +176,17 @@ app.post('/api/login', async (req, res, next) => {
 
 
 app.post('/api/addevent', async (req, res, next) => {
-  const{ EventName, EventDescription, EventLocation, EventDate, EventTime, Attendees, LikedUsers, Pictures} = req.body;
+  const{ Maker, EventName, EventDescription, EventLocation, StartDate, EndDate, NumGuests, Attendees, Pictures, Tag} = req.body;
 
   let event = new Event({
+    Maker,
     EventName,
     EventDescription,
     EventLocation,
-    EventDate,
-    EventTime,
-    Maker,
+    StartDate,
+    EndDate,
+    NumGuests,
     Attendees,
-    LikedUsers,
     Pictures, 
     Tag
   })

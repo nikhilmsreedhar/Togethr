@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import {
   useFonts,
   Comfortaa_400Regular,
@@ -14,7 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { MuiPickersUtilsProvider, KeyboardDatePicker, TimePicker  } from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
@@ -39,17 +39,18 @@ export default function AddEvent() {
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
   var userid = ud.id;
+  var userName = ud.username;
 
- 
+  let attendees = new Array();
+  attendees.push(userName);
 
 const [title, setTitle] = React.useState('');
 const [location, setLocation] = React.useState('');
 const [description, setDescrip] = React.useState('');
 const [guests, setGuests] = React.useState('');
 const [category, setCat] = React.useState('');
-const [day, setDay] = React.useState(new Date());
 const [startTime, setStartTime] = React.useState(new Date());
-const [endTime, setEndTime] = React.useState();
+const [endTime, setEndTime] = React.useState(new Date());
 const [addMessage, setAddMessage] = React.useState();
 const [addErrorMessage, setAddErrorMessage] = React.useState();
 
@@ -71,23 +72,24 @@ const handleDescriptionChange = (event) => {
   setDescrip(event.target.value)
 }
 
-const post = (title, description, location, guests, category, day, start, end) => {
-  if (title == "" || description  == "" || guests == "" || category  == "" || day  == "" || start   == "" || end  == ""){
+const post = (title, description, location, guests, category, start, end) => {
+  if (title == "" || description  == "" || guests == "" || category  == "" || start   == "" || end  == ""){
     setAddMessage();
     setAddErrorMessage("Please fill in all fields");
   }
   else{
+    const startUTC = new Date(start).toISOString();
+    const endUTC = new Date(end).toISOString();
     axios.post('https://togethrgroup1.herokuapp.com/api/addevent', { 
+      Maker: userid,
       EventName: title,
       EventDescription: description,
       EventLocation: location,
-      EventDate: day,
-      EventStartTime: start,
-      EventEndTime: end,
-      Maker: userid,
-      LikedUsers: 0,
-      Attendees: guests,
-      Pictures: null, // for now is null
+      StartDate: startUTC,
+      EndDate: endUTC,
+      NumGuests: guests,
+      Attendees: attendees,
+      Pictures: 't', // for now is t
       Tag: category
     })
     .then((response) => {
@@ -100,13 +102,13 @@ const post = (title, description, location, guests, category, day, start, end) =
       setAddErrorMessage('Something went wrong. Try again.');
     });
   }
-  
 };
-
+  
  return (
   
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
+    <ScrollView>
      <View style={styles.container}>
     
         <View style={styles.center}>
@@ -202,38 +204,22 @@ const post = (title, description, location, guests, category, day, start, end) =
         </Select>
       </FormControl>
 
-      <Text Text style={styles.inputDivider}></Text>
-
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-            autoOk
-            color='secondary'
-            variant="inline"
-            inputVariant="outlined"
-            label="Date"
-            format="MM/dd/yyyy"
-            value={day}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-            onChange={day => setDay(day)}
-          />
           
           <Text Text style={styles.inputDivider}></Text>
-
           <View style={styles.fixToText}>  
-          <TimePicker
+          <DateTimePicker
           clearable
           style={{width: 240}}
           color= 'secondary'
           variant="inline"
           inputVariant="outlined"
-          label="Start Time"
+          label="Start Date and Time"
           value={startTime}
           onChange={startTime => setStartTime(startTime)}
          />
         <Text style={styles.buttonDivider}></Text>
-         <TimePicker
+         <DateTimePicker
           clearable
           style={{width: 245}}
           color= 'secondary'
@@ -254,14 +240,14 @@ const post = (title, description, location, guests, category, day, start, end) =
 
          <Text Text style={styles.inputDivider}></Text>
 
-         <TouchableOpacity onPress={() => post(title, description, location, guests, category, day, startTime, endTime)} style={styles.postButton}>
+         <TouchableOpacity onPress={() => post(title, description, location, guests, category, startTime, endTime)} style={styles.postButton}>
           <Text style={styles.postButtonText}>POST</Text>
        </TouchableOpacity>
 
       </MuiThemeProvider>
     </View>
     </View>
-    
+    </ScrollView>
     </SafeAreaView>
    
     

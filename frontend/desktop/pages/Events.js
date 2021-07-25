@@ -1,43 +1,34 @@
 import * as React from 'react';
-import { Text, View, SafeAreaView} from 'react-native';
+import { Text, View, SafeAreaView, ScrollView} from 'react-native';
 import Card from "../components/Card";
 import { Grid } from "@material-ui/core";
 import NavigationBar from '../components/NavigationBar';
 import { makeStyles } from "@material-ui/core/styles";
+import Accordion from '@material-ui/core/Accordion';
 
-const useStyles = makeStyles({
-  gridContainer: {
-    padding: '40px'
-  }
-});
+import Data from '../assets/data.js'
+
 
 function Events() {
-const classes = useStyles();
   return (
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
-    <Grid
-      container
-      className={classes.gridContainer}
-      spacing={4}
-      justify="center"
+    <ScrollView>
+    {Data.map((item, index) => (
+    <Accordion
+      key={index}
     >
-      <Grid item xs={12} sm={6} md={4}>
-        <Card />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <Card />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <Card />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <Card />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <Card />
-      </Grid>
-    </Grid>
+      
+        <Card 
+         title={item.title}
+         description={item.description}
+         startDate={item.startDate}
+         endDate={item.endDate}
+         attendees={item.attendees}/>
+      
+    </Accordion> 
+    ))}
+    </ScrollView>
     </SafeAreaView>
   );
 }

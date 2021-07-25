@@ -1,26 +1,92 @@
 module.exports = [
-	{
+    {
+        title:'Family Time',
+        description:'Family Bonding',
+        location: 'Location',
+        startDate: new Date().toString(),
+        endDate: new Date().toString(),
+        guests: '4',
+        attendees:["jon", "Sansa", "Arya", "Robb", "Bran"],
+        tag:'DIY'
+    },
+    {
         title:'Title',
         description:'Description',
-        date:'MM/DD/YYYY',
-        startTime:'0:00pm',
-        endTime:'0:00pm',
-        atendees:'0/0',
+        location: 'Location',
+        startDate:'MM/DD/YYYY 0:00pm',
+        endDate:'MM/DD/YYYY 0:00pm',
+        guests: 0,
+        attendees:'Me',
+        tag:'DIY'
     },
     {
-        title:'Let\'s go Shopping',
-        description:'Come shopping with me at the Florida Mall',
-        date:'10/09/2020',
-        startTime:'4:00pm',
-        endTime:'5:00pm',
-        atendees:'0/4',
+        title:'Title',
+        description:'Description',
+        location: 'Location',
+        startDate:'MM/DD/YYYY 0:00pm',
+        endDate:'MM/DD/YYYY 0:00pm',
+        guests: 0,
+        attendees:'Me',
+        tag:'DIY'
     },
     {
-        title:'Puppy Playdate',
-        description:'My corgi needs a friend, meet me at the park ',
-        date:'10/09/2020',
-        startTime:'4:00pm',
-        endTime:'5:00pm',
-        atendees:'0/4',
-    }   
+        title:'Title',
+        description:'Description',
+        location: 'Location',
+        startDate:'MM/DD/YYYY 0:00pm',
+        endDate:'MM/DD/YYYY 0:00pm',
+        guests: 0,
+        attendees:'Me',
+        tag:'DIY'
+    },
+    {
+        title:'Title',
+        description:'Description',
+        location: 'Location',
+        startDate:'MM/DD/YYYY 0:00pm',
+        endDate:'MM/DD/YYYY 0:00pm',
+        guests: 0,
+        attendees:'Me',
+        tag:'DIY'
+    },
+    {
+        title:'Title',
+        description:'Description',
+        location: 'Location',
+        startDate:'MM/DD/YYYY 0:00pm',
+        endDate:'MM/DD/YYYY 0:00pm',
+        guests: 0,
+        attendees:'Me',
+        tag:'DIY'
+    },
+    {
+        title:'Title',
+        description:'Description',
+        location: 'Location',
+        startDate:'MM/DD/YYYY 0:00pm',
+        endDate:'MM/DD/YYYY 0:00pm',
+        guests: 0,
+        attendees:'Me',
+        tag:'DIY'
+    },
+    {
+        title:'Title',
+        description:'Description',
+        location: 'Location',
+        startDate:'MM/DD/YYYY 0:00pm',
+        endDate:'MM/DD/YYYY 0:00pm',
+        guests: 0,
+        attendees:'Me',
+        tag:'DIY'
+    },
+    {
+        title:'Title',
+        description:'Description',
+        location: 'Location',
+        startDate:'MM/DD/YYYY 0:00pm',
+        endDate:'MM/DD/YYYY 0:00pm',
+        guests: 0,
+        attendees:'Me',
+        tag:'DIY'
+    }
 ];

@@ -1,57 +1,93 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionActions from "@material-ui/core/AccordionActions";
 import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: 200
+    width: "100%"
   },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
+  heading: {
+    fontSize: theme.typography.pxToRem(30)
   },
-  title: {
-    fontSize: 14
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(25),
+    color: theme.palette.text.secondary
   },
-  pos: {
-    marginBottom: 12
+  icon: {
+    verticalAlign: "bottom",
+    height: 20,
+    width: 20
+  },
+  details: {
+    alignItems: "center"
+  },
+  column: {
+    flexBasis: "33.33%"
+  },
+  helper: {
+    borderLeft: `2px solid ${theme.palette.divider}`,
+    padding: theme.spacing(1, 2)
+  },
+  link: {
+    color: theme.palette.primary.main,
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline"
+    }
   }
-});
+}));
 
-export default function OutlinedCard() {
+const ViewCard = ({
+  title, 
+  description,
+  location,
+  startDate,
+  endDate,
+  guests,
+  attendees,
+  tag
+}) => {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-
   return (
-    <Card className={classes.root} variant="outlined">
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
+    <div className={classes.root}>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
         >
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="h2">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography>
-        <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+          <div className={classes.column}>
+            <Typography className={classes.heading}>{title}</Typography>
+          </div>
+          <div className={classes.column}>
+            <Typography className={classes.secondaryHeading}>
+              {description}
+            </Typography>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails className={classes.details}>
+        <Typography>{location}</Typography>
+        <Typography>{startDate} to {endDate}</Typography>
+        <Typography>{attendees.length}/{guests}</Typography>
+        <Typography>{attendees}</Typography>
+        <Typography>{tag}</Typography>
+        </AccordionDetails>
+        <Divider />
+        <AccordionActions>
+          <Button size="small">Cancel</Button>
+          <Button size="small" color="primary">
+            Save
+          </Button>
+        </AccordionActions>
+      </Accordion>
+    </div>
   );
 }
+
+
+export default ViewCard;

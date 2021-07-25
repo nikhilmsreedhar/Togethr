@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import {
   useFonts,
   Comfortaa_400Regular,
@@ -88,6 +88,7 @@ function edit (tagList) {
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavigationBar/>
+      
     <View style={styles.container}>
     <View style={styles.center}>
         <Text h1 style={styles.title}>Your Interests</Text>
@@ -149,8 +150,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
     margin: 25
   },
    verticalDivider: {

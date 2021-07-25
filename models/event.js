@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
+    Maker: {
+        type: String,
+        required: true
+    },
     EventName: {
         type: String, 
         required: true
@@ -14,24 +18,20 @@ const EventSchema = new Schema({
         type: String, 
         required: true
     },
-    EventDate: {
-        type: String,
+    StartDate: {
+        type: Date,
         required: true
     },
-    EventTime: {
-        type: String, 
+    EndDate: {
+        type: Date, 
         required: true
     },
-    Maker: {
-        type: String,
+    NumGuests: {
+        type: Number,
         required: true
     },
     Attendees: {
         type: Array, 
-        required: true
-    },
-    LikedUsers: {
-        type: Number,
         required: true
     },
     Pictures: {
