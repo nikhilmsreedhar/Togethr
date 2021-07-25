@@ -1,23 +1,22 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   FlatList,
   Text,
-  View, 
-  StyleSheet, 
+  View,
+  StyleSheet,
   SafeAreaView,
-  TouchableOpacity
-} from 'react-native';
-import { Button } from 'react-native-paper';
-import LikedCard from '../components/LikedCard';
-import EventsData from '../assets/data';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Tags from './Tags';
-import UserData from '../assets/UserData';
+  TouchableOpacity,
+} from "react-native";
+import { Button } from "react-native-paper";
+import LikedCard from "../components/LikedCard";
+import EventsData from "../assets/data";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Tags from "./Tags";
+import UserData from "../assets/UserData";
 
-const STORAGE_KEY = 'user_data';
+const STORAGE_KEY = "user_data";
 
 const Likes = () => {
-
   React.useEffect(() => {
     getTagData();
   }, []);
@@ -40,26 +39,29 @@ const Likes = () => {
   };
 
   return (
-    <Tags interests={tags}/>
+    <View style={{flex: 1}}>
+      <Text style={{ fontSize: 50, fontFamily: "Comfortaa_400Regular" }}></Text>
+      <Tags tagList={tags} />
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 50, 
-    fontFamily: 'Comfortaa_400Regular',
+    fontSize: 50,
+    fontFamily: "Comfortaa_400Regular",
   },
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
-   verticalDivider: {
-    height:50,
+  verticalDivider: {
+    height: 50,
   },
   inputDivider: {
-    height:20,
+    height: 20,
   },
 });
 

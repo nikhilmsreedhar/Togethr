@@ -34,7 +34,8 @@ const RegisterPage3 = ({ route }) => {
         </Text>
         <Text style={styles.verticalDivider}></Text>
 
-        <Tags interests={tagList} />
+        <Tags tagList={tags} />
+        
       </View>
     </SafeAreaView>
   );
