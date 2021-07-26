@@ -241,19 +241,24 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   try{
     while (i < len) {
       await Event.find({Tag: Tags[i]}).then(event => {
-        if(!event) {
-          return res.status(301).json({ warning: "no events matching provided tag(s) come back later" });
+        if(!event.length) {
+          res.write(
+            JSON.stringify({ warning: "no events matching provided your tags come back later" }) 
+          );    
+          i++;
         }
         
         
-        if (event){
-         res.write(
-           JSON.stringify(event)
-         );
-        }
+        else {
+          res.write(
+            JSON.stringify(event)
+          );
+          i++;
+
+        } 
+         
       })
       .catch(err => res.status(400).json("Error" + err));
-      i++;
     
       
     }
@@ -263,6 +268,8 @@ app.post('/api/retrieveevents', async (req, res, next) => {
     console.log(error.message);
   }
 });
+
+
 
 
 app.post('/api/viewlikedevents', async (req, res, next) => {
