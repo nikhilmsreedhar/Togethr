@@ -245,11 +245,9 @@ app.post('/api/retrieveevents', async (req, res, next) => {
         }
         
         
-        if (event){
          res.write(
-           event
+           JSON.stringify(event)
          );
-        }
       })
       .catch(err => res.status(400).json("Error" + err));
       i++;
