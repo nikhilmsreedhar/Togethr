@@ -19,11 +19,11 @@ const EventSchema = new Schema({
         required: true
     },
     StartDate: {
-        type: Date,
+        type: String,
         required: true
     },
     EndDate: {
-        type: Date, 
+        type: String, 
         required: true
     },
     NumGuests: {

@@ -19,8 +19,10 @@ function Explore() {
     Tags: etags
   })
   .then((response) => {
-    console.log(response.data);
-    // var ed = JSON.parse(response.data);
+    console.log(response);
+    var ed = JSON.parse(response.data);
+    console.log(ed);
+    // var ed = response.data[0];
     // console.log(ed);  
     // for (i = 0; i < ed.data.length; i++){
     //   var event = ed[i];

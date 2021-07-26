@@ -281,7 +281,7 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
         
         
          
-         res.write(
+        res.write(
           JSON.stringify(event)
         );
       })
