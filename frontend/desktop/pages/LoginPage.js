@@ -67,7 +67,7 @@ const login = (user, pass) => {
     .then((response) => {
       console.log(response);
       var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
-                      id:response.data.id, interests: response.data.Tags, emailAddress: response.data.Email}
+                      id:response.data.id, tags: response.data.Tags, emailAddress: response.data.Email}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       // if tags are empty go to choose tags
       if(response.data.Tags.length > 0){
@@ -77,7 +77,12 @@ const login = (user, pass) => {
         navigation.navigate('EditTags');
       }
     }, (error) => {
-      setLoginMessage('Incorrect Username or Password');
+      if (error.status == 301){
+        setLoginMessage('Incorrect Username or Password');
+      }
+      else {
+        setLoginMessage('Something went wrong! Please try again later.');
+      }
       console.log(error);
     });
     

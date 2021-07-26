@@ -3,27 +3,34 @@ import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-na
 import { Ionicons } from '@expo/vector-icons';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import EventCard from '../components/EventCard';
-import Data from '../assets/data.js'
+import Data, { push } from '../assets/data.js'
 import NavigationBar from '../components/NavigationBar';
 import axios from 'axios';
 
 function Explore() {
   const t = {};
-
+  var i, j;
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
-  var tags = ud.Tags;
+  var etags = ud.tags;
+  var data = [];
 
-  // axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents', {
-  //   Tags: tags
-  // })
-  // .then((response) => {
-  //   console.log(response);
-
-  // }, (error) => {
-  //   console.log(error);
-    
-  // });
+  axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents', {
+    Tags: etags
+  })
+  .then((response) => {
+    console.log(response.data);
+    // var ed = JSON.parse(response.data);
+    // console.log(ed);  
+    // for (i = 0; i < ed.data.length; i++){
+    //   var event = ed[i];
+    //   data.push(event);
+    // }
+    // console.log(data);
+  }, (error) => {
+    console.log(error);
+    alert("Something went wrong!");
+  });
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -31,12 +38,12 @@ function Explore() {
     <View style={styles.page}>
       
       <CardStack 
-      disableTopSwipe = 'true'
-      disableBottomSwipe = 'true'
-      disableLeftSwipe = 'true'
-      disableRightSwipe = 'true'
-      verticalSwipe = 'false'
-      horizontalSwipe = 'false'
+      disableTopSwipe = {true}
+      disableBottomSwipe = {true}
+      disableLeftSwipe = {true}
+      disableRightSwipe = {true}
+      verticalSwipe = {false}
+      horizontalSwipe = {false}
       style={styles.content}
       ref={swiper => {t.swiper = swiper }}
       renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}
@@ -48,7 +55,7 @@ function Explore() {
         alert('swiped right')
       }
       onSwipedBottom={() => alert('swiped down')}>
-        {Data.map((item, index) => (
+        {data.map((item, index) => (
         <Card key={index}>
           <EventCard
             title={item.title}
