@@ -240,17 +240,16 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   var i = 0;
   try{
     while (i < len) {
-      await Event.find({Tag: req.body.Tags[i]}).then(event => {
+      await Event.find({Tag: Tags[i]}).then(event => {
         if(!event) {
           return res.status(301).json({ warning: "no events matching provided tag(s) come back later" });
         }
         
         
-         
         if (event){
-          res.write(
-            JSON.stringify(event)
-          );
+         res.write(
+           JSON.stringify(event)
+         );
         }
       })
       .catch(err => res.status(400).json("Error" + err));
