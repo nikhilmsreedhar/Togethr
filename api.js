@@ -247,9 +247,11 @@ app.post('/api/retrieveevents', async (req, res, next) => {
         
         
          
-         res.write(
-          JSON.stringify(event)
-        );
+        if (event){
+          res.write(
+            JSON.stringify(event)
+          );
+        }
       })
       .catch(err => res.status(400).json("Error" + err));
       i++;
@@ -261,12 +263,6 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   }catch(error){
     console.log(error.message);
   }
-<<<<<<< HEAD
-=======
- 
-  
-
->>>>>>> 2b81f1b3374a0f072ebaa23ebcbca9874ee03981
 });
 
 
