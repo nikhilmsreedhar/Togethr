@@ -229,6 +229,7 @@ app.delete('/api/deleteevent', async (req, res, next) => {
 });
 
 
+
 app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = new Array(req.body.Tags);
   var len = req.body.Tags.length;
@@ -238,20 +239,25 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   var i = 0;
   try{
     while (i < len) {
-      await Event.find({Tag: req.body.Tags[i]}).then(event => {
-        if(!event) {
+      await Event.find({Tag: Tags[i]}).then(event => {
+        if(!event.length) {
+          res.write(
+            JSON.stringify({ warning: "no events matching provided your tags come back later" }) 
+          );    
           i++;
-          continue;
-          return res.status(301).json({ warning: "no events matching provided tag(s) come back later" });
         }
         
         
-         res.write(
-           JSON.stringify(event)
-         );
+        else {
+          res.write(
+            JSON.stringify(event)
+          );
+          i++;
+
+        } 
+         
       })
       .catch(err => res.status(400).json("Error" + err));
-      i++;
     
       
     }
@@ -264,6 +270,8 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   
 
 });
+
+
 
 
 app.post('/api/viewlikedevents', async (req, res, next) => {
