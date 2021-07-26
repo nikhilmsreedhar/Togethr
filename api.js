@@ -6,6 +6,10 @@ const nodemailer = require("nodemailer");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
+const app = express()
+
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
  
 
@@ -230,52 +234,99 @@ app.delete('/api/deleteevent', async (req, res, next) => {
 app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = new Array(req.body.Tags);
   var len = req.body.Tags.length;
-  var i = 0;
-  if (req.body.Tags.length === 0){
+   if (req.body.Tags.length === 0){
     return res.status(301).json({ warning: "choose tags first" });
   }
-
-  while (i < len) {
-    // res.write(JSON.stringify(Tags[i]));
-    Event.find({Tag: Tags[i]}).then(event => {
-      if(!event) {
-        return res.status(301).json({ warning: "no events matching provided tag(s) come back later" });
-      }
-      res.json(
-        event
-      );
-    })
-    .catch(err => res.status(400).json("Error" + err));
-    i++;
+  var i = 0;
+  try{
+    while (i < len) {
+      await Event.find({Tag: req.body.Tags[i]}).then(event => {
+        if(!event) {
+          return res.status(301).json({ warning: "no events matching provided tag(s) come back later" });
+        }
+        
+        
+         
+         res.write(
+          JSON.stringify(event)
+        );
+      })
+      .catch(err => res.status(400).json("Error" + err));
+      i++;
+    
+      
+    }
+  
+     res.end();
+  }catch(error){
+    console.log(error.message);
   }
+<<<<<<< HEAD
+=======
+ 
+  
+
+>>>>>>> 2b81f1b3374a0f072ebaa23ebcbca9874ee03981
 });
 
 
 app.post('/api/viewlikedevents', async (req, res, next) => {
   const LikedEvents= new Array(req.body.LikedEvents);
   var len = req.body.LikedEvents.length;
-  var i = 0;
   if (req.body.LikedEvents.length === 0){
-    return res.status(301).json({ warning: "you have no liked events" });
+    return res.status(301).json({ warning: "you have no liked events" })
   }
+  var i = 0;
+  try{
+    while (i < len) {
+      await Event.find({_id: LikedEvents[i]}).then(event =>  {
+        if(!event) {
+          return res.status(301).json({ warning: "no events matching provided your likes come back later" });
+        }
+        
+        
+         
+         res.write(
+          JSON.stringify(event)
+        );
+      })
+      .catch(err => res.status(400).json("Error" + err));
+      i++;
+    
+      
+    }
+  
+     res.end();
+  }catch(error){
+    console.log(error.message);
+  }
+ 
+  
 
-  while (i < len) {
-    // res.write(JSON.stringify(LikedEvents[i]));
-    Event.find({_id: LikedEvents[i]}).then(event => {
-      if(!event) {
-        return res.status(301).json({ warning: "no events matching provided your likes come back later" });
-      }
-      // if(len === 0){
-      //   return res.status(301).json({ warning: "No liked events found" });
-      // }
-      res.json(
-        event
-      );
-    })
-    .catch(err => res.status(400).json("Error" + err));
-    i++;
-  }
-  //res.end();
+  // const LikedEvents= new Array(req.body.LikedEvents);
+  // var len = req.body.LikedEvents.length;
+  // var i = 0;
+  // if (req.body.LikedEvents.length === 0){
+  //   return res.status(301).json({ warning: "you have no liked events" });
+  // }
+
+  // while (i < len) {
+  //   // res.write(JSON.stringify(LikedEvents[i]));
+  //   Event.find({_id: LikedEvents[i]}).then(event => {
+  //     if(!event) {
+  //       return res.status(301).json({ warning: "no events matching provided your likes come back later" });
+  //     }
+  //     // if(len === 0){
+  //     //   return res.status(301).json({ warning: "No liked events found" });
+  //     // }
+  //     res.json(
+  //       event
+  //     );
+  //   })
+  //   .catch(err => res.status(400).json("Error" + err));
+  //   i++;
+  // }
+  // //res.end();
 
 });
 
@@ -284,25 +335,61 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
 app.post('/api/viewattendingevents', async (req, res, next) => {
   const Attending = new Array(req.body.AttendingEvents);
   var len = req.body.AttendingEvents.length;
-  var i = 0;
-  if (req.body.AttendingEvents.length === 0){
+   if (req.body.AttendingEvents.length === 0){
     return res.status(301).json({ warning: "please select an event to attend" });
   }
+  var i = 0;
+  try{
+    while (i < len) {
+      await Event.find({_id: Attending[i]}).then(event => {
+        if(!event) {
+          return res.status(301).json({ warning: "please select an event to attend" });
+        }
+        
+        
+         
+         res.write(
+          JSON.stringify(event)
+        );
 
-  while (i < len) {
-    // res.write(JSON.stringify(LikedEvents[i]));
-    Event.find({_id: Attending[i]}).then(event => {
-      if(!event) {
-        return res.status(301).json({ warning: "no events matching provided your likes come back later" });
-      }
-      res.json(
-        event
-      );
-    })
-    .catch(err => res.status(400).json("Error" + err));
-    i++;
+
+
+
+      })
+      .catch(err => res.status(400).json("Error" + err));
+      i++;
+    
+      
+    }
+  
+     res.end();
+  }catch(error){
+    console.log(error.message);
   }
-  //res.end();
+ 
+  
+
+  // const Attending = new Array(req.body.AttendingEvents);
+  // var len = req.body.AttendingEvents.length;
+  // var i = 0;
+  // if (req.body.AttendingEvents.length === 0){
+  //   return res.status(301).json({ warning: "please select an event to attend" });
+  // }
+
+  // while (i < len) {
+  //   // res.write(JSON.stringify(LikedEvents[i]));
+  //   Event.find({_id: Attending[i]}).then(event => {
+  //     if(!event) {
+  //       return res.status(301).json({ warning: "no events matching provided your likes come back later" });
+  //     }
+  //     res.json(
+  //       event
+  //     );
+  //   })
+  //   .catch(err => res.status(400).json("Error" + err));
+  //   i++;
+  // }
+  // //res.end();
 
 });
 
