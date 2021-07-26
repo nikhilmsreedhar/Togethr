@@ -247,7 +247,7 @@ app.post('/api/retrieveevents', async (req, res, next) => {
         
         if (event){
          res.write(
-           JSON.stringify(event)
+           event
          );
         }
       })
