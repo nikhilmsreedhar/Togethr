@@ -230,7 +230,7 @@ const post = (title, description, location, guests, category, start, end) => {
           onChange={endTime => setEndTime(endTime)}
          />
          </View> 
-         <HelperText type="error">
+         <HelperText>
             {addMessage}
           </HelperText>
           <HelperText type="error">
