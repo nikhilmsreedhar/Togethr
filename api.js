@@ -240,15 +240,22 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   try{
     while (i < len) {
       await Event.find({Tag: Tags[i]}).then(event => {
+
+
         if(!event.length) {  
           i++;
         }
+
+
         else {
+          res.setHeader('Content-Type', 'application/json');
           res.write(
             JSON.stringify(event)
           );
           i++;
-        } 
+        }
+
+        
       })
       .catch(err => res.status(400).json("Error" + err));
     
@@ -277,18 +284,25 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
   try{
     while (i < len) {
       await Event.find({_id: LikedEvents[i]}).then(event =>  {
-        if(!event) {
-          return res.status(301).json({ warning: "no events matching provided your likes come back later" });
+
+
+        if(!event.length) {  
+          i++;
         }
+
         
-        
-         
-         res.write(
-          JSON.stringify(event)
-        );
+        else {
+          res.setHeader('Content-Type', 'application/json');
+          res.write(
+            JSON.stringify(event)
+          );
+          i++;
+        } 
+
+
       })
       .catch(err => res.status(400).json("Error" + err));
-      i++;
+
     
       
     }
@@ -339,22 +353,22 @@ app.post('/api/viewattendingevents', async (req, res, next) => {
   try{
     while (i < len) {
       await Event.find({_id: Attending[i]}).then(event => {
-        if(!event) {
-          return res.status(301).json({ warning: "please select an event to attend" });
+
+
+        if(!event.length) {  
+          i++;
         }
-        
-        
-         
-         res.write(
-          JSON.stringify(event)
-        );
 
 
-
-
+        else {
+          res.setHeader('Content-Type', 'application/json');
+          res.write(
+            JSON.stringify(event)
+          );
+          i++;
+        } 
       })
       .catch(err => res.status(400).json("Error" + err));
-      i++;
     
       
     }
