@@ -90,7 +90,7 @@ export default function NavigationBar() {
             </TouchableOpacity>
 
             <TouchableOpacity onPress={()=> navigation.navigate("Likes")} style={styles.menuItem}>
-             Your Saves
+             Your Likes
             </TouchableOpacity>
            
 
