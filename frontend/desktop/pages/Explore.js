@@ -9,72 +9,73 @@ import NavigationBar from '../components/NavigationBar';
 import axios from 'axios';
 
 function Explore() {
-  const t = {};
-  var i;
-  var data = [];
+
+  //retrieve user tags for POST to API
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
   var etags = ud.tags;
 
-  const isFocused = useIsFocused()
-  const [eventData, setEventData] = React.useState([]);
-
+  // every time isFocused is updated, useEffect calls getEventsData
   useEffect(() => {
-      axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents', {
+    getEventsData();
+    console.log("Called");
+    console.log(eventData);
+  } , [isFocused])
+
+  //for use by the swiper
+  const t = {};
+
+  const isFocused = useIsFocused()
+  const [eventData, setEventsData] = React.useState([]);
+
+  async function getEventsData() {
+    await axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents', {
         Tags: etags
       })
       .then((response) => {
-        console.log(response); 
-        for (i = 0; i < response.data.length; i++){
-          var event = response.data[i];
-          data.push(event);
-        }
-        localStorage.setItem('user_events', JSON.stringify(data));
-        console.log(data);
+        console.log(response);
+        setEventsData([...response.data]);
+        console.log("Updated eventData");
       }, (error) => {
         console.log(error);
         alert("Something went wrong!");
       });
-      setEventData(data);
-  } , [isFocused])
+  }
 
-  var _ue = localStorage.getItem('user_events');
-  var ue = JSON.parse(_ue);
 
   return (
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
     <View style={styles.page}>
-      
       <CardStack 
-      disableTopSwipe = {true}
-      disableBottomSwipe = {true}
-      disableLeftSwipe = {true}
-      disableRightSwipe = {true}
-      style={styles.content}
-      ref={swiper => {t.swiper = swiper }}
-      renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}
-      onSwipedLeft={() => 
-        
-        alert('swiped left')
-      }
-      onSwipedRight={() => 
-        alert('swiped right')
-      }
-      onSwipedBottom={() => 
-        
-        alert('swiped down')
+        disableTopSwipe = {true}
+        disableBottomSwipe = {true}
+        disableLeftSwipe = {true}
+        disableRightSwipe = {true}
+        style={styles.content}
+        ref={swiper => {t.swiper = swiper }}
+        renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}
+        onSwipedLeft={() => 
+          
+          alert('swiped left')
+        }
+        onSwipedRight={() => 
+          alert('swiped right')
+        }
+        onSwipedBottom={() => 
+          
+          alert('swiped down')
       }>
-        {ue.map((item, index) => (
-        <Card key={index}>
-          <EventCard
-            title={item.EventName}
-            description={item.EventDescription}
-            startDate={item.StartDate}
-            endDate={item.EndDate}
-            attendees={item.Attendees}
-            />
-        </Card>
+        {eventData.map((item, index) => (
+          <Card key={index}>
+            <EventCard
+              title={item.EventName}
+              description={item.EventDescription}
+              startDate={item.StartDate}
+              endDate={item.EndDate}
+              attendees={item.Attendees}
+              />
+          </Card>
          ))}
       </CardStack>
 

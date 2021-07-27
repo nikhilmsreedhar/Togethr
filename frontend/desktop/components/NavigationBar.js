@@ -106,7 +106,7 @@ export default function NavigationBar() {
         <Toolbar>
             <Text style={styles.title}>Togethr</Text>
 
-            <TouchableOpacity onPress={()=> navigateExplore()} style={styles.menuItem}>
+            <TouchableOpacity onPress={()=> navigation.navigate("Explore")} style={styles.menuItem}>
              Explore
             </TouchableOpacity>
 
