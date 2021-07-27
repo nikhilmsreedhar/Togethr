@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 // var Int32 = require('mongoose-int32');
 //Create Schema
-const UserSchema = new Schema({
-  _id: {
-     type: String
-  },
+const UserSchema = new Schema({ 
   UserName: {
     type: String,
     required: true
