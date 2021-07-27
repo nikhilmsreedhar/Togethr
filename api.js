@@ -248,6 +248,7 @@ app.post('/api/retrieveevents', async (req, res, next) => {
 
 
         else {
+          res.setHeader('Content-Type', 'application/json');
           res.write(
             JSON.stringify(event)
           );
@@ -289,8 +290,9 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
           i++;
         }
 
-
+        
         else {
+          res.setHeader('Content-Type', 'application/json');
           res.write(
             JSON.stringify(event)
           );
@@ -359,6 +361,7 @@ app.post('/api/viewattendingevents', async (req, res, next) => {
 
 
         else {
+          res.setHeader('Content-Type', 'application/json');
           res.write(
             JSON.stringify(event)
           );
