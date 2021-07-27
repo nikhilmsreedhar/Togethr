@@ -18,6 +18,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 
 export default function NavigationBar() {
@@ -51,6 +52,29 @@ export default function NavigationBar() {
       }
     }
 
+    function navigateExplore() {
+      var i;
+      var data = [];
+      var _ud = localStorage.getItem('user_data');
+      var ud = JSON.parse(_ud);
+      var etags = ud.tags;
+      axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents', {
+          Tags: etags
+        })
+        .then((response) => {
+          console.log(response); 
+          for (i = 0; i < response.data.length; i++){
+            var event = response.data[i];
+            data.push(event);
+          }
+          localStorage.setItem('user_events', JSON.stringify(data));
+        }, (error) => {
+          console.log(error);
+          alert("Something went wrong!");
+        });
+        navigation.navigate('Explore');
+    }
+
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
@@ -82,7 +106,7 @@ export default function NavigationBar() {
         <Toolbar>
             <Text style={styles.title}>Togethr</Text>
 
-            <TouchableOpacity onPress={()=> navigation.navigate("Explore")} style={styles.menuItem}>
+            <TouchableOpacity onPress={()=> navigateExplore()} style={styles.menuItem}>
              Explore
             </TouchableOpacity>
 
