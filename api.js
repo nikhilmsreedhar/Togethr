@@ -241,14 +241,9 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   try{
     while (i < len) {
       await Event.find({Tag: Tags[i]}).then(event => {
-        if(!event.length) {
-          res.write(
-            JSON.stringify({ warning: "no events matching provided your tags come back later" }) 
-          );    
+        if(!event.length) {    
           i++;
         }
-        
-        
         else {
           res.write(
             JSON.stringify(event)
