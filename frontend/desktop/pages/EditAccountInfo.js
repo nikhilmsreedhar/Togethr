@@ -178,7 +178,7 @@ function change(curpass, pass, passConfirm){
      <View style={styles.container}>
     
         <View style={styles.center}>
-        <Text h1 style={styles.title}>Account </Text>
+        <Text h1 style={styles.title}>Account</Text>
         <Text style={styles.verticalDivider}></Text>
         <Text Text style={styles.inputDivider}></Text>
         
