@@ -15,12 +15,10 @@ function Explore() {
     <View style={styles.page}>
       
       <CardStack 
-      disableTopSwipe = 'true'
-      disableBottomSwipe = 'true'
-      disableLeftSwipe = 'true'
-      disableRightSwipe = 'true'
-      verticalSwipe = 'false'
-      horizontalSwipe = 'false'
+      disableTopSwipe = {true}
+      disableBottomSwipe = {true}
+      disableLeftSwipe = {true}
+      disableRightSwipe = {true}
       style={styles.content}
       ref={swiper => {t.swiper = swiper }}
       renderNoMoreCards={() => <Text style={{ fontSize: 18, color: 'gray' }}>No more events to display</Text>}

@@ -174,11 +174,11 @@ function change(curpass, pass, passConfirm){
   
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
-   
+    <ScrollView>
      <View style={styles.container}>
     
         <View style={styles.center}>
-        <Text h1 style={styles.title}>Account </Text>
+        <Text h1 style={styles.title}>Account</Text>
         <Text style={styles.verticalDivider}></Text>
         <Text Text style={styles.inputDivider}></Text>
         
@@ -304,7 +304,7 @@ function change(curpass, pass, passConfirm){
          </MuiThemeProvider>
         </View>
     </View>
-    
+    </ScrollView>
     </SafeAreaView>
    
     
