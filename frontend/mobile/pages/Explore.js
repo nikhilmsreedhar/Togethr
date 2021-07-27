@@ -4,15 +4,31 @@ import CardStack, { Card } from "react-native-card-stack-swiper";
 import EventCard from "../components/EventCard";
 import Data from "../assets/data.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+
+const STORAGE_KEY = 'user_data'
 
 const Explore = () => {
   const t = {};
 
   React.useEffect(() => {
-    getEventsData();
-  }, [eventsData]);
+    const getTags = async () => {
+      
+    }
+    fetchEventsData();
+  }, []);
 
   const [eventsData, setEventsData] = React.useState([]);
+
+  const fetchEventsData = async (tags) => {
+    axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents',
+    {
+      Tags: tags
+    }).then((response) => {
+      console.log(response);
+      setEventsData(response.data);
+    })
+  }
 
   const getEventsData = async () => {
     try {

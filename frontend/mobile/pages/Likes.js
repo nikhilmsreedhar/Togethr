@@ -17,6 +17,8 @@ import UserData from "../assets/UserData";
 const STORAGE_KEY = "user_data";
 
 const Likes = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   React.useEffect(() => {
     getTagData();
   }, []);

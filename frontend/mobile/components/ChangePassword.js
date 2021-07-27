@@ -1,9 +1,14 @@
-import * as React from "react";
+import React, {useState} from "react";
 import { StyleSheet, View, TouchableOpacity, SafeAreaView } from "react-native";
 import { Button, Text, TextInput, HelperText } from "react-native-paper";
 import axios from "axios";
 
 const ChangePassword = () => {
+
+  const [pwErrorMessage, setPWErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  
+
   function changePassword(currentPass, newPass, passConfirm) {
     if (currentPass === "" || newPass === "" || passConfirm === "") {
       setPWMessage();

@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
+  // TextInput,
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
@@ -10,7 +11,29 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Button, Menu, Provider, TextInput } from 'react-native-paper';
 import axios from 'axios';
+import RNPickerSelect from 'react-native-picker-select';
 import { DatePickerModal } from 'react-native-paper-dates';
+
+const interestOptions = [
+  { label: 'Movie', value: 'Movie' },
+  { label: 'Music', value: 'Music' },
+  { label: 'Sports', value: 'Sports' },
+  { label: 'Outdoors', value: 'Outdoors' },
+  { label: 'Food', value: 'Food' },
+  { label: 'Animals', value: 'Animals' },
+  { label: 'Beauty', value: 'Beauty' },
+  { label: 'Gaming', value: 'Gaming' },
+  { label: 'Sight Seeing', value: 'Sight Seeing' },
+  { label: 'Technology', value: 'Technology' },
+  { label: 'DIY', value: 'DIY' },
+  { label: 'Travel', value: 'Travel' },
+  { label: 'Performing Arts', value: 'Performing Arts' },
+  { label: 'Fine Arts', value: 'Fine Arts' },
+  { label: 'Cars', value: 'Cars' },
+  { label: 'Photography', value: 'Photography' },
+  { label: 'Lifestyle', value: 'Lifestyle' },
+  { label: 'Shopping', value: 'Shopping' },
+];
 
 const AddEvent = () => {
   const navigation = useNavigation();
@@ -22,9 +45,9 @@ const AddEvent = () => {
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [location, setLocation] = useState('');
-  const [numGuests, setNumGuests] = useState('');
+  const [numGuests, setNumGuests] = useState(0);
   const [category, setCategory] = useState('');
-  const [day, setDay] = useState(new Date());
+  const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState();
   const [addMessage, setAddMessage] = useState();
@@ -32,6 +55,8 @@ const AddEvent = () => {
 
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
+
+  
 
   const postEvent = (
     title,
@@ -84,8 +109,16 @@ const AddEvent = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Provider>
+    <Provider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <DatePickerModal 
+          mode="single"
+          visible={open}
+          onDismiss={onDismissSingle}
+          date={date}
+          onConfirm={onConfirmSingle}
+        />
+
         <View style={styles.container}>
           <View style={styles.closeButton}>
             <TouchableOpacity onPress={() => {}}>
@@ -131,43 +164,28 @@ const AddEvent = () => {
             onChangeText={(numGuests) => setNumGuests(numGuests)}
           />
 
-          <Menu
-            visible={visible}
-            onDismiss={closeMenu}
-            anchor={
-              <Button
-                mode="outlined"
-                style={{ alignSelf: '' }}
-                onFocus={openMenu}
-              >Category</Button>
-            }>
-            <Menu.Item title={'Movie'} />
-            <Menu.Item title={'Music'} />
-            <Menu.Item title={'Sports'} />
-            <Menu.Item title={'Outdoors'} />
-            <Menu.Item title={'Food'} />
-            <Menu.Item title={'Animals'} />
-            <Menu.Item title={'Beauty'} />
-            <Menu.Item title={'Gaming'} />
-            <Menu.Item title={'Sight Seeing'} />
-            <Menu.Item title={'Technology'} />
-            <Menu.Item title={'DIY'} />
-            <Menu.Item title={'Travel'} />
-            <Menu.Item title={'Performing Arts'} />
-            <Menu.Item title={'Fine Arts'} />
-            <Menu.Item title={'Cars'} />
-            <Menu.Item title={'Photography'} />
-            <Menu.Item title={'Lifestyle'} />
-            <Menu.Item title={'Shopping'} />
-          </Menu>
+          <RNPickerSelect
+            style={pickerSelectStyles}
+            value={category}
+            onValueChange={(value) => {
+              setCategory(value);
+            }}
+            items={interestOptions}
+          />
 
           <TextInput
             style={{ alignSelf: 'stretch' }}
             label="Date"
-            value={numGuests}
+            value={date}
             mode="outlined"
-            onChangeText={(numGuests) => setNumGuests(numGuests)}
+            onFocus={() => {}}
+            onChangeText={(date) => setDate(date)}
           />
+
+          <View>
+            <TextInput />
+            <TextInput />
+          </View>
 
           <Button
             onPress={() =>
@@ -177,7 +195,7 @@ const AddEvent = () => {
                 location,
                 numGuests,
                 category,
-                day,
+                date,
                 startTime,
                 endTime
               )
@@ -186,8 +204,8 @@ const AddEvent = () => {
             POST
           </Button>
         </View>
-      </Provider>
-    </SafeAreaView>
+      </SafeAreaView>
+    </Provider>
   );
 };
 
@@ -242,6 +260,29 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     fontFamily: 'Roboto_500Medium',
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
 
