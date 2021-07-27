@@ -36,9 +36,11 @@ function Explore() {
         alert("Something went wrong!");
       });
       setEventData(data);
-      alert(eventData);
-    } , [isFocused])
-    
+  } , [isFocused])
+
+  var _ue = localStorage.getItem('user_events');
+  var ue = JSON.parse(_ue);
+
   return (
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
@@ -63,7 +65,7 @@ function Explore() {
         
         alert('swiped down')
       }>
-        {eventData.map((item, index) => (
+        {ue.map((item, index) => (
         <Card key={index}>
           <EventCard
             title={item.EventName}
