@@ -27,7 +27,7 @@ const EditTags = ({route}) =>{
   
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
-  var tags = ud.interests;
+  var tags = ud.tags;
   var userid = ud.id;
 
   const [interests, setInterests] = useState(tags)
@@ -71,7 +71,7 @@ function edit (interests) {
     })
     .then((response) => {
       var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
-      id: userid, interests: response.data.Tags, emailAddress: response.data.Email}
+      id: userid, tags: response.data.Tags, emailAddress: response.data.Email}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       console.log(response);
       setMessage();

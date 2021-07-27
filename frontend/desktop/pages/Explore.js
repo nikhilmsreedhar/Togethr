@@ -17,8 +17,9 @@ function Explore() {
   var etags = ud.tags;
 
   const isFocused = useIsFocused()
+  const [eventData, setEventData] = React.useState([]);
 
-    useEffect(() => {
+  useEffect(() => {
       axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents', {
         Tags: etags
       })
@@ -34,8 +35,10 @@ function Explore() {
         console.log(error);
         alert("Something went wrong!");
       });
+      setEventData(data);
+      alert(eventData);
     } , [isFocused])
-
+    
   return (
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
@@ -62,7 +65,7 @@ function Explore() {
         
         alert('swiped down')
       }>
-        {data.map((item, index) => (
+        {eventData.map((item, index) => (
         <Card key={index}>
           <EventCard
             title={item.EventName}
@@ -99,7 +102,10 @@ function Explore() {
     </View>
     </SafeAreaView>
   );
+
 }
+
+
 const styles = StyleSheet.create({
   content:{
    flex: 5,
