@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -44,6 +44,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: '#5b06d5'
+    }
+  }
+});
+
 const ViewCard = ({
   title, 
   description,
@@ -56,6 +64,7 @@ const ViewCard = ({
 }) => {
   const classes = useStyles();
   return (
+    <MuiThemeProvider theme={theme}>
     <div className={classes.root}>
       <Accordion>
         <AccordionSummary
@@ -80,12 +89,13 @@ const ViewCard = ({
         <Divider />
         <AccordionActions>
           <Button size="small">Cancel</Button>
-          <Button size="small" color="primary">
+          <Button size="small" color="secondary">
             Save
           </Button>
         </AccordionActions>
       </Accordion>
     </div>
+    </MuiThemeProvider>
   );
 }
 
