@@ -63,6 +63,7 @@ export default function NavigationBar() {
 
   const logout = () => {
     localStorage.removeItem('user_data');
+    localStorage.removeItem('user_events');
     setOpen(false);
     navigation.navigate('HomePage')
   };

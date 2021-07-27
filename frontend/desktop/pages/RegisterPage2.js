@@ -69,7 +69,8 @@ function goToNextPage (firstName, lastName, email, user, pass, passConfirm, birt
       FirstName: firstName,
       LastName: lastName,
       Email: email, 
-      Verified: 'false'
+      Verified: 'false',
+      Tags: []
     })
     .then((response) => {
       handleClickOpen();
