@@ -38,7 +38,6 @@ app.post('/api/adduser', async (req, res, next) => {
 
   
   let user = new User({
-    _id,
     UserName,
     Password,
     FirstName,
@@ -241,9 +240,13 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   try{
     while (i < len) {
       await Event.find({Tag: Tags[i]}).then(event => {
-        if(!event.length) {    
+
+
+        if(!event.length) {  
           i++;
         }
+
+
         else {
           res.setHeader('Content-Type', 'application/json');
           res.write(
@@ -263,6 +266,9 @@ app.post('/api/retrieveevents', async (req, res, next) => {
   }catch(error){
     console.log(error.message);
   }
+ 
+  
+
 });
 
 
@@ -354,6 +360,9 @@ app.post('/api/viewattendingevents', async (req, res, next) => {
         }
 
 
+
+
+
         else {
           res.setHeader('Content-Type', 'application/json');
           res.write(
@@ -433,6 +442,52 @@ app.get('/api/verification/:token', async (req, res) => {
   }
 
 });
+
+
+
+// app.post('/api/forgotpassword', async (req, res) => {
+//   const UserName = req.body.UserName;
+//   User.findOne({ UserName })
+//     .then(user => {
+//       if (!user)
+//         return res.status(301).json({ warning: "Incorrect username" });
+//         jwt.sign(
+//           {
+//             user: _.pick(user, 'id'),
+//           },
+//           SECRET,
+//           {
+//             expiresIn: '1d',
+//           },
+//           (err, emailToken) => {
+//             const url = `https://togethrgroup1.herokuapp.com/api/reset/${emailToken}`;
+        
+//             transporter.sendMail({
+//               to: user.Email,
+//               subject: 'forgot password',
+//               html: `Please click this email to reset your password: <a href="${url}">${url}</a>`,
+//             });
+//           },
+//         );
+//          res.json({
+//            id: user.id,
+//            UserName: user.UserName,
+//            FirstName: user.FirstName,
+//            LastName: user.LastName,
+//            Picture: user.Picture,
+//            Rating: user.Rating,
+//            Email: user.Email,
+//            Verified: user.Verified,
+//            Tags: user.Tags
+//          });
+//        })
+//        .catch(err => res.status(400).json("Error" + err));
+
+// });
+
+
+
+
 
 module.exports = router
 }
