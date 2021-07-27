@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import EventCard from '../components/EventCard';
@@ -9,30 +10,31 @@ import axios from 'axios';
 
 function Explore() {
   const t = {};
-  var i, j;
+  var i;
+  var data = [];
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
   var etags = ud.tags;
-  var data = [];
 
-  axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents', {
-    Tags: etags
-  })
-  .then((response) => {
-    console.log(response);
-    var ed = JSON.parse(response.data);
-    console.log(ed);
-    // var ed = response.data[0];
-    // console.log(ed);  
-    // for (i = 0; i < ed.data.length; i++){
-    //   var event = ed[i];
-    //   data.push(event);
-    // }
-    // console.log(data);
-  }, (error) => {
-    console.log(error);
-    alert("Something went wrong!");
-  });
+  const isFocused = useIsFocused()
+
+    useEffect(() => {
+      axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents', {
+        Tags: etags
+      })
+      .then((response) => {
+        console.log(response); 
+        for (i = 0; i < response.data.length; i++){
+          var event = response.data[i];
+          data.push(event);
+        }
+        localStorage.setItem('user_events', JSON.stringify(data));
+        console.log(data);
+      }, (error) => {
+        console.log(error);
+        alert("Something went wrong!");
+      });
+    } , [isFocused])
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -56,15 +58,18 @@ function Explore() {
       onSwipedRight={() => 
         alert('swiped right')
       }
-      onSwipedBottom={() => alert('swiped down')}>
+      onSwipedBottom={() => 
+        
+        alert('swiped down')
+      }>
         {data.map((item, index) => (
         <Card key={index}>
           <EventCard
-            title={item.title}
-            description={item.description}
-            startTime={item.startTime}
-            endTime={item.endTime}
-            attendees={item.attendees}
+            title={item.EventName}
+            description={item.EventDescription}
+            startDate={item.StartDate}
+            endDate={item.EndDate}
+            attendees={item.Attendees}
             />
         </Card>
          ))}

@@ -11,8 +11,8 @@ const EventCard = ({
     title, 
     description,
     location,
-    startTime,
-    endTime,
+    startDate,
+    endDate,
     guests,
     attendees,
     tag
@@ -22,11 +22,12 @@ const EventCard = ({
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>{description}</Text>
         <View style={{flexDirection: 'row'}}>
-        <Text style={styles.info}>{startTime}</Text>
+        <Text style={styles.info}>{startDate}</Text>
         <Text style={styles.info}> - </Text>
-        <Text style={styles.info}>{endTime}</Text>
+        <Text style={styles.info}>{endDate}</Text>
         </View>
-        <Text style={styles.info}>{attendees}</Text>
+        {/* <Text style={styles.info}>{attendees.length}/{guests}</Text> */}
+        <Text style={styles.info}>{attendees.map(attendees=><Text>{attendees}</Text>)}</Text>
       </View>
    );
 }

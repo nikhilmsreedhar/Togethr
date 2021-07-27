@@ -36,7 +36,6 @@ export default function LoginPage() {
     navigation.goBack();
 }
 
-
 const [user, setUser] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [loginMessage,setLoginMessage] = React.useState('');
