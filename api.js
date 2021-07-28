@@ -165,7 +165,9 @@ app.post('/api/login', async (req, res, next) => {
             Rating: user.Rating,
             Email: user.Email,
             Verified: user.Verified,
-            Tags: user.Tags
+            Tags: user.Tags,
+            LikedEvents: user.LikedEvents,
+            AttendingEvents: user.AttendingEvents
           });
         })
         .catch(err => res.status(400).json("Error" + err));

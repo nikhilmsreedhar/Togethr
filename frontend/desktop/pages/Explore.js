@@ -61,7 +61,7 @@ function Explore() {
         },
         (error) => {
           console.log(error);
-          alert("Something went wrong!");
+          alert("Failed to Update Events!");
         }
       );
   }

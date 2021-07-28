@@ -59,14 +59,15 @@ const login = (user, pass) => {
     setLoginMessage("Please enter password");
   }
   else{
-      axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
+    axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
       UserName: user,
       Password: pass
     })
     .then((response) => {
       console.log(response);
       var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
-                      id:response.data.id, tags: response.data.Tags, emailAddress: response.data.Email}
+                      id:response.data.id, tags: response.data.Tags, emailAddress: response.data.Email, 
+                      likes: response.data.LikedEvents, attend: response.data.AttendingEvents}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       // if tags are empty go to choose tags
       if(response.data.Tags.length > 0){

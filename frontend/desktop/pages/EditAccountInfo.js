@@ -117,8 +117,6 @@ function editProfile(first, last, username, email, uuser, uemail){
   });
 }
 
-
-
 // Add update pass function and check if old pass word is correct function
 function change(curpass, pass, passConfirm){
     if (curpass === "" || pass === "" || passConfirm === ""){
@@ -167,7 +165,19 @@ function change(curpass, pass, passConfirm){
     }
   }
 
-
+  function deleteAccount(){
+    var confirmation = confirm("Are you sure you want to delete your account?");
+    if (confirmation == true){
+      axios.delete('https://togethrgroup1.herokuapp.com/api/deleteuser', { 
+        id: userid,
+      })
+      .then((response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      });
+    }
+  }
 
 
  return (
@@ -297,6 +307,16 @@ function change(curpass, pass, passConfirm){
 
         <TouchableOpacity onPress={() =>change(curpass, pass, passConfirm)} style={styles.postButton}>
         <Text style={styles.postButtonText}>UPDATE PASSWORD</Text>
+        </TouchableOpacity>
+
+        <Text Text style={styles.inputDivider}></Text>
+
+        <Divider/>
+        
+        <Text style={styles.inputDivider}></Text>
+
+        <TouchableOpacity onPress={() =>deleteAccount()} style={styles.postButton}>
+        <Text style={styles.postButtonText}>DELETE ACCOUNT</Text>
         </TouchableOpacity>
 
         <Text Text style={styles.inputDivider}></Text>

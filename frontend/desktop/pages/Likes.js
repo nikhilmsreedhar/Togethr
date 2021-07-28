@@ -13,6 +13,22 @@ import Data from '../assets/data.js'
 
 
 function Likes() {
+  
+  var myLikes = [];
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var liked = ud.likes;
+
+  axios.post('https://togethrgroup1.herokuapp.com/api/viewlikedevents', { 
+    LikedEvents: liked
+  })
+  .then((response) => {
+    console.log(response);
+    myLikes = response.data.LikedEvents;
+  }, (error) => {
+    console.log(error);
+  });
+  
   return (
     <SafeAreaView style={{flex: 1}}>
     <NavigationBar/>
@@ -23,7 +39,7 @@ function Likes() {
         <Text style={styles.verticalDivider}></Text>
         <Text Text style={styles.inputDivider}></Text>
     <ScrollView>
-    {Data.map((item, index) => (
+    {myLikes.map((item, index) => (
     <Accordion
       key={index}
     >
