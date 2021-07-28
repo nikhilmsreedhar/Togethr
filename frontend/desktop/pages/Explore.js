@@ -23,16 +23,19 @@ function Explore() {
     return ud.tags;
   };
 
+  //returns true or false depending on if page is focused or not
+  const isFocused = useIsFocused();
+  console.log(isFocused);
+
   useEffect(() => {
+    console.log('IN USE EFFECT');
     const userTags = getUserTags();
     getEventsData(userTags);
-
+    return () => console.log("exiting useEffect");
   }, [isFocused]);
 
   
-  //returns true or false depending on if page is focused or not
-  const isFocused = useIsFocused();
-
+  
   // useFocusEffect should run every time the Explore page is focused
   // useFocusEffect(() => {
   //   getEventsData();
@@ -41,7 +44,7 @@ function Explore() {
   // });
 
   //for use by the swiper
-  const t = {};
+  const [t, setT] = React.useState({});
 
   const [eventData, setEventsData] = React.useState([]);
 
@@ -73,17 +76,18 @@ function Explore() {
           disableLeftSwipe
           disableRightSwipe
           style={styles.content}
-          ref={(swiper) => {
-            t.swiper = swiper;
+          ref={(component) => {
+            t.swiper = component;
           }}
           renderNoMoreCards={() => (
             <Text style={{ fontSize: 18, color: "gray" }}>
-              No more events to display
+              No more events to display. Come back later!
             </Text>
           )}
-          onSwipedLeft={() => alert("swiped left")}
-          onSwipedRight={() => alert("swiped right")}
-          onSwipedBottom={() => alert("swiped down")}
+          onSwipedLeft={() => console.log("swiped left")}
+          onSwipedRight={() => console.log("swiped right")}
+          onSwipedBottom={() => console.log("swiped down")}
+          key={isFocused}
         >
           {eventData.map((item, index) => (
             <Card key={index}>
