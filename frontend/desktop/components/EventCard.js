@@ -20,17 +20,11 @@ const EventCard = ({
     <View style={styles.containerCardItem}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
-      <View style={{ flexDirection: "row" }}>
-        <Text style={styles.info}>{startDate}</Text>
-        <Text style={styles.info}> - </Text>
-        <Text style={styles.info}>{endDate}</Text>
-      </View>
-      {/* <Text style={styles.info}>{attendees.length}/{guests}</Text> */}
-      <View style={styles.info}>
-        {attendees.map((attendee) => 
-          {return <Text style={styles.info}>{attendee}</Text>}
-        )}
-      </View>
+      <Text style={styles.info}>{startDate.substring(0,15)}{startDate.substring(18,21)} to {endDate.substring(0,15)}{endDate.substring(18,21)}</Text>
+      <Text style={styles.info}>at</Text>
+      <Text style={styles.info}>{location}</Text>
+      <Text style={styles.info}>Attendees: {attendees.length}/{guests+1}</Text>
+     
     </View>
   );
 };
