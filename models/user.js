@@ -50,6 +50,10 @@ const UserSchema = new Schema({
   AttendingEvents: {
     type: Array,
     required: false
+  },
+  PassCode: {
+    type: String,
+    required: false
   }
 });
 module.exports = User = mongoose.model("Users", UserSchema);
