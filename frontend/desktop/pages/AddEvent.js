@@ -78,8 +78,8 @@ const post = (title, description, location, guests, category, start, end) => {
     setAddErrorMessage("Please fill in all fields");
   }
   else{
-    const startUTC = new Date(start).toISOString();
-    const endUTC = new Date(end).toISOString();
+    const startUTC = new Date(start).toLocaleString();
+    const endUTC = new Date(end).toLocaleString();
     axios.post('https://togethrgroup1.herokuapp.com/api/addevent', { 
       Maker: userid,
       EventName: title,
@@ -225,7 +225,7 @@ const post = (title, description, location, guests, category, start, end) => {
           color= 'secondary'
           variant="inline"
           inputVariant="outlined"
-          label="End Time"
+          label="End Date and Time"
           value={endTime}
           onChange={endTime => setEndTime(endTime)}
          />
