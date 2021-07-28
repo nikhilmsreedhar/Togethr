@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -28,12 +28,12 @@ const Profile = () => {
     getUserData();
   }, []);
 
-  const [fname, setFname] = React.useState("");
-  const [lname, setLname] = React.useState("");
-  const [initials, setInitials] = React.useState("");
-  const [deleteModalVisible, setDeleteModalVisible] = React.useState(false);
-  const [changePassVisible, setChangePassVisible] = React.useState(false);
-  const [tags, setTags] = React.useState([]);
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [initials, setInitials] = useState("");
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [changePassVisible, setChangePassVisible] = useState(false);
+  const [tags, setTags] = useState([]);
 
   const showChangePassModal = () => setChangePassVisible(true);
   const confirmDelete = () => setDeleteModalVisible(true);

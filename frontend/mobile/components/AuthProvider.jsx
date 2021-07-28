@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const AuthContext = React.createContext({});
+export const AuthContext = React.createContext({
+  userData: null,
+  login: () => {},
+  logout: () => {}
+});
 
 export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
@@ -19,7 +24,7 @@ export const AuthProvider = ({ children }) => {
             .then(
               async (response) => {
                 console.log(response);
-                setUserData(response);
+                setUserData(response.data);
                 await AsyncStorage.setItem(
                   "user_data",
                   JSON.stringify(response.data)
@@ -32,6 +37,8 @@ export const AuthProvider = ({ children }) => {
         },
         logout: () => {
           setUserData(null);
+          AsyncStorage.removeItem('user_data');
+          AsyncStorage.removeItem('events_data');
         },
       }}
     >

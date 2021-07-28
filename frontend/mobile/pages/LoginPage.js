@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState, useContext} from "react";
 import axios from "axios";
 import {
   StyleSheet,
@@ -11,8 +11,11 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { TextInput, HelperText } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../components/AuthProvider";
 
 export default function LoginPage() {
+  const {login} = useContext(AuthContext);
+
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
@@ -23,7 +26,7 @@ export default function LoginPage() {
   const [loginMessage, setLoginMessage] = React.useState("");
 
   // This is where the logic for the login function will be added
-  const login = (user, pass) => {
+  const submit = (user, pass) => {
     if (user == "" && pass == "") {
       setLoginMessage("Please enter username and password");
     } else if (user == "" && pass != "") {
@@ -31,36 +34,37 @@ export default function LoginPage() {
     } else if (user != "" && pass == "") {
       setLoginMessage("Please enter password");
     } else {
-      axios
-        .post("https://togethrgroup1.herokuapp.com/api/login", {
-          UserName: user,
-          Password: pass,
-        })
-        .then(
-          async (response) => {
-            console.log(response);
-            var UserData = {
-              firstName: response.data.FirstName,
-              lastName: response.data.LastName,
-              username: response.data.UserName,
-              id: response.data.id,
-              tags: response.data.Tags,
-              emailAddress: response.data.Email,
-            };
-            // store JSON object
-            await AsyncStorage.setItem("user_data", JSON.stringify(UserData));
-            // if tags are empty go to choose tags
-            if (response.data.Tags.length > 0) {
-              navigation.navigate("LoggedIn");
-            } else {
-              navigation.navigate("EditTags");
-            }
-          },
-          (error) => {
-            setLoginMessage("Incorrect Username or Password");
-            console.log(error);
-          }
-        );
+      login(user, pass);
+      // axios
+      //   .post("https://togethrgroup1.herokuapp.com/api/login", {
+      //     UserName: user,
+      //     Password: pass,
+      //   })
+      //   .then(
+      //     async (response) => {
+      //       console.log(response);
+      //       var UserData = {
+      //         firstName: response.data.FirstName,
+      //         lastName: response.data.LastName,
+      //         username: response.data.UserName,
+      //         id: response.data.id,
+      //         tags: response.data.Tags,
+      //         emailAddress: response.data.Email,
+      //       };
+      //       // store JSON object
+      //       await AsyncStorage.setItem("user_data", JSON.stringify(UserData));
+      //       // if tags are empty go to choose tags
+      //       if (response.data.Tags.length > 0) {
+      //         navigation.navigate("LoggedIn");
+      //       } else {
+      //         navigation.navigate("EditTags");
+      //       }
+      //     },
+      //     (error) => {
+      //       setLoginMessage("Incorrect Username or Password");
+      //       console.log(error);
+      //     }
+      //   );
     }
   };
 
@@ -100,7 +104,7 @@ export default function LoginPage() {
         <Text style={styles.inputDivider}></Text>
 
         <TouchableOpacity
-          onPress={() => login(user, pass)}
+          onPress={() => submit(user, pass)}
           style={styles.loginButton}
         >
           <Text style={styles.loginButtonText}>LOG IN</Text>

@@ -15,7 +15,6 @@ function LoggedIn() {
   return (  
     <NavigationContainer independent={true}>
       <BottomNavigator />
-      
     </NavigationContainer>
   );
 }

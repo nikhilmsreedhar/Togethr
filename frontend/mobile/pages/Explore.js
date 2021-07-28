@@ -12,13 +12,17 @@ const Explore = () => {
   const t = {};
 
   React.useEffect(() => {
-    const getTags = async () => {
-      
-    }
-    fetchEventsData();
+    const userTags = getUserTags();
+    fetchEventsData(userTags);
   }, []);
 
   const [eventsData, setEventsData] = React.useState([]);
+
+  const getUserTags = async () => {
+    const jsonString = await AsyncStorage.getItem(STORAGE_KEY);
+    const tags = JSON.parse(jsonString);
+    return tags;
+  }
 
   const fetchEventsData = async (tags) => {
     axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents',
@@ -27,7 +31,7 @@ const Explore = () => {
     }).then((response) => {
       console.log(response);
       setEventsData(response.data);
-    })
+    }).catch((err) => console.log(err));
   }
 
   const getEventsData = async () => {
@@ -62,6 +66,7 @@ const Explore = () => {
           onSwipedLeft={() => alert("swiped left")}
           onSwipedRight={() => alert("swiped right")}
           onSwipedBottom={() => alert("swiped down")}
+          // key={isFocused}
         >
           {Data.map((item, index) => (
             <Card
