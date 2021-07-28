@@ -46,7 +46,9 @@ app.post('/api/adduser', async (req, res, next) => {
     Rating,
     Email,
     Verified,
-    Tags
+    Tags,
+    LikedEvents,
+    AttendingEvents
   })
 
   const salt = await bcrypt.genSalt(10);
@@ -165,7 +167,9 @@ app.post('/api/login', async (req, res, next) => {
             Rating: user.Rating,
             Email: user.Email,
             Verified: user.Verified,
-            Tags: user.Tags
+            Tags: user.Tags,
+            LikedEvents: user.LikedEvents,
+            AttendingEvents: user.AttendingEvents
           });
         })
         .catch(err => res.status(400).json("Error" + err));
