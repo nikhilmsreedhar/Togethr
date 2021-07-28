@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { TextInput, HelperText } from 'react-native-paper';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
+import Link from '@material-ui/core/Link';
 
 
 
@@ -76,12 +76,7 @@ const login = (user, pass) => {
         navigation.navigate('EditTags');
       }
     }, (error) => {
-      if (error.status == 301){
         setLoginMessage('Incorrect Username or Password');
-      }
-      else {
-        setLoginMessage('Something went wrong! Please try again later.');
-      }
       console.log(error);
     });
     
@@ -130,6 +125,13 @@ const login = (user, pass) => {
          <TouchableOpacity  onPress={() => login(user, pass)} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>LOG IN</Text>
          </TouchableOpacity>
+
+         <Text Text style={styles.inputDivider}></Text>
+
+         <Link href="#" onClick={() => navigation.navigate('ForgotPassword')} color="inherit" style={{fontFamily: "Roboto_500Medium", alignSelf: "center"}}>
+            Forgot Password
+         </Link>
+         
    </View>
    </View>
     

@@ -96,7 +96,9 @@ function Explore() {
                 description={item.EventDescription}
                 startDate={item.StartDate}
                 endDate={item.EndDate}
+                location={item.EventLocation}
                 attendees={item.Attendees}
+                guests={item.NumGuests}
               />
             </Card>
           ))}
