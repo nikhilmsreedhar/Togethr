@@ -10,8 +10,25 @@ import {
   Roboto_700Bold,
 } from "@expo-google-fonts/dev";
 import Data from "../assets/data.js";
+import axios from "axios";
 
 function Events() {
+
+  var myEvents = [];
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var attending = ud.attend;
+
+  axios.post('https://togethrgroup1.herokuapp.com/api/viewattendingevents', { 
+    AttendingEvents: attending
+  })
+  .then((response) => {
+    console.log(response);
+    myEvents = response.data.AttendingEvents;
+  }, (error) => {
+    console.log(error);
+  });
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationBar />
@@ -23,7 +40,7 @@ function Events() {
           <Text style={styles.verticalDivider}></Text>
           <Text style={styles.inputDivider}></Text>
           <ScrollView>
-            {Data.map((item, index) => (
+            {myEvents.map((item, index) => (
               <Accordion key={index}>
                 <Card
                   title={item.title}
