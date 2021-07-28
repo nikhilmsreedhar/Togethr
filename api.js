@@ -46,9 +46,7 @@ app.post('/api/adduser', async (req, res, next) => {
     Rating,
     Email,
     Verified,
-    Tags,
-    LikedEvents,
-    AttendingEvents
+    Tags
   })
 
   const salt = await bcrypt.genSalt(10);
