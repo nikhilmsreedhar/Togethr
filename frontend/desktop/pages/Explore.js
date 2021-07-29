@@ -49,29 +49,20 @@ function Explore() {
 
   const [eventData, setEventsData] = React.useState([]);
 
-  async function getEventsData(userTags) {
-    await axios
-      .post("https://togethrgroup1.herokuapp.com/api/retrieveevents", {
+  function getEventsData(userTags) {
+    axios.post("https://togethrgroup1.herokuapp.com/api/retrieveevents", {
         Tags: userTags,
       })
       .then(
         (response) => {
           console.log(response);
-          const postData = response.data;
-          console.log(postData, postData[3]._id);
-          var i;
-          for (i = 0; i < postData.length; i++){
-            if (postData[i].Maker == userid){
-              postData.splice(i, 1);
-            }
-            if (myAttends.includes(postData[i]._id)){
-              postData.splice(i, 1);
-            }
-            if (myLikes.includes(postData[i]._id)){
-              postData.splice(i, 1);
-            }
-          }
+          var postData = response.data;
+          postData = postData.filter(postData=> postData.Maker !== userid);
+          postData = postData.filter(postData=> myAttends.includes(postData._id) !== true);
+          postData = postData.filter(postData=> myLikes.includes(postData._id) !== true);
+
           setEventsData(postData);
+          console.log(postData);
           console.log("Updated eventData");
         },
         (error) => {

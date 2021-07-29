@@ -40,6 +40,7 @@ export default function AddEvent() {
   var ud = JSON.parse(_ud);
   var userid = ud.id;
   var userName = ud.username;
+  var attending = ud.attend;
 
   let attendees = new Array();
   attendees.push(userName);
@@ -94,6 +95,21 @@ const post = (title, description, location, guests, category, start, end) => {
     })
     .then((response) => {
       console.log(response);
+      const newEvent = response.data._id;
+      attending.push(newEvent);
+      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+          id: userid, 
+          AttendingEvents: attending
+        })
+        .then((response) => {
+          var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+            id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+            attend: response.data.AttendingEvents}
+          localStorage.setItem('user_data', JSON.stringify(UserData));
+          console.log(response);
+        }, (error) => {
+          console.log(error);
+      });
       setAddErrorMessage();
       setAddMessage('Your event was posted!');
     }, (error) => {

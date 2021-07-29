@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +54,8 @@ const theme = createMuiTheme({
 });
 
 const ViewCard = ({
+  _id,
+  maker,
   title, 
   description,
   location,
@@ -62,6 +65,41 @@ const ViewCard = ({
   attendees,
   tag
 }) => {
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var userid = ud.id;
+  var attending = ud.attend;
+
+  async function removeAttend(_id, maker){
+    console.log();
+    if (maker === userid){
+      const res = await axios.delete('https://togethrgroup1.herokuapp.com/api/deleteevent', {
+        data: {id: _id}
+      })
+      console.log(res.data.json);
+    }
+    attending.splice(attending.indexOf(_id), 1);
+    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: userid, 
+      AttendingEvents: attending
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+        id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+        attend: response.data.AttendingEvents}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  function editEvent(_id, maker){
+    if (maker === userid){
+      
+    }
+  }
+
   const classes = useStyles();
   return (
     <MuiThemeProvider theme={theme}>
@@ -88,10 +126,8 @@ const ViewCard = ({
         </AccordionDetails>
         <Divider />
         <AccordionActions>
-          <Button size="small">Cancel</Button>
-          <Button size="small" color="secondary">
-            Save
-          </Button>
+          <Button onClick = {() => removeAttend(_id, maker)} size="small">{maker === userid? 'DELETE' : 'REMOVE'}</Button>
+          <Button onClick = {() => editEvent(_id, maker)} size="small">{maker === userid? 'EDIT' : null}</Button>
         </AccordionActions>
       </Accordion>
     </div>

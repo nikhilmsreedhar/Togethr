@@ -166,17 +166,13 @@ function change(curpass, pass, passConfirm){
     }
   }
 
-  function deleteAccount(){
+  async function deleteAccount(){
     var confirmation = confirm("Are you sure you want to delete your account?");
     if (confirmation == true){
-      axios.delete('https://togethrgroup1.herokuapp.com/api/deleteuser', { 
-        id: userid,
+      const res = await axios.delete('https://togethrgroup1.herokuapp.com/api/deleteuser', { 
+        data: {id: userid}
       })
-      .then((response) => {
-        console.log(response);
-      }, (error) => {
-        console.log(error);
-      });
+      console.log(res.data.json);
     }
   }
 

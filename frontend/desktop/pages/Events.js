@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useCallback } from "react";
 import { StyleSheet, SafeAreaView, ScrollView, View, Text } from "react-native";
 import Card from "../components/YourEventCard";
 import NavigationBar from "../components/NavigationBar";
@@ -10,24 +10,36 @@ import {
   Roboto_700Bold,
 } from "@expo-google-fonts/dev";
 import Data from "../assets/data.js";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 
 function Events() {
 
-  var myEvents = [];
+  const [myEvents, setMyEvents] = React.useState([]);
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
   var attending = ud.attend;
+  const isFocused = useIsFocused();
 
-  axios.post('https://togethrgroup1.herokuapp.com/api/viewattendingevents', { 
-    AttendingEvents: attending
-  })
-  .then((response) => {
-    console.log(response);
-    myEvents = response.data.AttendingEvents;
-  }, (error) => {
-    console.log(error);
-  });
+  useEffect(() => {
+    getEvents(attending);
+    return () => console.log("");
+  }, [attending]);
+  
+  function getEvents(attending){
+    console.log(attending);
+    axios.post('https://togethrgroup1.herokuapp.com/api/viewattendingevents', { 
+      AttendingEvents: attending
+    })
+    .then((response) => {
+      console.log(response);
+      const events = response.data;
+      setMyEvents(events);
+    }, (error) => {
+      setMyEvents([]);
+      console.log(error);
+    });
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -43,11 +55,13 @@ function Events() {
             {myEvents.map((item, index) => (
               <Accordion key={index}>
                 <Card
-                  title={item.title}
-                  description={item.description}
-                  startDate={item.startDate}
-                  endDate={item.endDate}
-                  attendees={item.attendees}
+                  _id={item._id}
+                  maker={item.Maker}
+                  title={item.EventName}
+                  description={item.EventDescription}
+                  startDate={item.StartDate}
+                  endDate={item.EndDate}
+                  attendees={item.Attendees}
                 />
               </Accordion>
             ))}

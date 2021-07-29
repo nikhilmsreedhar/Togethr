@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +54,7 @@ const theme = createMuiTheme({
 });
 
 const ViewCard = ({
+  _id,
   title, 
   description,
   location,
@@ -62,6 +64,49 @@ const ViewCard = ({
   attendees,
   tag
 }) => {
+  var _ud = localStorage.getItem('user_data');
+  var ud = JSON.parse(_ud);
+  var userid = ud.id;
+  var liked = ud.likes;
+  var attending = ud.attend;
+
+  function removeLike(_id){
+    liked.splice(liked.indexOf(_id), 1);
+    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: userid, 
+      LikedEvents: liked
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+        id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+        attend: response.data.AttendingEvents}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  function nowAttend(_id){
+    liked.splice(liked.indexOf(_id), 1);
+    attending.push(_id);
+    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: userid, 
+      LikedEvents: liked,
+      AttendingEvents: attending
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+        id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+        attend: response.data.AttendingEvents}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+
   const classes = useStyles();
   return (
     <MuiThemeProvider theme={theme}>
@@ -88,9 +133,9 @@ const ViewCard = ({
         </AccordionDetails>
         <Divider />
         <AccordionActions>
-          <Button size="small">Cancel</Button>
-          <Button size="small" color="secondary">
-            Save
+          <Button onClick = {() => removeLike(_id)} size="small">Remove</Button>
+          <Button onClick = {() => nowAttend(_id)}size="small" color="secondary">
+            Attend
           </Button>
         </AccordionActions>
       </Accordion>
