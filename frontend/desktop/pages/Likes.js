@@ -9,7 +9,8 @@ import {
   Roboto_500Medium,
   Roboto_700Bold,
 } from '@expo-google-fonts/dev';
-import Data from '../assets/data.js'
+import Data from '../assets/data.js';
+import axios from "axios";
 
 
 function Likes() {

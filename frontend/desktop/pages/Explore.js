@@ -17,19 +17,20 @@ import axios from "axios";
 function Explore() {
 
   //retrieve user tags for POST to API
-  const getUserTags = () => {
-    const _ud = localStorage.getItem("user_data");
-    const ud = JSON.parse(_ud);
-    return ud.tags;
-  };
+  var counter = 0;
+  const _ud = localStorage.getItem("user_data");
+  const ud = JSON.parse(_ud);
+  const userid = ud.id;
+  const myLikes = ud.likes;
+  const myAttends = ud.attend;
 
   //returns true or false depending on if page is focused or not
   const isFocused = useIsFocused();
-  console.log(isFocused);
 
   useEffect(() => {
+    counter = 0;
     console.log('IN USE EFFECT');
-    const userTags = getUserTags();
+    const userTags = ud.tags;
     getEventsData(userTags);
     return () => console.log("exiting useEffect");
   }, [isFocused]);
@@ -56,7 +57,21 @@ function Explore() {
       .then(
         (response) => {
           console.log(response);
-          setEventsData([...response.data]);
+          const postData = response.data;
+          console.log(postData, postData[3]._id);
+          var i;
+          for (i = 0; i < postData.length; i++){
+            if (postData[i].Maker == userid){
+              postData.splice(i, 1);
+            }
+            if (myAttends.includes(postData[i]._id)){
+              postData.splice(i, 1);
+            }
+            if (myLikes.includes(postData[i]._id)){
+              postData.splice(i, 1);
+            }
+          }
+          setEventsData(postData);
           console.log("Updated eventData");
         },
         (error) => {
@@ -64,6 +79,46 @@ function Explore() {
           alert("Failed to Update Events!");
         }
       );
+  }
+
+  function swipeDown(event, userid, myLikes){
+    myLikes.push(event);
+    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: userid, 
+      LikedEvents: myLikes
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+        id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+        attend: response.data.AttendingEvents}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+    counter++;
+  }
+
+  function swipeRight(event, userid, myAttends){
+    myAttends.push(event);
+    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: userid, 
+      AttendingEvents: myAttends
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+        id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+        attend: response.data.AttendingEvents}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+    counter++;
+  }
+
+  function swipeLeft(){
+    counter++;
   }
 
   return (
@@ -84,9 +139,9 @@ function Explore() {
               No more events to display. Come back later!
             </Text>
           )}
-          onSwipedLeft={() => console.log("swiped left")}
-          onSwipedRight={() => console.log("swiped right")}
-          onSwipedBottom={() => console.log("swiped down")}
+          onSwipedLeft={() => swipeLeft()}
+          onSwipedRight={() => swipeRight(eventData[counter]._id, userid, myAttends)}
+          onSwipedBottom={() => swipeDown(eventData[counter]._id, userid, myLikes)}
           key={isFocused}
         >
           {eventData.map((item, index) => (
@@ -101,6 +156,7 @@ function Explore() {
                 guests={item.NumGuests}
               />
             </Card>
+          
           ))}
         </CardStack>
 
