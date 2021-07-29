@@ -30,6 +30,7 @@ const Explore = () => {
       Tags: tags
     }).then((response) => {
       console.log(response);
+      let EventsData = {}
       setEventsData(response.data);
     }).catch((err) => console.log(err));
   }
@@ -68,7 +69,7 @@ const Explore = () => {
           onSwipedBottom={() => alert("swiped down")}
           // key={isFocused}
         >
-          {Data.map((item, index) => (
+          {eventsData.map((item, index) => (
             <Card
               style={styles.card}
               key={index}
@@ -77,8 +78,8 @@ const Explore = () => {
               onSwipedBottom={() => alert("swiped down")}
             >
               <EventCard
-                title={item.title}
-                description={item.description}
+                title={item.Title}
+                description={item.Description}
                 date={item.date}
                 startTime={item.startTime}
                 endTime={item.endTime}

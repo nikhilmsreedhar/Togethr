@@ -9,7 +9,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, HelperText, TextInput } from "react-native-paper";
-import DatePicker from '@dietime/react-native-date-picker';
+import { useForm } from "react-hook-form";
+import DatePicker from "@dietime/react-native-date-picker";
 
 const RegisterPage = () => {
   const navigation = useNavigation();
@@ -78,7 +79,7 @@ const RegisterPage = () => {
         <Text style={styles.inputDivider}></Text>
 
         <View>
-          <Text>{birthday ? birthday.toDateString() : 'Select date...'}</Text>
+          <Text>{birthday ? birthday.toDateString() : "Select date..."}</Text>
           <DatePicker
             height={200}
             width="100%"
