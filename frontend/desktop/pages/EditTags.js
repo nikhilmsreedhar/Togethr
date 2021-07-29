@@ -71,7 +71,8 @@ function edit (tags) {
     })
     .then((response) => {
       var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
-      id: userid, tags: response.data.Tags, emailAddress: response.data.Email}
+      id: userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+      attend: response.data.AttendingEvents}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       console.log(response);
       setMessage();
