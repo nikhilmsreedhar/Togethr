@@ -105,7 +105,8 @@ function editProfile(first, last, username, email, uuser, uemail){
     })
     .then((response) => {
       var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
-        id:userid, interests: response.data.Tags, emailAddress: response.data.Email}
+        id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+        attend: response.data.AttendingEvents}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       console.log(response);
       setErrorMessage();
@@ -116,8 +117,6 @@ function editProfile(first, last, username, email, uuser, uemail){
       setErrorMessage('Something went wrong! Try again.');
   });
 }
-
-
 
 // Add update pass function and check if old pass word is correct function
 function change(curpass, pass, passConfirm){
@@ -167,7 +166,19 @@ function change(curpass, pass, passConfirm){
     }
   }
 
-
+  function deleteAccount(){
+    var confirmation = confirm("Are you sure you want to delete your account?");
+    if (confirmation == true){
+      axios.delete('https://togethrgroup1.herokuapp.com/api/deleteuser', { 
+        id: userid,
+      })
+      .then((response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      });
+    }
+  }
 
 
  return (
@@ -297,6 +308,16 @@ function change(curpass, pass, passConfirm){
 
         <TouchableOpacity onPress={() =>change(curpass, pass, passConfirm)} style={styles.postButton}>
         <Text style={styles.postButtonText}>UPDATE PASSWORD</Text>
+        </TouchableOpacity>
+
+        <Text Text style={styles.inputDivider}></Text>
+
+        <Divider/>
+        
+        <Text style={styles.inputDivider}></Text>
+
+        <TouchableOpacity onPress={() =>deleteAccount()} style={styles.postButton}>
+        <Text style={styles.postButtonText}>DELETE ACCOUNT</Text>
         </TouchableOpacity>
 
         <Text Text style={styles.inputDivider}></Text>

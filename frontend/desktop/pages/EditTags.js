@@ -27,10 +27,10 @@ const EditTags = ({route}) =>{
   
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
-  var tags = ud.interests;
+  var userTags = ud.tags;
   var userid = ud.id;
 
-  const [interests, setInterests] = useState(tags)
+  const [tags, setTags] = useState(userTags)
   const [message,setMessage] = React.useState('');
   const [successmessage,setSuccessMessage] = React.useState('');
 	const [error, setError] = useState("")
@@ -59,19 +59,20 @@ const EditTags = ({route}) =>{
 
 
 // This is where you will add the logic for the edit function
-function edit (tagList) {
-   if (tagList.length === 0){
+function edit (tags) {
+  if (tags.length === 0 || tags == userTags){
     setSuccessMessage();
     setMessage("Please select at least one interest");
   }
   else{
       axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', { 
       id: userid,
-      Tags: tagList
+      Tags: tags
     })
     .then((response) => {
       var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
-      id: userid, interests: response.data.Tags, emailAddress: response.data.Email}
+      id: userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+      attend: response.data.AttendingEvents}
       localStorage.setItem('user_data', JSON.stringify(UserData));
       console.log(response);
       setMessage();
@@ -95,8 +96,8 @@ function edit (tagList) {
 
         <MultipleSelectChips
           label="Your Interests"
-          value={interests}
-          setValue={setInterests}
+          value={tags}
+          setValue={setTags}
           options={options}
           error={error}
           setError={setError}
@@ -113,7 +114,7 @@ function edit (tagList) {
         <Text style={styles.inputDivider}></Text>
         
           
-          <TouchableOpacity onPress={() => edit(interests)} style={styles.nextButton}>
+          <TouchableOpacity onPress={() => edit(tags)} style={styles.nextButton}>
               <Text style={styles.nextButtonText}>CONFIRM</Text>
           </TouchableOpacity>
      

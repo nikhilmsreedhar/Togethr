@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 // var Int32 = require('mongoose-int32');
 //Create Schema
-const UserSchema = new Schema({
-  // _id: {
-  //   type: Number
-  // },
+const UserSchema = new Schema({ 
   UserName: {
     type: String,
     required: true
@@ -40,8 +37,7 @@ const UserSchema = new Schema({
   },
   Verified: {
     type: Boolean,
-    required: true,
-  
+    required: true
   },
   Tags: {
     type: Array,
@@ -53,6 +49,10 @@ const UserSchema = new Schema({
   },
   AttendingEvents: {
     type: Array,
+    required: false
+  },
+  PassCode: {
+    type: String,
     required: false
   }
 });

@@ -20,7 +20,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios'
 
 
-const RegisterPage2 = ({route}) =>{
+export default function ForgotPassword(){
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -34,74 +34,28 @@ const RegisterPage2 = ({route}) =>{
       }
     }
   });
-
-  const firstName = route.params.firstName
-  const lastName  = route.params.lastName
-  const birthday  = route.params.birthday
-
-
   
   const navigation = useNavigation();
   function navigateBack() {
     navigation.goBack();
 }
 
-function goToNextPage (firstName, lastName, email, user, pass, passConfirm, birthday) {
-  if (user == "" || pass  == "" ||  email  == ""){
-    setRegisterMessage('Please fill in all fields');
+function goToNextPage (user) {
+ if (user == ""){
+    setMessage("Please enter user");
   }
-  else if (user == "" && pass != "" && email != ""){
-    setRegisterMessage("Please enter username");
-  }
-  else if (user != "" && pass == "" && email != ""){
-    setRegisterMessage("Please enter password");
-  }
-  else if (user != "" && pass != "" && email == ""){
-    setRegisterMessage("Please enter email");
-  }
-  else if (pass != passConfirm){
-    setRegisterMessage("Passwords must match");
-  }
-  else{
-    axios.post('https://togethrgroup1.herokuapp.com/api/adduser', { 
-      UserName: user,
-      Password: pass,
-      FirstName: firstName,
-      LastName: lastName,
-      Email: email, 
-      Verified: 'false',
-      Tags: []
-    })
-    .then((response) => {
-      handleClickOpen();
-      console.log(response);
-    }, (error) => {
-      setRegisterMessage('Invalid fields');
-      console.log(error);
-    });
-    //reg3 end
+else{
+    handleClickOpen();
   }
   };
   
   
-const [email, setEmail] = React.useState('');
 const [user, setUser] = React.useState('');
-const [pass, setPass] = React.useState('');
-const [passConfirm, setPassConfirm] = React.useState('');
-const [registerMessage,setRegisterMessage] = React.useState('');
+const [message,setMessage] = React.useState('');
 const [open, setOpen] = React.useState(false);
 
-const handleEmailChange = (event) => {
-  setEmail(event.target.value);
-};
 const handleUserChange = (event) => {
-  setUser(event.target.value);
-};
-const handlePassChange = (event) => {
-  setPass(event.target.value);
-};
-const handlePassConfirmChange = (event) => {
-  setPassConfirm(event.target.value);
+    setUser(event.target.value);
 };
 
 const handleClickOpen = () => {
@@ -110,32 +64,20 @@ const handleClickOpen = () => {
 
 const handleClose = () => {
   setOpen(false);
-  navigation.navigate('HomePage')
+  navigation.navigate('ForgotPassword2')
 };
 
 
   return (
     <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
-      
     <TouchableOpacity onPress={() => navigateBack()}>
       <Ionicons name="arrow-back"  size={30} color="back" />
     </TouchableOpacity>
     <View style={styles.center}>
-        <Text h1 style={styles.title}>Register</Text>
+        <Text h1 style={styles.title}>Forgot Password</Text>
         <Text style={styles.verticalDivider}></Text>
         <MuiThemeProvider theme={theme}>
-        <TextField 
-          style={{width: 500}}
-          color = 'secondary'
-          label="Email" 
-          variant="outlined" 
-          value={email}
-          onChange={handleEmailChange}
-          />
-
-        <Text style={styles.inputDivider}></Text>
-
         <TextField 
           style={{width: 500}}
           color = 'secondary'
@@ -144,32 +86,9 @@ const handleClose = () => {
           value={user}
           onChange={handleUserChange}
           />
-
-        <Text style={styles.inputDivider}></Text>
-
-        <TextField 
-          style={{width: 500}}
-          type="password"
-          color = 'secondary'
-          label="Password" 
-          variant="outlined" 
-          value={pass}
-          onChange={handlePassChange}
-          />
-        
-        <Text style={styles.inputDivider}></Text>
-
-        <TextField 
-          style={{width: 500}}
-          type="password"
-          color = 'secondary'
-          label="Confirm Password" 
-          variant="outlined" 
-          value={passConfirm}
-          onChange={handlePassConfirmChange}
-          />
+       
         <HelperText type="error">
-            {registerMessage}
+            {message}
           </HelperText>
        
         <Text style={styles.inputDivider}></Text>
@@ -177,10 +96,10 @@ const handleClose = () => {
        
          <View style={styles.fixToText}>
         <TouchableOpacity   onPress={()=>navigateBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>BACK</Text>
+          <Text style={styles.backButtonText}>CANCEL</Text>
        </TouchableOpacity>
        <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity  onPress={() => goToNextPage(firstName, lastName, email, user, pass, passConfirm, birthday)} style={styles.nextButton}>
+       <TouchableOpacity  onPress={() => goToNextPage(user)} style={styles.nextButton}>
           <Text style={styles.nextButtonText}>NEXT</Text>
        </TouchableOpacity>
         </View>
@@ -189,10 +108,10 @@ const handleClose = () => {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle >{"Account creation successful!"}</DialogTitle>
+         <DialogTitle >{"Password Recovery Initiated!"}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          Please verify your account through the link sent to your email. This link will be valid for 1 hour.
+           Please check the email associated with this account for a secret code to reset your pasword. 
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -219,6 +138,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50, 
     fontFamily: 'Comfortaa_400Regular',
+    alignSelf: 'center'
   },
   input:{
     width: 500,
@@ -281,5 +201,3 @@ const styles = StyleSheet.create({
     width:10,
   },
 });
-
-export default RegisterPage2;

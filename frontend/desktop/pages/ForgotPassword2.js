@@ -20,7 +20,7 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios'
 
 
-const RegisterPage2 = ({route}) =>{
+export default function ForgotPassword2(){
   let [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Roboto_500Medium,
@@ -35,67 +35,39 @@ const RegisterPage2 = ({route}) =>{
     }
   });
 
-  const firstName = route.params.firstName
-  const lastName  = route.params.lastName
-  const birthday  = route.params.birthday
-
-
-  
-  const navigation = useNavigation();
+const navigation = useNavigation();
   function navigateBack() {
-    navigation.goBack();
+    navigation.navigate('HomePage');
 }
 
-function goToNextPage (firstName, lastName, email, user, pass, passConfirm, birthday) {
-  if (user == "" || pass  == "" ||  email  == ""){
-    setRegisterMessage('Please fill in all fields');
+function goToNextPage (ucode, upass, upassConfirm) {
+  if (ucode == "" || upass  == "" ||  upassConfirm  == ""){
+    setMessage('Please fill in all fields');
   }
-  else if (user == "" && pass != "" && email != ""){
-    setRegisterMessage("Please enter username");
+  else if (ucode == "" && upass != "" && upassConfirm != ""){
+    setMessage("Please enter secret code (sent to your email)");
   }
-  else if (user != "" && pass == "" && email != ""){
-    setRegisterMessage("Please enter password");
+  else if (ucode != "" && upass == "" && upassConfirm != ""){
+    setMessage("Please enter password");
   }
-  else if (user != "" && pass != "" && email == ""){
-    setRegisterMessage("Please enter email");
-  }
-  else if (pass != passConfirm){
-    setRegisterMessage("Passwords must match");
+  else if (upass != upassConfirm){
+    setMessage("Passwords must match");
   }
   else{
-    axios.post('https://togethrgroup1.herokuapp.com/api/adduser', { 
-      UserName: user,
-      Password: pass,
-      FirstName: firstName,
-      LastName: lastName,
-      Email: email, 
-      Verified: 'false',
-      Tags: []
-    })
-    .then((response) => {
-      handleClickOpen();
-      console.log(response);
-    }, (error) => {
-      setRegisterMessage('Invalid fields');
-      console.log(error);
-    });
-    //reg3 end
-  }
+    handleClickOpen();
   };
+}
   
-  
-const [email, setEmail] = React.useState('');
-const [user, setUser] = React.useState('');
+
+const [code, setCode] = React.useState('');
 const [pass, setPass] = React.useState('');
 const [passConfirm, setPassConfirm] = React.useState('');
-const [registerMessage,setRegisterMessage] = React.useState('');
+const [message,setMessage] = React.useState('');
 const [open, setOpen] = React.useState(false);
 
-const handleEmailChange = (event) => {
-  setEmail(event.target.value);
-};
-const handleUserChange = (event) => {
-  setUser(event.target.value);
+
+const handleCodeChange = (event) => {
+  setCode(event.target.value);
 };
 const handlePassChange = (event) => {
   setPass(event.target.value);
@@ -103,11 +75,9 @@ const handlePassChange = (event) => {
 const handlePassConfirmChange = (event) => {
   setPassConfirm(event.target.value);
 };
-
 const handleClickOpen = () => {
   setOpen(true);
 };
-
 const handleClose = () => {
   setOpen(false);
   navigation.navigate('HomePage')
@@ -122,27 +92,18 @@ const handleClose = () => {
       <Ionicons name="arrow-back"  size={30} color="back" />
     </TouchableOpacity>
     <View style={styles.center}>
-        <Text h1 style={styles.title}>Register</Text>
-        <Text style={styles.verticalDivider}></Text>
+        <Text h1 style={styles.title}>Reset Password</Text>
+        <Text style={{width: 500, textAlign: 'center'}}>If you leave this page prior to form completion, 
+        password recovery will be cancelled and you must restart the password recovery process again.</Text>
+        <Text style={{height: 10}}></Text>
         <MuiThemeProvider theme={theme}>
         <TextField 
           style={{width: 500}}
           color = 'secondary'
-          label="Email" 
+          label="Secret Code (Sent to Your Email)" 
           variant="outlined" 
-          value={email}
-          onChange={handleEmailChange}
-          />
-
-        <Text style={styles.inputDivider}></Text>
-
-        <TextField 
-          style={{width: 500}}
-          color = 'secondary'
-          label="Username" 
-          variant="outlined" 
-          value={user}
-          onChange={handleUserChange}
+          value={code}
+          onChange={handleCodeChange}
           />
 
         <Text style={styles.inputDivider}></Text>
@@ -169,30 +130,25 @@ const handleClose = () => {
           onChange={handlePassConfirmChange}
           />
         <HelperText type="error">
-            {registerMessage}
-          </HelperText>
+            {message}
+        </HelperText>
        
         <Text style={styles.inputDivider}></Text>
-
-       
-         <View style={styles.fixToText}>
-        <TouchableOpacity   onPress={()=>navigateBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>BACK</Text>
-       </TouchableOpacity>
+         
        <Text style={styles.buttonDivider}></Text>
-       <TouchableOpacity  onPress={() => goToNextPage(firstName, lastName, email, user, pass, passConfirm, birthday)} style={styles.nextButton}>
-          <Text style={styles.nextButtonText}>NEXT</Text>
+       <TouchableOpacity  onPress={() => goToNextPage(code, pass, passConfirm)} style={styles.nextButton}>
+          <Text style={styles.nextButtonText}>CONFIRM</Text>
        </TouchableOpacity>
-        </View>
+        
 
         <Dialog
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle >{"Account creation successful!"}</DialogTitle>
+        <DialogTitle >{"Password Reset successful!"}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          Please verify your account through the link sent to your email. This link will be valid for 1 hour.
+           You may now login with your new password.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -203,10 +159,7 @@ const handleClose = () => {
       </Dialog>
       </MuiThemeProvider>
          </View>
-        
-   </View>
-  
-    
+   </View>  
     </SafeAreaView>
     
 
@@ -219,6 +172,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50, 
     fontFamily: 'Comfortaa_400Regular',
+    alignSelf: 'center'
   },
   input:{
     width: 500,
@@ -249,9 +203,9 @@ const styles = StyleSheet.create({
   nextButton: {
     backgroundColor: "black",
     borderColor:"black",
-    alignSelf: 'stretch',
+    alignSelf: 'center',
     height:50,
-    width: 245,
+    width: 500,
     borderWidth:3,
     alignItems:'center',
     justifyContent:'center',
@@ -262,24 +216,4 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Roboto_500Medium'
   }, 
-  backButton: {
-    backgroundColor: "grey",
-    borderColor:"grey",
-    width:245,
-    height:50,
-    borderWidth:3,
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius: 5,
-  },
-  backButtonText: {
-    fontSize: 18,
-    color: 'black',
-    fontFamily: 'Roboto_500Medium'
-  }, 
-  buttonDivider: {
-    width:10,
-  },
 });
-
-export default RegisterPage2;
