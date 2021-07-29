@@ -34,37 +34,27 @@ export default function LoginPage() {
     } else if (user != "" && pass == "") {
       setLoginMessage("Please enter password");
     } else {
-      login(user, pass);
-      // axios
-      //   .post("https://togethrgroup1.herokuapp.com/api/login", {
-      //     UserName: user,
-      //     Password: pass,
-      //   })
-      //   .then(
-      //     async (response) => {
-      //       console.log(response);
-      //       var UserData = {
-      //         firstName: response.data.FirstName,
-      //         lastName: response.data.LastName,
-      //         username: response.data.UserName,
-      //         id: response.data.id,
-      //         tags: response.data.Tags,
-      //         emailAddress: response.data.Email,
-      //       };
-      //       // store JSON object
-      //       await AsyncStorage.setItem("user_data", JSON.stringify(UserData));
-      //       // if tags are empty go to choose tags
-      //       if (response.data.Tags.length > 0) {
-      //         navigation.navigate("LoggedIn");
-      //       } else {
-      //         navigation.navigate("EditTags");
-      //       }
-      //     },
-      //     (error) => {
-      //       setLoginMessage("Incorrect Username or Password");
-      //       console.log(error);
-      //     }
-      //   );
+      axios
+        .post("https://togethrgroup1.herokuapp.com/api/login", {
+          UserName: user,
+          Password: pass,
+        })
+        .then(
+          async (response) => {
+            console.log(response);
+            login(response.data);
+            // if tags are empty go to choose tags
+            if (response.data.Tags.length > 0) {
+              navigation.navigate("LoggedIn");
+            } else {
+              navigation.navigate("EditTags");
+            }
+          },
+          (error) => {
+            setLoginMessage("Incorrect Username or Password");
+            console.log(error);
+          }
+        );
     }
   };
 

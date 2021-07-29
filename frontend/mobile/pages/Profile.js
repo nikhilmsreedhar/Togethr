@@ -20,10 +20,13 @@ import axios from "axios";
 import UserData from "../assets/UserData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ChangePassword from "../components/ChangePassword";
+import { AuthContext } from "../components/AuthProvider";
 
 const STORAGE_KEY = "user_data";
 
 const Profile = () => {
+  const {logout} = useContext(AuthContext);
+
   React.useEffect(() => {
     getUserData();
   }, []);
@@ -45,10 +48,11 @@ const Profile = () => {
       const udJSON = await AsyncStorage.getItem(STORAGE_KEY);
       const userData = udJSON != null ? JSON.parse(udJSON) : null;
 
+      console.log(userData);
       if (userData !== null) {
-        setFname(userData.firstName);
-        setLname(userData.lastName);
-        setTags(userData.tags);
+        setFname(userData.FirstName);
+        setLname(userData.LastName);
+        setTags(userData.Tags);
         const userInitials =
           fname.charAt(0).toUpperCase() + lname.charAt(0).toUpperCase();
         setInitials(userInitials);

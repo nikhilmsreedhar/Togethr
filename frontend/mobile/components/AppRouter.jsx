@@ -18,7 +18,7 @@ import BottomNavigator from "./BottomNavigator";
 const Stack = createStackNavigator();
 
 const AppRouter = () => {
-  const { userData } = useContext(AuthContext);
+  const { userData, login } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,6 +26,7 @@ const AppRouter = () => {
       .then((data) => {
         console.log(data);
         if (data) {
+
         }
         setLoading(false);
       })
