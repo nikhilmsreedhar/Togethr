@@ -12,6 +12,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import NavigationBar from '../components/NavigationBar';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function EditAccountInfo() {
@@ -166,7 +167,13 @@ function change(curpass, pass, passConfirm){
     }
   }
 
+  const navigation = useNavigation();
+  function navigateToHome() {
+    navigation.navigate("HomePage");
+  }
+
   async function deleteAccount(){
+    console.log(userid);
     var confirmation = confirm("Are you sure you want to delete your account?");
     if (confirmation == true){
       const res = await axios.delete('https://togethrgroup1.herokuapp.com/api/deleteuser', { 
@@ -312,7 +319,7 @@ function change(curpass, pass, passConfirm){
         
         <Text style={styles.inputDivider}></Text>
 
-        <TouchableOpacity onPress={() =>deleteAccount()} style={styles.postButton}>
+        <TouchableOpacity onPress={() => {deleteAccount(); navigateToHome();}} style={styles.postButton}>
         <Text style={styles.postButtonText}>DELETE ACCOUNT</Text>
         </TouchableOpacity>
 
