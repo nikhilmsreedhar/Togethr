@@ -21,11 +21,14 @@ import UserData from "../assets/UserData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ChangePassword from "../components/ChangePassword";
 import { AuthContext } from "../components/AuthProvider";
+import { useNavigation } from "@react-navigation/native";
 
 const STORAGE_KEY = "user_data";
 
 const Profile = () => {
-  const {logout} = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
+
+  const navigation = useNavigation();
 
   React.useEffect(() => {
     getUserData();
@@ -77,15 +80,7 @@ const Profile = () => {
       })
       .then(
         (response) => {
-          var UserData = {
-            firstName: response.data.FirstName,
-            lastName: response.data.LastName,
-            username: response.data.UserName,
-            id: userid,
-            interests: response.data.Tags,
-            emailAddress: response.data.Email,
-          };
-          localStorage.setItem("user_data", JSON.stringify(UserData));
+          localStorage.setItem("user_data", JSON.stringify(response.data));
           console.log(response);
           setErrorMessage();
           setMessage("Your information was updated!");
@@ -160,20 +155,27 @@ const Profile = () => {
 
             <View style={{ marginVertical: 30 }}>
               <Text>Your Interests:</Text>
-              <View style={{ borderWidth: 1, padding: 10 }}>
-                <Text>
-                  {tags.map((tag) => {
-                    return tag + " ";
-                  })}
-                </Text>
-              </View>
+              <TouchableOpacity onPress={() => navigation.navigate("Interests")}>
+                <View style={{ borderWidth: 1, padding: 10 }}>
+                  <Text>
+                    {tags.map((tag) => {
+                      return tag + " ";
+                    })}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </View>
 
             <Button mode="outlined" onPress={showChangePassModal}>
               Change Password
             </Button>
 
-            <Button mode="outlined" onPress={() => {}}>
+            <Button
+              mode="outlined"
+              onPress={() => {
+                logout();
+              }}
+            >
               Log Out
             </Button>
 

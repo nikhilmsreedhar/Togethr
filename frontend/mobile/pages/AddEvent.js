@@ -41,9 +41,10 @@ const AddEvent = () => {
     navigation.goBack();
   }
 
-  const [visible, setVisible] = React.useState('');
-  const [title, setTitle] = React.useState('');
-  const [description, setDescription] = React.useState('');
+  const [dateModalVisible, setDateModalVisible] = useState(false);
+  const [visible, setVisible] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [numGuests, setNumGuests] = useState(0);
   const [category, setCategory] = useState('');
@@ -51,12 +52,22 @@ const AddEvent = () => {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState();
   const [addMessage, setAddMessage] = useState();
-  const [addErrorMessage, setAddErrorMessage] = React.useState();
+  const [addErrorMessage, setAddErrorMessage] = useState();
 
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  
+  const onDateDismiss = React.useCallback(() => {
+    setDateModalVisible(false);
+  }, [setDateModalVisible]);
+
+  const onConfirmDate = React.useCallback(
+    (params) => {
+      setDateModalVisible(false);
+      setDate(params.date);
+    },
+    [setDateModalVisible, setDate]
+  );
 
   const postEvent = (
     title,
@@ -111,12 +122,12 @@ const AddEvent = () => {
   return (
     <Provider>
       <SafeAreaView style={{ flex: 1 }}>
-        <DatePickerModal 
+        <DatePickerModal
           mode="single"
-          visible={open}
-          onDismiss={onDismissSingle}
+          visible={dateModalVisible}
+          onDismiss={onDateDismiss}
+          onConfirm={onConfirmDate}
           date={date}
-          onConfirm={onConfirmSingle}
         />
 
         <View style={styles.container}>
@@ -178,7 +189,7 @@ const AddEvent = () => {
             label="Date"
             value={date}
             mode="outlined"
-            onFocus={() => {}}
+            onFocus={setDateModalVisible(true)}
             onChangeText={(date) => setDate(date)}
           />
 

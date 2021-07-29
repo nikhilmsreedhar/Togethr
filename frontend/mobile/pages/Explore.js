@@ -1,54 +1,54 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 import CardStack, { Card } from "react-native-card-stack-swiper";
 import EventCard from "../components/EventCard";
 import Data from "../assets/data.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useIsFocused } from "@react-navigation/native";
 
-const STORAGE_KEY = 'user_data'
+const STORAGE_KEY = "user_data";
 
 const Explore = () => {
+  //for swiper
   const t = {};
 
-  React.useEffect(() => {
-    const userTags = getUserTags();
-    fetchEventsData(userTags);
+  useEffect(() => {
+    fetchEventsData();
   }, []);
 
-  const [eventsData, setEventsData] = React.useState([]);
+  const [eventsData, setEventsData] = useState([]);
 
+  const isFocused = useIsFocused();
+
+  // retrieve user tags from AsyncStorage
   const getUserTags = async () => {
-    const jsonString = await AsyncStorage.getItem(STORAGE_KEY);
-    const tags = JSON.parse(jsonString);
-    return tags;
-  }
-
-  const fetchEventsData = async (tags) => {
-    axios.post('https://togethrgroup1.herokuapp.com/api/retrieveevents',
-    {
-      Tags: tags
-    }).then((response) => {
-      console.log(response);
-      let EventsData = {}
-      setEventsData(response.data);
-    }).catch((err) => console.log(err));
-  }
-
-  const getEventsData = async () => {
     try {
-      const edJSON = await AsyncStorage.getItem(STORAGE_KEY);
-      const ed = edJSON != null ? JSON.parse(udJSON) : null;
-
-      if (ed !== null) {
-        setEventsData(ed);
-      } else {
-        setEventsData(EventsData);
-      }
-    } catch (e) {
-      console.error("Unable to get events info");
+      const jsonString = await AsyncStorage.getItem(STORAGE_KEY);
+      const user = JSON.parse(jsonString);
+      return user.Tags;
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  // make API request to get events
+  const fetchEventsData = async () => {
+    let tags = await getUserTags();
+    await axios
+      .post("https://togethrgroup1.herokuapp.com/api/retrieveevents", {
+        Tags: tags,
+      })
+      .then((response) => {
+        console.log(response);
+        setEventsData(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const updateEvents = () => {
+    
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -61,13 +61,13 @@ const Explore = () => {
           }}
           renderNoMoreCards={() => (
             <Text style={{ fontSize: 18, color: "gray" }}>
-              No more events to display
+              No more events to display. Check back later!
             </Text>
           )}
           onSwipedLeft={() => alert("swiped left")}
           onSwipedRight={() => alert("swiped right")}
           onSwipedBottom={() => alert("swiped down")}
-          // key={isFocused}
+          key={isFocused}
         >
           {eventsData.map((item, index) => (
             <Card
@@ -78,12 +78,13 @@ const Explore = () => {
               onSwipedBottom={() => alert("swiped down")}
             >
               <EventCard
-                title={item.Title}
-                description={item.Description}
-                date={item.date}
-                startTime={item.startTime}
-                endTime={item.endTime}
-                attendees={item.attendees}
+                title={item.EventName}
+                description={item.EventDescription}
+                date={item.StartDate}
+                startTime={item.StartDate}
+                endTime={item.EndDate}
+                attendees={item.Attendees}
+                guests={item.NumGuests}
               />
             </Card>
           ))}
@@ -99,9 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  card: {
-    
-  }
+  card: {},
 });
 
 export default Explore;

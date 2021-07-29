@@ -6,8 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Explore from "../pages/Explore";
 import Events from "../pages/Events";
 import Likes from "../pages/Likes";
+import ProfileStack from "../components/ProfileStack";
 import AddEvent from "../pages/AddEvent";
-import Profile from "../pages/Profile";
 
 const Tab = createBottomTabNavigator();
 
@@ -79,8 +79,8 @@ function BottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="ProfileStack"
+        component={ProfileStack}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (

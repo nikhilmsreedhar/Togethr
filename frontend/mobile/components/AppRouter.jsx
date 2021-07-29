@@ -11,7 +11,6 @@ import RegisterPage from "../pages/RegisterPage";
 import RegisterPage2 from "../pages/RegisterPage2";
 import RegisterPage3 from "../pages/RegisterPage3";
 import AddEvent from "../pages/AddEvent";
-import LoggedIn from "../pages/LoggedIn";
 import Loading from "./Loading";
 import BottomNavigator from "./BottomNavigator";
 
@@ -42,7 +41,10 @@ const AppRouter = () => {
   return (
     <NavigationContainer>
       {userData ? (
-        <BottomNavigator />
+        <Stack.Navigator initialRouteName="Main" headerMode="none">
+          <Stack.Screen name="Main" component={BottomNavigator}/>
+          <Stack.Screen name="AddEvent" component={AddEvent} />
+        </Stack.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="HomePage" headerMode="none">
           <Stack.Screen name="HomePage" component={HomePage} />
@@ -50,7 +52,6 @@ const AppRouter = () => {
           <Stack.Screen name="RegisterPage" component={RegisterPage} />
           <Stack.Screen name="RegisterPage2" component={RegisterPage2} />
           <Stack.Screen name="RegisterPage3" component={RegisterPage3} />
-          <Stack.Screen name="AddEvent" component={AddEvent} />
         </Stack.Navigator>
       )}
     </NavigationContainer>

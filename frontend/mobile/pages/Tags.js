@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { Button, View, StyleSheet, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Chip, Checkbox } from "react-native-paper";
-import UserData from "../assets/UserData";
+import { Chip } from "react-native-paper";
 
 const STORAGE_KEY = "user_data";
 
 const defaultInterests = [
-  { value: "Animals", isSelected: false },
-  { value: "Beauty", isSelected: false },
-  { value: "Cars", isSelected: false },
-  { value: "Fine Arts", isSelected: false },
-  { value: "Food", isSelected: false },
-  { value: "DIY", isSelected: false },
-  { value: "Gaming", isSelected: false },
-  { value: "Lifestyle", isSelected: false },
-  { value: "Movies", isSelected: false },
-  { value: "Music", isSelected: false },
-  { value: "Outdoors", isSelected: false },
+  { value: "Animals", isSelected: false, icon: "paw" },
+  { value: "Beauty", isSelected: false, icon: "content-cut" },
+  { value: "Cars", isSelected: false, icon: "car" },
+  { value: "Fine Arts", isSelected: false, icon: "palette" },
+  { value: "Food", isSelected: false, icon: "food" },
+  { value: "DIY", isSelected: false, icon: "hammer-wrench" },
+  { value: "Gaming", isSelected: false, icon: "controller-classic" },
+  { value: "Lifestyle", isSelected: false, icon: "shoe-sneaker" },
+  { value: "Movies", isSelected: false, icon: "movie-roll"},
+  { value: "Music", isSelected: false, },
+  { value: "Outdoors", isSelected: false, icon: "tree" },
   { value: "Performing Arts", isSelected: false },
   { value: "Photography", isSelected: false },
   { value: "Shopping", isSelected: false },
@@ -57,15 +56,7 @@ const Tags = ({ tagList }) => {
         })
         .then(
           async (response) => {
-            var UserData = {
-              firstName: response.data.FirstName,
-              lastName: response.data.LastName,
-              username: response.data.UserName,
-              id: userid,
-              tags: response.data.Tags,
-              emailAddress: response.data.Email,
-            };
-            await AsyncStorage.setItem("user_data", JSON.stringify(UserData));
+            await AsyncStorage.setItem("user_data", JSON.stringify(response.data));
             console.log(response);
             setMessage();
             setSuccessMessage("You changed your Interests!");
