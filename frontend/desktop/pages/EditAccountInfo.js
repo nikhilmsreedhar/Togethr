@@ -180,6 +180,7 @@ function change(curpass, pass, passConfirm){
         data: {id: userid}
       })
       console.log(res.data.json);
+      navigateToHome();
     }
   }
 
@@ -319,7 +320,7 @@ function change(curpass, pass, passConfirm){
         
         <Text style={styles.inputDivider}></Text>
 
-        <TouchableOpacity onPress={() => {deleteAccount(); navigateToHome();}} style={styles.postButton}>
+        <TouchableOpacity onPress={() => deleteAccount()} style={styles.postButton}>
         <Text style={styles.postButtonText}>DELETE ACCOUNT</Text>
         </TouchableOpacity>
 
