@@ -25,8 +25,6 @@ const SECRET = 'sldkfnklaenfhilabsjkgn';
 
 
 
-
-
 exports.setApp = function ( app, client )
 {
 app.post('/api/adduser', async (req, res, next) => {
@@ -86,6 +84,9 @@ jwt.sign(
 });
 
 
+
+
+
 app.patch('/api/editpassword', async (req, res, next) => {
   try {
     const id = req.body.id;
@@ -109,6 +110,7 @@ app.patch('/api/editpassword', async (req, res, next) => {
 
 
 
+
 app.patch('/api/edituser', async (req, res, next) => {
   try {
     const id = req.body.id;
@@ -125,6 +127,8 @@ app.patch('/api/edituser', async (req, res, next) => {
 
 
 
+
+
 app.delete('/api/deleteuser', async (req, res, next) => {
   const id = req.body.id;
   try{
@@ -134,6 +138,8 @@ app.delete('/api/deleteuser', async (req, res, next) => {
     console.log(error.message);
   }
 });
+
+
 
 
 
@@ -177,6 +183,8 @@ app.post('/api/login', async (req, res, next) => {
 
 
 
+
+
 app.post('/api/addevent', async (req, res, next) => {
   const{ Maker, EventName, EventDescription, EventLocation, StartDate, EndDate, NumGuests, Attendees, Pictures, Tag} = req.body;
 
@@ -205,6 +213,8 @@ app.post('/api/addevent', async (req, res, next) => {
 
 
 
+
+
 app.patch('/api/editevent', async (req, res, next) => {
   try {
     const id = req.body.id;
@@ -220,6 +230,8 @@ app.patch('/api/editevent', async (req, res, next) => {
 
 
 
+
+
 app.delete('/api/deleteevent', async (req, res, next) => {
   const id = req.body.id;
   try{
@@ -229,6 +241,8 @@ app.delete('/api/deleteevent', async (req, res, next) => {
     console.log(error.message);
   }
 });
+
+
 
 
 
@@ -243,11 +257,9 @@ app.post('/api/retrieveevents', async (req, res, next) => {
     while (i < len) {
       await Event.find({Tag: Tags[i]}).then(event => {
 
-
         if(!event.length) {  
           i++;
         }
-
 
         else {
           res.setHeader('Content-Type', 'application/json');
@@ -257,21 +269,17 @@ app.post('/api/retrieveevents', async (req, res, next) => {
           i++;
         }
 
-        
       })
       .catch(err => res.status(400).json("Error" + err));
-    
-      
-    }
   
+    }
      res.end();
   }catch(error){
     console.log(error.message);
   }
- 
-  
 
 });
+
 
 
 
@@ -287,12 +295,10 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
     while (i < len) {
       await Event.find({_id: LikedEvents[i]}).then(event =>  {
 
-
         if(!event.length) {  
           i++;
         }
 
-        
         else {
           res.setHeader('Content-Type', 'application/json');
           res.write(
@@ -301,47 +307,19 @@ app.post('/api/viewlikedevents', async (req, res, next) => {
           i++;
         } 
 
-
       })
       .catch(err => res.status(400).json("Error" + err));
 
-    
-      
     }
   
      res.end();
   }catch(error){
     console.log(error.message);
   }
- 
-  
-
-  // const LikedEvents= new Array(req.body.LikedEvents);
-  // var len = req.body.LikedEvents.length;
-  // var i = 0;
-  // if (req.body.LikedEvents.length === 0){
-  //   return res.status(301).json({ warning: "you have no liked events" });
-  // }
-
-  // while (i < len) {
-  //   // res.write(JSON.stringify(LikedEvents[i]));
-  //   Event.find({_id: LikedEvents[i]}).then(event => {
-  //     if(!event) {
-  //       return res.status(301).json({ warning: "no events matching provided your likes come back later" });
-  //     }
-  //     // if(len === 0){
-  //     //   return res.status(301).json({ warning: "No liked events found" });
-  //     // }
-  //     res.json(
-  //       event
-  //     );
-  //   })
-  //   .catch(err => res.status(400).json("Error" + err));
-  //   i++;
-  // }
-  // //res.end();
 
 });
+
+
 
 
 
@@ -356,14 +334,9 @@ app.post('/api/viewattendingevents', async (req, res, next) => {
     while (i < len) {
       await Event.find({_id: Attending[i]}).then(event => {
 
-
         if(!event.length) {  
           i++;
         }
-
-
-
-
 
         else {
           res.setHeader('Content-Type', 'application/json');
@@ -371,65 +344,75 @@ app.post('/api/viewattendingevents', async (req, res, next) => {
             JSON.stringify(event)
           );
           i++;
-        } 
+        }
+
       })
       .catch(err => res.status(400).json("Error" + err));
-    
-      
     }
   
-     res.end();
+  res.end();
   }catch(error){
     console.log(error.message);
   }
- 
-  
-
-  // const Attending = new Array(req.body.AttendingEvents);
-  // var len = req.body.AttendingEvents.length;
-  // var i = 0;
-  // if (req.body.AttendingEvents.length === 0){
-  //   return res.status(301).json({ warning: "please select an event to attend" });
-  // }
-
-  // while (i < len) {
-  //   // res.write(JSON.stringify(LikedEvents[i]));
-  //   Event.find({_id: Attending[i]}).then(event => {
-  //     if(!event) {
-  //       return res.status(301).json({ warning: "no events matching provided your likes come back later" });
-  //     }
-  //     res.json(
-  //       event
-  //     );
-  //   })
-  //   .catch(err => res.status(400).json("Error" + err));
-  //   i++;
-  // }
-  // //res.end();
-
 });
 
 
 
-// app.patch('/api/editpassword', async (req, res, next) => {
-//   try {
-//     const id = req.body.id;
-//     const updates = req.body.Password;
-//     const options = {new: true}
 
-    
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPass = await bcrypt.hash(updates, salt);
-//     req.body.Password = hashedPass;
-    
-   
 
-//     const result = await User.findByIdAndUpdate(id, req.body, options);
-//     res.send(result);
-//   } catch (error){
-//     console.log(error.message);
-//   }
-// });
+app.patch('/api/forgotpassword', async (req, res) => {
+  try {
+        const UserName = {UserName: req.body.UserName};
+        const updates = {$set: {PassCode: createPassCode(12)}};
+        const options = {new: true};
+ 
+        const result = await User.findOneAndUpdate(UserName, updates, options).then(users => {
+        if(!users){
+          return res.status(301).json({ warning: "No matching username exists." });
+        }
+  
+        const url = users.PassCode;
+        transporter.sendMail({
+          to: users.Email,
+          subject: 'Reset Password',
+          html: `This is the code you will need to reset your password: ${url}`,
+        });
+        res.send("Email containing your password reset code has been sent to the associated email address.");
+      })
+      } catch (error){
+        console.log(error.message);
+      }
+     
+});
+
+
+
+
+
+app.patch('/api/reset', async (req, res, next) => {
+  try {
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(req.body.Password, salt);
+
+    const PassCode = {PassCode: req.body.PassCode};
+    const updates = {$set: {Password: hashedPass}};
+    const options = {new: true};
+
+    const result = await User.findOneAndUpdate(PassCode, updates, options).then(users => {
+      if(!users){
+        return res.status(301).json({ warning: "Incorrect code." });
+      }
+    res.send("Password has been reset.");
+    })
+  } catch (error){
+    console.log(error.message);
+  }
+});
+
+
+
+
 
 app.get('/api/verification/:token', async (req, res) => {
   try {
@@ -440,53 +423,23 @@ app.get('/api/verification/:token', async (req, res) => {
     res.send("your email has been verified!");
   } catch (e) {
     
-    res.send('Unbale to verify email try again later');
+    res.send('Unable to verify email try again later');
   }
 
 });
 
 
 
-// app.post('/api/forgotpassword', async (req, res) => {
-//   const UserName = req.body.UserName;
-//   User.findOne({ UserName })
-//     .then(user => {
-//       if (!user)
-//         return res.status(301).json({ warning: "Incorrect username" });
-//         jwt.sign(
-//           {
-//             user: _.pick(user, 'id'),
-//           },
-//           SECRET,
-//           {
-//             expiresIn: '1d',
-//           },
-//           (err, emailToken) => {
-//             const url = `https://togethrgroup1.herokuapp.com/api/reset/${emailToken}`;
-        
-//             transporter.sendMail({
-//               to: user.Email,
-//               subject: 'forgot password',
-//               html: `Please click this email to reset your password: <a href="${url}">${url}</a>`,
-//             });
-//           },
-//         );
-//          res.json({
-//            id: user.id,
-//            UserName: user.UserName,
-//            FirstName: user.FirstName,
-//            LastName: user.LastName,
-//            Picture: user.Picture,
-//            Rating: user.Rating,
-//            Email: user.Email,
-//            Verified: user.Verified,
-//            Tags: user.Tags
-//          });
-//        })
-//        .catch(err => res.status(400).json("Error" + err));
 
-// });
 
+function createPassCode(length) {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+ }
+ return result;
+}
 
 
 
