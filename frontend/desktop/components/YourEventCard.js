@@ -155,7 +155,7 @@ const ViewCard = ({
         <Typography variant="body1" gutterBottom>
           When: {startDate.substring(0,15)}{startDate.substring(18,22)} to {endDate.substring(0,15)}{endDate.substring(18,22)} <br/>
           Where:  {location} <br/>
-          {attendees.length}/{guests +1} Attendees: {attendees}
+          {attendees.length}/{guests +1} Attendees: {attendees.join(", ")}
         </Typography>
         </AccordionDetails>
         
