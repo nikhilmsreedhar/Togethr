@@ -34,7 +34,12 @@ function Events() {
     .then((response) => {
       console.log(response);
       const events = response.data;
-      setMyEvents(events);
+      if (events === ""){
+        setMyEvents([]);
+      }
+      else{
+        setMyEvents(events);
+      }
     }, (error) => {
       setMyEvents([]);
       console.log(error);
