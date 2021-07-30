@@ -60,14 +60,18 @@ function Likes() {
               <Accordion key={index}>
                 <Card
                   _id={item._id}
+                  maker={item.Maker}
+                  location={item.EventLocation}
                   title={item.EventName}
                   description={item.EventDescription}
                   startDate={item.StartDate}
                   endDate={item.EndDate}
                   attendees={item.Attendees}
+                  guests={item.NumGuests}
                 />
               </Accordion>
             ))}
+            <Text style={{ fontSize: 18, color: "gray", justifyContent: 'center', alignContent: 'center', alignSelf: 'center' }}>{liked.length === 0 ? "You have no liked events" : null}</Text>
           </ScrollView>
         </View>
       </View>

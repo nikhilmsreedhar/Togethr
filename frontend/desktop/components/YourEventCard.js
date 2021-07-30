@@ -9,10 +9,16 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import axios from "axios";
+import { Dimensions } from "react-native";
+import clsx from 'clsx';
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const BUFFER = Dimensions.get("window").width * 0.4;
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%"
+    width: SCREEN_WIDTH - BUFFER
   },
   heading: {
     fontSize: theme.typography.pxToRem(30)
@@ -20,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(25),
     color: theme.palette.text.secondary
+  },
+  yourEvent: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+    padding: 10
   },
   icon: {
     verticalAlign: "bottom",
@@ -50,7 +61,12 @@ const theme = createMuiTheme({
     secondary: {
       main: '#5b06d5'
     }
-  }
+  },
+  typography: {
+    body1: {
+      fontSize: 20,
+    }
+}
 });
 
 const ViewCard = ({
@@ -129,18 +145,24 @@ const ViewCard = ({
               {description}
             </Typography>
           </div>
+          <div className={classes.column}>
+          <Typography className={classes.yourEvent}>
+           {maker === userid? 'Your Event' : null}
+         </Typography>
+          </div>
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
-        <Typography>{location}</Typography>
-        <Typography>{startDate} to {endDate}</Typography>
-        <Typography>{attendees.length}/{guests}</Typography>
-        <Typography>{attendees}</Typography>
-        <Typography>{tag}</Typography>
+        <Typography variant="body1" gutterBottom>
+          When: {startDate.substring(0,15)}{startDate.substring(18,22)} to {endDate.substring(0,15)}{endDate.substring(18,22)} <br/>
+          Where:  {location} <br/>
+          {attendees.length}/{guests +1} Attendees: {attendees}
+        </Typography>
         </AccordionDetails>
+        
         <Divider />
         <AccordionActions>
-          <Button onClick = {() => removeAttend(_id, maker)} size="small">{maker === userid? 'DELETE' : 'REMOVE'}</Button>
           <Button onClick = {() => editEvent(_id, maker)} size="small">{maker === userid? 'EDIT' : null}</Button>
+          <Button onClick = {() => removeAttend(_id, maker)} size="small" color ='secondary'>{maker === userid? 'DELETE' : 'REMOVE'}</Button>
         </AccordionActions>
       </Accordion>
     </div>
