@@ -11,6 +11,11 @@ import Divider from "@material-ui/core/Divider";
 import axios from "axios";
 import { Dimensions } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const BUFFER = Dimensions.get("window").width * 0.4;
@@ -90,10 +95,7 @@ const ViewCard = ({
   async function removeAttend(_id, maker){
     console.log();
     if (maker === userid){
-      const res = await axios.delete('https://togethrgroup1.herokuapp.com/api/deleteevent', {
-        data: {id: _id}
-      })
-      console.log(res.data.json);
+      handleClickOpen(_id);
     }
     else{
       attendees.splice(attendees.indexOf(userName), 1);
@@ -106,7 +108,33 @@ const ViewCard = ({
       }, (error) => {
         console.log(error);
       });
+
+      attending.splice(attending.indexOf(_id), 1);
+      axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: userid, 
+      AttendingEvents: attending
+    })
+    .then((response) => {
+      var UserData = {firstName:response.data.FirstName, lastName:response.data.LastName, username:response.data.UserName, 
+        id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
+        attend: response.data.AttendingEvents}
+      localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
     }
+    
+  }
+  async function deleteEvent(_id, maker){
+    console.log();
+    
+      const res = await axios.delete('https://togethrgroup1.herokuapp.com/api/deleteevent', {
+        data: {id: _id}
+      })
+      console.log(res.data.json);
+    
+    
     attending.splice(attending.indexOf(_id), 1);
     axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
       id: userid, 
@@ -122,9 +150,15 @@ const ViewCard = ({
       console.log(error);
     });
   }
-
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
   const navigation = useNavigation();
-
   function editEvent(_id, title, descrip, sD, eD, guests, location, tag){
     navigation.navigate('EditEvent', {_id: _id, title: title,descrip: descrip,sD: sD, eD: eD, guests: guests, location: location, tag: tag});
   }
@@ -166,6 +200,27 @@ const ViewCard = ({
         </AccordionActions>
       </Accordion>
     </div>
+   
+    <Dialog
+        open={open}
+        onClose={handleClose}
+        >
+        <DialogTitle >{"Are you sure?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+          Deleting an event is a permanent action and cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+        <Button onClick={handleClose}>
+            CANCEL
+          </Button>
+          <Button onClick={() => deleteEvent(_id)} color="secondary">
+            DELETE
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </MuiThemeProvider>
   );
 }

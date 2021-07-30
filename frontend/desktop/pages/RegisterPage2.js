@@ -188,7 +188,7 @@ const handleClose = () => {
         <Dialog
         open={open}
         onClose={handleClose}
-      >
+        >
         <DialogTitle >{"Account creation successful!"}</DialogTitle>
         <DialogContent>
           <DialogContentText>

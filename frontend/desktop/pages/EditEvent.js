@@ -6,8 +6,6 @@ import {
   Roboto_500Medium,
   Roboto_700Bold,
 } from '@expo-google-fonts/dev';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
 import { HelperText } from 'react-native-paper';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';

@@ -3,14 +3,7 @@ import { StyleSheet, SafeAreaView, ScrollView, View, Text } from "react-native";
 import Card from "../components/YourEventCard";
 import NavigationBar from "../components/NavigationBar";
 import Accordion from "@material-ui/core/Accordion";
-import {
-  useFonts,
-  Comfortaa_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from "@expo-google-fonts/dev";
-import Data from "../assets/data.js";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 
 function Events() {
@@ -19,7 +12,6 @@ function Events() {
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
   var attending = ud.attend;
-  const isFocused = useIsFocused();
 
   useEffect(() => {
     getEvents(attending);
