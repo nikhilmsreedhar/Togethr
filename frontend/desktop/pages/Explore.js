@@ -21,6 +21,7 @@ function Explore() {
   const _ud = localStorage.getItem("user_data");
   const ud = JSON.parse(_ud);
   const userid = ud.id;
+  const userName = ud.username;
   const myLikes = ud.likes;
   const myAttends = ud.attend;
 
@@ -90,8 +91,8 @@ function Explore() {
     counter++;
   }
 
-  function swipeRight(event, userid, myAttends){
-    myAttends.push(event);
+  function swipeRight(event, userName, userid, myAttends){
+    myAttends.push(event._id);
     axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
       id: userid, 
       AttendingEvents: myAttends
@@ -101,6 +102,17 @@ function Explore() {
         id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
         attend: response.data.AttendingEvents}
       localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+    var attendeeList = event.Attendees;
+    attendeeList.push(userName);
+    axios.patch('https://togethrgroup1.herokuapp.com/api/editevent', {
+      id: event._id, 
+      Attendees: attendeeList
+    })
+    .then((response) => {
       console.log(response);
     }, (error) => {
       console.log(error);
@@ -131,7 +143,7 @@ function Explore() {
             </Text>
           )}
           onSwipedLeft={() => swipeLeft()}
-          onSwipedRight={() => swipeRight(eventData[counter]._id, userid, myAttends)}
+          onSwipedRight={() => swipeRight(eventData[counter], userName, userid, myAttends)}
           onSwipedBottom={() => swipeDown(eventData[counter]._id, userid, myLikes)}
           key={isFocused}
         >

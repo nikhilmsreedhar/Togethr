@@ -68,6 +68,7 @@ const ViewCard = ({
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
   var userid = ud.id;
+  var userName = ud.username;
   var attending = ud.attend;
 
   async function removeAttend(_id, maker){
@@ -77,6 +78,18 @@ const ViewCard = ({
         data: {id: _id}
       })
       console.log(res.data.json);
+    }
+    else{
+      attendees.splice(attendees.indexOf(userName), 1);
+      axios.patch('https://togethrgroup1.herokuapp.com/api/editevent', {
+        id: _id, 
+        Attendees: attendees
+      })
+      .then((response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      });
     }
     attending.splice(attending.indexOf(_id), 1);
     axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {

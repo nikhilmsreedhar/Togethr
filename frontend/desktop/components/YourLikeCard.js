@@ -67,6 +67,7 @@ const ViewCard = ({
   var _ud = localStorage.getItem('user_data');
   var ud = JSON.parse(_ud);
   var userid = ud.id;
+  var userName = ud.username;
   var liked = ud.likes;
   var attending = ud.attend;
 
@@ -87,7 +88,7 @@ const ViewCard = ({
     });
   }
 
-  function nowAttend(_id){
+  function nowAttend(_id, attendees){
     liked.splice(liked.indexOf(_id), 1);
     attending.push(_id);
     axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
@@ -100,6 +101,16 @@ const ViewCard = ({
         id:userid, tags: response.data.Tags, emailAddress: response.data.Email, likes: response.data.LikedEvents, 
         attend: response.data.AttendingEvents}
       localStorage.setItem('user_data', JSON.stringify(UserData));
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+    attendees.push(userName);
+    axios.patch('https://togethrgroup1.herokuapp.com/api/editevent', {
+      id: _id, 
+      Attendees: attendees
+    })
+    .then((response) => {
       console.log(response);
     }, (error) => {
       console.log(error);
@@ -134,7 +145,7 @@ const ViewCard = ({
         <Divider />
         <AccordionActions>
           <Button onClick = {() => removeLike(_id)} size="small">Remove</Button>
-          <Button onClick = {() => nowAttend(_id)}size="small" color="secondary">
+          <Button onClick = {() => nowAttend(_id, attendees)}size="small" color="secondary">
             Attend
           </Button>
         </AccordionActions>

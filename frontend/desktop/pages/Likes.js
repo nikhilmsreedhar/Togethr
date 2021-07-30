@@ -33,7 +33,12 @@ function Likes() {
     .then((response) => {
       console.log(response);
       const events = response.data;
-      setMyLikes(events);
+      if (events === ""){
+        setMyLikes([]);
+      }
+      else{
+        setMyLikes(events);
+      }
     }, (error) => {
       setMyLikes([]);
       console.log(error);
