@@ -54,7 +54,18 @@ function goToNextPage (ucode, upass, upassConfirm) {
     setMessage("Passwords must match");
   }
   else{
-    handleClickOpen();
+    axios.patch('https://togethrgroup1.herokuapp.com/api/reset',{
+      PassCode: ucode,
+      Password: upass
+    })
+    .then(
+      (response) => 
+      {console.log(response);
+      handleClickOpen();},
+      (error) => 
+      {console.log(error);
+      setMessage("Your secret code was incorrect");}
+      );
   };
 }
   

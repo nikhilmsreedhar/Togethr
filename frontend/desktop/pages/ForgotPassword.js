@@ -40,14 +40,24 @@ export default function ForgotPassword(){
     navigation.goBack();
 }
 
-function goToNextPage (user) {
- if (user == ""){
-    setMessage("Please enter user");
+function goToNextPage (uname) {
+ if (uname == ""){
+    setMessage("Please enter username");
   }
 else{
-    handleClickOpen();
-  }
+    axios.patch('https://togethrgroup1.herokuapp.com/api/forgotpassword',{
+      UserName: uname
+    })
+    .then(
+      (response) => 
+      {console.log(response);
+      handleClickOpen();},
+      (error) => 
+      {console.log(error);
+      setMessage("This username does not exist");}
+      );
   };
+}
   
   
 const [user, setUser] = React.useState('');

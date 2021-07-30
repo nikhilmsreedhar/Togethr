@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import axios from "axios";
 import { Dimensions } from "react-native";
-import clsx from 'clsx';
+import { useNavigation } from '@react-navigation/native';
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const BUFFER = Dimensions.get("window").width * 0.4;
@@ -123,10 +123,10 @@ const ViewCard = ({
     });
   }
 
-  function editEvent(_id, maker){
-    if (maker === userid){
-      
-    }
+  const navigation = useNavigation();
+
+  function editEvent(_id, title, descrip, sD, eD, guests, location, tag){
+    navigation.navigate('EditEvent', {_id: _id, title: title,descrip: descrip,sD: sD, eD: eD, guests: guests, location: location, tag: tag});
   }
 
   const classes = useStyles();
@@ -161,7 +161,7 @@ const ViewCard = ({
         
         <Divider />
         <AccordionActions>
-          <Button onClick = {() => editEvent(_id, maker)} size="small">{maker === userid? 'EDIT' : null}</Button>
+          <Button onClick = {() => editEvent( _id, title, description, startDate, endDate, guests, location, tag)} size="small">{maker === userid? 'EDIT' : null}</Button>
           <Button onClick = {() => removeAttend(_id, maker)} size="small" color ='secondary'>{maker === userid? 'DELETE' : 'REMOVE'}</Button>
         </AccordionActions>
       </Accordion>

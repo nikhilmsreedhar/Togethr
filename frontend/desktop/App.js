@@ -15,6 +15,7 @@ import Likes from './pages/Likes'
 import EditAccountInfo from './pages/EditAccountInfo'
 import ForgotPassword from './pages/ForgotPassword'
 import ForgotPassword2 from './pages/ForgotPassword2'
+import EditEvent from './pages/EditEvent'
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,7 @@ function App() {
         <Stack.Screen name="EditAccountInfo" component={EditAccountInfo} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="ForgotPassword2" component={ForgotPassword2} />
+        <Stack.Screen name="EditEvent" component={EditEvent} />
 
 
       </Stack.Navigator>

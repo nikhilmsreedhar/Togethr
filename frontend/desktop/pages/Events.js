@@ -69,6 +69,7 @@ function Events() {
                    endDate={item.EndDate}
                    attendees={item.Attendees}
                    guests={item.NumGuests}
+                   tag={item.Tag}
                 />
               </Accordion>
             ))}
