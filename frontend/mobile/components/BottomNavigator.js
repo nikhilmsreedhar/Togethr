@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState} from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,6 +12,9 @@ import AddEvent from "../pages/AddEvent";
 const Tab = createBottomTabNavigator();
 
 function BottomNavigator() {
+
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <Tab.Navigator
       initialRouteName="Explore"

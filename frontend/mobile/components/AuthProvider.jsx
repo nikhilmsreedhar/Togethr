@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AuthContext = React.createContext({
   userData: null,
-  login: () => {},
-  logout: () => {}
+  updateUserData: () => {},
+  logout: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -15,14 +15,14 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         userData,
-        login: (input) => {
+        updateUserData: (input) => {
+          AsyncStorage.setItem("user_data", JSON.stringify(input));
           setUserData(input);
-          AsyncStorage.setItem('user_data', JSON.stringify(input));
         },
         logout: () => {
+          AsyncStorage.removeItem("user_data");
+          AsyncStorage.removeItem("events_data");
           setUserData(null);
-          AsyncStorage.removeItem('user_data');
-          AsyncStorage.removeItem('events_data');
         },
       }}
     >

@@ -1,25 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 import CardStack, { Card } from "react-native-card-stack-swiper";
-import EventCard from "../components/EventCard";
-import Data from "../assets/data.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import { useIsFocused } from "@react-navigation/native";
+import axios from "axios";
+
+import { AuthContext } from "../components/AuthProvider";
+import EventCard from "../components/EventCard";
 
 const STORAGE_KEY = "user_data";
 
 const Explore = () => {
   //for swiper
   const t = {};
+  const { userData } = useContext(AuthContext);
 
   useEffect(() => {
     fetchEventsData();
   }, []);
 
   const [eventsData, setEventsData] = useState([]);
-
+  const [attendingEvents, setAttendingEvents] = useState([]);
+  const [likedEvents, setLikedEvents] = useState([]);
   const isFocused = useIsFocused();
+
+  const updateAttendingArray = (event) => {
+    const newAttendingList = attendingEvents.slice();
+    newAttendingList.push(event);
+    setAttendingEvents(newAttendingList);
+  }
+
+  const updateLikedArray = (event) => {
+    const newLikedList = likedEvents.slice();
+    newLikedList.push(event);
+    setLikedEvents(newLikedList);
+  }
 
   // retrieve user tags from AsyncStorage
   const getUserTags = async () => {
@@ -46,9 +61,36 @@ const Explore = () => {
       .catch((err) => console.log(err));
   };
 
-  const updateEvents = () => {
-    
-  }
+  const addEventToAttending = (event) => {
+    updateAttendingArray(event);
+    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: userData.id,
+      AttendingEvents: attendingEvents
+    })
+    .then((response) => {
+      console.log(response);
+      AsyncStorage.setItem('user_data', JSON.stringify(response.data));
+    }, (error) => {
+      console.log(error);
+    });
+  };
+
+  const dismissCard = () => {
+  };
+
+  const addEventToLiked = (event) => {
+    updateLikedArray(event);
+    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
+      id: userData.id,
+      LikedEvents: likedEvents
+    })
+    .then((response) => {
+      console.log(response);
+      AsyncStorage.setItem('user_data', JSON.stringify(response.data));
+    }, (error) => {
+      console.log(error);
+    });
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -64,30 +106,29 @@ const Explore = () => {
               No more events to display. Check back later!
             </Text>
           )}
-          onSwipedLeft={() => alert("swiped left")}
-          onSwipedRight={() => alert("swiped right")}
-          onSwipedBottom={() => alert("swiped down")}
           key={isFocused}
         >
-          {eventsData.map((item, index) => (
-            <Card
-              style={styles.card}
-              key={index}
-              onSwipedLeft={() => alert("swiped left")}
-              onSwipedRight={() => alert("swiped right")}
-              onSwipedBottom={() => alert("swiped down")}
-            >
-              <EventCard
-                title={item.EventName}
-                description={item.EventDescription}
-                date={item.StartDate}
-                startTime={item.StartDate}
-                endTime={item.EndDate}
-                attendees={item.Attendees}
-                guests={item.NumGuests}
-              />
-            </Card>
-          ))}
+          {eventsData && eventsData.length
+            ? eventsData.map((item, index) => (
+                <Card
+                  style={styles.card}
+                  key={item.id}
+                  onSwipedLeft={() => dismissCard(item)}
+                  onSwipedRight={() => addEventToAttending(item)}
+                  onSwipedBottom={() => addEventToLiked(item)}
+                >
+                  <EventCard
+                    title={item.EventName}
+                    description={item.EventDescription}
+                    date={item.StartDate}
+                    startTime={item.StartDate}
+                    endTime={item.EndDate}
+                    attendees={item.Attendees}
+                    guests={item.NumGuests}
+                  />
+                </Card>
+              ))
+            : null}
         </CardStack>
       </View>
     </SafeAreaView>

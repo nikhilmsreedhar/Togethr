@@ -17,6 +17,13 @@ const InterestsPage = ({ route }) => {
     navigation.goBack();
   }
 
+  const [tags, setTags] = useState([]);
+
+  const getUserTags = () => {
+    
+  }
+
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -75,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterPage3;
+export default InterestsPage;

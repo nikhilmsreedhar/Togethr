@@ -9,6 +9,7 @@ import {
   Roboto_500Medium,
   Roboto_700Bold,
 } from "@expo-google-fonts/dev";
+import Loading from "./components/Loading";
 
 
 const App = () => {

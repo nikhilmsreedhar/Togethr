@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../components/AuthProvider";
 
 export default function LoginPage() {
-  const {login} = useContext(AuthContext);
+  const {updateUserData} = useContext(AuthContext);
 
   const navigation = useNavigation();
   function navigateBack() {
@@ -39,16 +39,9 @@ export default function LoginPage() {
           UserName: user,
           Password: pass,
         })
-        .then(
-          async (response) => {
+        .then((response) => {
             console.log(response);
-            login(response.data);
-            // if tags are empty go to choose tags
-            if (response.data.Tags.length > 0) {
-              navigation.navigate("LoggedIn");
-            } else {
-              navigation.navigate("EditTags");
-            }
+            updateUserData(response.data);
           },
           (error) => {
             setLoginMessage("Incorrect Username or Password");

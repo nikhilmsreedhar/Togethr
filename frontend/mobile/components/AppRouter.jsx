@@ -9,7 +9,6 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import RegisterPage2 from "../pages/RegisterPage2";
-import RegisterPage3 from "../pages/RegisterPage3";
 import AddEvent from "../pages/AddEvent";
 import Loading from "./Loading";
 import BottomNavigator from "./BottomNavigator";
@@ -17,7 +16,7 @@ import BottomNavigator from "./BottomNavigator";
 const Stack = createStackNavigator();
 
 const AppRouter = () => {
-  const { userData, login } = useContext(AuthContext);
+  const { userData, updateUserData } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const AppRouter = () => {
       .then((data) => {
         console.log(data);
         if (data) {
-
+          
         }
         setLoading(false);
       })
@@ -51,7 +50,6 @@ const AppRouter = () => {
           <Stack.Screen name="LoginPage" component={LoginPage} />
           <Stack.Screen name="RegisterPage" component={RegisterPage} />
           <Stack.Screen name="RegisterPage2" component={RegisterPage2} />
-          <Stack.Screen name="RegisterPage3" component={RegisterPage3} />
         </Stack.Navigator>
       )}
     </NavigationContainer>
