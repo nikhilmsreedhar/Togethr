@@ -29,6 +29,8 @@ const AttendingCard = ({
     minute: "2-digit",
   });
 
+  
+
   return (
     <Card>
       <Card.Title title={title} />
@@ -64,11 +66,11 @@ const AttendingCard = ({
       {userData.id == maker ? (
         <Card.Actions style={{ justifyContent: "flex-end" }}>
           <Button>Edit</Button>
-          <Button onPress={() => removeCard}>Delete</Button>
+          <Button onPress={() => {removeCard()}}>Delete</Button>
         </Card.Actions>
       ) : (
         <Card.Actions style={{ justifyContent: "flex-end" }}>
-          <Button onPress={() => removeCard}>Remove</Button>
+          <Button onPress={() => {removeCard()}}>Remove</Button>
         </Card.Actions>
       )}
     </Card>
