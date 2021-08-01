@@ -27,9 +27,11 @@ const Explore = () => {
   const [likedEvents, setLikedEvents] = useState([]);
   const isFocused = useIsFocused();
 
-  const updateAttendingArray = (event) => {
+  //update user's attending array list
+  const updateAttendingArray = (eventId) => {
     const newAttendingList = attendingEvents.slice();
-    newAttendingList.push(event);
+    newAttendingList.push(eventId);
+    console.log(newAttendingList);
     setAttendingEvents(newAttendingList);
   };
 
