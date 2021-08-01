@@ -1,6 +1,5 @@
 {
   "main": "node_modules/expo/AppEntry.js",
-  "homepage": "https://togethrgroup1.herokuapp.com/frontend/desktop/public",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -23,6 +22,7 @@
     "date-fns": "^2.22.1",
     "expo": "~41.0.1",
     "expo-status-bar": "~1.0.4",
+    "netlify-cli": "^5.4.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",

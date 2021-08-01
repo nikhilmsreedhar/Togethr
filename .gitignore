@@ -10,3 +10,5 @@ app/web-build/
 
 # macOS
 app/.DS_Store
+# Local Netlify folder
+.netlify
