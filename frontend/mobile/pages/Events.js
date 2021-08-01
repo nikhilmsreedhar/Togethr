@@ -23,13 +23,12 @@ const Events = () => {
 
   React.useEffect(() => {
     getEventsData();
-    setIsLoading(false);
   }, []);
 
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getEventsData = async () => {
+  const getEventsData = () => {
     axios
       .post("https://togethrgroup1.herokuapp.com/api/viewattendingevents", {
         AttendingEvents: userData.AttendingEvents,
@@ -38,6 +37,7 @@ const Events = () => {
         (response) => {
           console.log(response);
           setEventsData(response.data);
+          setIsLoading(false);
         },
         (error) => {
           console.log(error);
@@ -57,9 +57,10 @@ const Events = () => {
     // }
   };
 
-  function removeEvent() {
-    
-  }
+  const handleEventRemove = (eventId) => {
+    const newEventList = eventsData.filter((event) => event._id !== eventId);
+    setEventsData(newEventList);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -97,6 +98,7 @@ const Events = () => {
                 endDate={item.EndDate}
                 numGuests={item.NumGuests}
                 attendees={item.Attendees}
+                removeCard={() => handleEventRemove(item._id)}
               />
             </TouchableOpacity>
           )}
