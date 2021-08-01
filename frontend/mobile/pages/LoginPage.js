@@ -62,7 +62,7 @@ export default function LoginPage() {
           Log In
         </Text>
         <Text style={styles.verticalDivider}></Text>
-
+        
         <TextInput
           style={{ alignSelf: "stretch" }}
           label="Username"
@@ -91,6 +91,13 @@ export default function LoginPage() {
           style={styles.loginButton}
         >
           <Text style={styles.loginButtonText}>LOG IN</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {}}
+          style={{alignSelf: 'center', marginTop: 10}}
+        >
+          <Text>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

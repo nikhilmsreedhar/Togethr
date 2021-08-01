@@ -1,31 +1,76 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Text, Dimensions } from "react-native";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
+import { AuthContext } from "./AuthProvider";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const AttendingCard = ({
+  maker,
   image,
   title,
   description,
-  date,
-  startTime,
-  endTime,
+  location,
+  startDate,
+  endDate,
   attendees,
+  removeCard,
 }) => {
+  const { userData } = useContext(AuthContext);
+
+  const formatDate = new Date(startDate).toDateString();
+  const formatStartTime = new Date(startDate).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const formatEndTime = new Date(endDate).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
   return (
     <Card>
-      <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+      <Card.Title title={title} />
+      {image ? null : (
+        <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+      )}
 
       <Card.Content>
-        <Title>{title}</Title>
-        <Paragraph>{description}</Paragraph>
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
+            <Text>Attending:</Text>
+            {attendees.map((user) => (
+              <Text>{user}</Text>
+            ))}
+          </View>
+          <View style={{ flex: 1 }}>
+            <Paragraph>{description}</Paragraph>
+            <Text>Where:</Text>
+            <Text>{location}</Text>
+            <Text>When:</Text>
+            <Text>{formatDate}</Text>
+            {formatStartTime == formatEndTime ? (
+              <Text>{formatStartTime}</Text>
+            ) : (
+              <Text>
+                {formatStartTime} - {formatEndTime}
+              </Text>
+            )}
+          </View>
+        </View>
       </Card.Content>
-      <Card.Actions>
-        <Button>Cancel</Button>
-        <Button>Ok</Button>
-      </Card.Actions>
+
+      {userData.id == maker ? (
+        <Card.Actions style={{ justifyContent: "flex-end" }}>
+          <Button>Edit</Button>
+          <Button onPress={() => removeCard}>Delete</Button>
+        </Card.Actions>
+      ) : (
+        <Card.Actions style={{ justifyContent: "flex-end" }}>
+          <Button>Remove</Button>
+        </Card.Actions>
+      )}
     </Card>
   );
 };

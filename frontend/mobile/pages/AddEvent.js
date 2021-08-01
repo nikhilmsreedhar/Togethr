@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,51 +6,54 @@ import {
   // TextInput,
   TouchableOpacity,
   SafeAreaView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import { Button, Menu, Provider, TextInput } from 'react-native-paper';
-import axios from 'axios';
-import RNPickerSelect from 'react-native-picker-select';
-import { DatePickerModal } from 'react-native-paper-dates';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import { Button, Menu, Provider, TextInput } from "react-native-paper";
+import axios from "axios";
+import RNPickerSelect from "react-native-picker-select";
+import { DatePickerModal } from "react-native-paper-dates";
 
 const interestOptions = [
-  { label: 'Movie', value: 'Movie' },
-  { label: 'Music', value: 'Music' },
-  { label: 'Sports', value: 'Sports' },
-  { label: 'Outdoors', value: 'Outdoors' },
-  { label: 'Food', value: 'Food' },
-  { label: 'Animals', value: 'Animals' },
-  { label: 'Beauty', value: 'Beauty' },
-  { label: 'Gaming', value: 'Gaming' },
-  { label: 'Sight Seeing', value: 'Sight Seeing' },
-  { label: 'Technology', value: 'Technology' },
-  { label: 'DIY', value: 'DIY' },
-  { label: 'Travel', value: 'Travel' },
-  { label: 'Performing Arts', value: 'Performing Arts' },
-  { label: 'Fine Arts', value: 'Fine Arts' },
-  { label: 'Cars', value: 'Cars' },
-  { label: 'Photography', value: 'Photography' },
-  { label: 'Lifestyle', value: 'Lifestyle' },
-  { label: 'Shopping', value: 'Shopping' },
+  { label: "Movie", value: "Movie" },
+  { label: "Music", value: "Music" },
+  { label: "Sports", value: "Sports" },
+  { label: "Outdoors", value: "Outdoors" },
+  { label: "Food", value: "Food" },
+  { label: "Animals", value: "Animals" },
+  { label: "Beauty", value: "Beauty" },
+  { label: "Gaming", value: "Gaming" },
+  { label: "Sight Seeing", value: "Sight Seeing" },
+  { label: "Technology", value: "Technology" },
+  { label: "DIY", value: "DIY" },
+  { label: "Travel", value: "Travel" },
+  { label: "Performing Arts", value: "Performing Arts" },
+  { label: "Fine Arts", value: "Fine Arts" },
+  { label: "Cars", value: "Cars" },
+  { label: "Photography", value: "Photography" },
+  { label: "Lifestyle", value: "Lifestyle" },
+  { label: "Shopping", value: "Shopping" },
 ];
 
 const AddEvent = () => {
   const navigation = useNavigation();
+
   function navigateBack() {
     navigation.goBack();
   }
 
   const [dateModalVisible, setDateModalVisible] = useState(false);
-  const [visible, setVisible] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
+  const [visible, setVisible] = useState(false);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
   const [numGuests, setNumGuests] = useState(0);
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState("");
   const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState();
+
   const [addMessage, setAddMessage] = useState();
   const [addErrorMessage, setAddErrorMessage] = useState();
 
@@ -69,54 +72,56 @@ const AddEvent = () => {
     [setDateModalVisible, setDate]
   );
 
-  const postEvent = (
-    title,
-    description,
-    location,
-    guests,
-    category,
-    day,
-    start,
-    end
-  ) => {
+  const submit = () => {
     if (
-      title == '' ||
-      description == '' ||
-      guests == '' ||
-      category == '' ||
-      day == '' ||
-      start == '' ||
-      end == ''
+      title == "" ||
+      description == "" ||
+      numGuests == "" ||
+      category == "" ||
+      day == "" ||
+      start == "" ||
+      end == ""
     ) {
       setAddMessage();
-      setAddErrorMessage('Please fill in all fields');
+      setAddErrorMessage("Please fill in all fields");
     } else {
-      axios
-        .post('https://togethrgroup1.herokuapp.com/api/addevent', {
-          EventName: title,
-          EventDescription: description,
-          EventLocation: location,
-          StartDate: startdate,
-          EndDate: enddate,
-          Maker: userid,
-          LikedUsers: 0,
-          Attendees: guests,
-          Pictures: null, // for now is null
-          Tag: category,
-        })
-        .then(
-          (response) => {
-            console.log(response);
-            setAddErrorMessage();
-            setAddMessage('Your event was posted!');
-          },
-          (error) => {
-            console.log(error);
-            setAddMessage();
-            setAddErrorMessage('Something went wrong. Try again.');
-          }
-        );
+      const event = {
+        EventName: title,
+        EventDescription: description,
+        EventLocation: location,
+        StartDate: start,
+        EndDate: end
+      };
+      postEvent();
     }
+  };
+
+  const postEvent = (title, description, location, guests, category) => {
+    axios
+      .post("https://togethrgroup1.herokuapp.com/api/addevent", {
+        Maker: userid,
+        EventName: title,
+        EventDescription: description,
+        EventLocation: location,
+        StartDate: startdate,
+        EndDate: enddate,
+        NumGuests: numGuests,
+        Attendees: attendeeList,
+        Pictures: 't', // for now is t
+        Tag: category,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          setAddErrorMessage();
+          setAddMessage("Your event was posted!");
+        },
+        (error) => {
+          console.log(error);
+          setAddMessage();
+          setAddErrorMessage("Something went wrong. Try again.");
+        }
+      );
   };
 
   return (
@@ -132,19 +137,21 @@ const AddEvent = () => {
 
         <View style={styles.container}>
           <View style={styles.closeButton}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                navigateBack;
+              }}
+            >
               <Ionicons name="close" size={30} color="back" />
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.verticalDivider}></Text>
           <Text h1 style={styles.title}>
             Create Activity
           </Text>
-          <Text style={styles.verticalDivider}></Text>
 
           <TextInput
-            style={{ alignSelf: 'stretch' }}
+            style={{ alignSelf: "stretch" }}
             label="Title"
             value={title}
             mode="outlined"
@@ -152,7 +159,7 @@ const AddEvent = () => {
           />
 
           <TextInput
-            style={{ alignSelf: 'stretch' }}
+            style={{ alignSelf: "stretch" }}
             label="Description"
             value={description}
             mode="outlined"
@@ -160,7 +167,7 @@ const AddEvent = () => {
           />
 
           <TextInput
-            style={{ alignSelf: 'stretch' }}
+            style={{ alignSelf: "stretch" }}
             label="Location"
             value={location}
             mode="outlined"
@@ -168,7 +175,7 @@ const AddEvent = () => {
           />
 
           <TextInput
-            style={{ alignSelf: 'stretch' }}
+            style={{ alignSelf: "stretch" }}
             label="Number of Guests"
             value={numGuests}
             mode="outlined"
@@ -185,11 +192,11 @@ const AddEvent = () => {
           />
 
           <TextInput
-            style={{ alignSelf: 'stretch' }}
+            style={{ alignSelf: "stretch" }}
             label="Date"
             value={date}
             mode="outlined"
-            onFocus={setDateModalVisible(true)}
+            onFocus={() => setDateModalVisible(true)}
             onChangeText={(date) => setDate(date)}
           />
 
@@ -211,7 +218,8 @@ const AddEvent = () => {
                 endTime
               )
             }
-            style={styles.postButton}>
+            style={styles.postButton}
+          >
             POST
           </Button>
         </View>
@@ -223,26 +231,27 @@ const AddEvent = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
     margin: 25,
   },
   title: {
     fontSize: 30,
-    fontFamily: 'Comfortaa_400Regular',
-    alignSelf: 'center',
+    fontFamily: "Comfortaa_400Regular",
+    alignSelf: "center",
+    marginVertical: 10,
   },
   input: {
     width: 500,
   },
   closeButton: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   center: {
     flex: 1,
-    alignContent: 'center',
-    alignSelf: 'center',
+    alignContent: "center",
+    alignSelf: "center",
   },
   verticalDivider: {
     height: 10,
@@ -251,26 +260,26 @@ const styles = StyleSheet.create({
     height: 20,
   },
   fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   buttonDivider: {
     width: 10,
   },
   postButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     // width: 'stretch',
     height: 50,
     //borderWidth: 3,
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignSelf: "stretch",
+    alignItems: "center",
+    justifyContent: "center",
     //borderRadius: 5,
   },
   postButtonText: {
     fontSize: 18,
-    color: 'white',
-    fontFamily: 'Roboto_500Medium',
+    color: "white",
+    fontFamily: "Roboto_500Medium",
   },
 });
 
@@ -280,9 +289,9 @@ const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 4,
-    color: 'black',
+    color: "black",
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
@@ -290,9 +299,9 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderWidth: 0.5,
-    borderColor: 'purple',
+    borderColor: "purple",
     borderRadius: 8,
-    color: 'black',
+    color: "black",
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });

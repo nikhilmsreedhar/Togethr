@@ -17,11 +17,8 @@ const InterestsPage = ({ route }) => {
     navigation.goBack();
   }
 
-  const [tags, setTags] = useState([]);
-
-  const getUserTags = () => {
-    
-  }
+  const [isLoading, setIsLoading] = useState(true);
+  const [tags, setTags] = useState(route.params.Tags);
 
 
   return (

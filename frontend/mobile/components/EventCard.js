@@ -10,20 +10,38 @@ const EventCard = ({
   picture,
   title,
   description,
-  date,
-  startTime,
-  endTime,
+  startDate,
+  endDate,
   attendees,
 }) => {
+  const formatDate = new Date(startDate).toDateString();
+  const formatStartTime = new Date(startDate).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const formatEndTime = new Date(endDate).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
   return (
     <View style={styles.containerCardItem}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
-      <Text style={styles.info}>{date}</Text>
+      <Text style={styles.info}>{formatDate}</Text>
+
       <View style={{ flexDirection: "row" }}>
-        <Text>{startTime} - {endTime}</Text>
+        {formatStartTime == formatEndTime ? (
+          <Text>{formatStartTime}</Text>
+        ) : (
+          <Text>
+            {formatStartTime} - {formatEndTime}
+          </Text>
+        )}
       </View>
-      <Text style={styles.info}>{attendees}</Text>
+      <View>
+        <Text style={styles.info}>{attendees}</Text>
+      </View>
     </View>
   );
 };

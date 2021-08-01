@@ -1,70 +1,98 @@
-import React, {useState} from "react";
+import React, {useState} from 'react';
 import {
   FlatList,
   Text,
-  View,
-  StyleSheet,
+  View, 
+  ScrollView,
+  StyleSheet, 
   SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
-import { Button } from "react-native-paper";
-import LikedCard from "../components/LikedCard";
-import EventsData from "../assets/data";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Tags from "./Tags";
-import UserData from "../assets/UserData";
+  TouchableOpacity
+} from 'react-native';
+import { Button } from 'react-native-paper';
+import AttendingCard from '../components/AttendingCard';
+import EventsData from '../assets/data';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const STORAGE_KEY = "user_data";
+const STORAGE_KEY = 'events_data';
 
-const Likes = () => {
-  const [isLoading, setIsLoading] = useState(true);
+const Events = () => {
 
   React.useEffect(() => {
-    getTagData();
-  }, []);
+    getEventsData();
+  }, [])
 
-  const [tags, setTags] = React.useState([]);
+  const [eventsData, setEventsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const getTagData = async () => {
+  const getEventsData = async () => {
     try {
-      const udJSON = await AsyncStorage.getItem(STORAGE_KEY);
-      const userData = udJSON != null ? JSON.parse(udJSON) : null;
+      const edJSON = await AsyncStorage.getItem(STORAGE_KEY);
+      const ed = edJSON != null ? JSON.parse(udJSON) : null;
 
-      if (userData !== null) {
-        setTags(userData.tags);
+      if(ed !== null) {
+        setEventsData(ed);
       } else {
-        setTags(UserData.tags);
+        setEventsData(EventsData);
       }
-    } catch (e) {
-      console.error("Unable to get user info");
+
+    } catch(e) {
+      console.error("Unable to get user info")
     }
-  };
+  }
 
   return (
-    <View style={{flex: 1}}>
-      <Text style={{ fontSize: 50, fontFamily: "Comfortaa_400Regular" }}></Text>
-      <Tags tagList={tags} />
+    <SafeAreaView style={{flex: 1}}>
+    <View style={styles.container}>
+      <View 
+        style={{
+          paddingTop: 20,
+          marginHorizontal: 10,
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text h1 style={styles.title}>Saved Events</Text>
+      </View>
+
+      <FlatList
+        style={{width:"100%"}}
+        numColumns={1}
+        data={eventsData}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity>
+            <LikedCard
+              title={item.name}
+              description={item.description}
+              date={item.date}
+              startTime={item.startTime}
+            />
+          </TouchableOpacity>
+        )}
+      />
     </View>
+  
+  </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 50,
-    fontFamily: "Comfortaa_400Regular",
+    fontSize: 50, 
+    fontFamily: 'Comfortaa_400Regular',
   },
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
-  verticalDivider: {
-    height: 50,
+   verticalDivider: {
+    height:50,
   },
   inputDivider: {
-    height: 20,
+    height:20,
   },
 });
 
-export default Likes;
+export default Events;

@@ -1,69 +1,76 @@
-import React, {useState} from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, View, TouchableOpacity, SafeAreaView } from "react-native";
 import { Button, Text, TextInput, HelperText } from "react-native-paper";
 import axios from "axios";
+import { AuthContext } from "./AuthProvider";
 
 const ChangePassword = () => {
+  const { userData } = useContext(AuthContext);
 
-  const [pwErrorMessage, setPWErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  
+  const [pwErrorMessage, setPWErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [currentPass, setCurrentPass] = React.useState("");
+  const [newPass, setPass] = React.useState("");
+  const [newPassConfirm, setPassConfirm] = React.useState("");
 
-  function changePassword(currentPass, newPass, passConfirm) {
+  function submit(currentPass, newPass, passConfirm) {
     if (currentPass === "" || newPass === "" || passConfirm === "") {
       setPWMessage();
       setSuccessMessage();
       setPWErrorMessage("Please fill in all fields");
     } else {
-      // first check that old pw is correct for security
-      axios
-        .post("https://togethrgroup1.herokuapp.com/api/login", {
-          UserName: username,
-          Password: currentPass,
-        })
-        .then(
-          (response) => {
-            console.log(response);
-            if (newPass != passConfirm) {
-              setPWMessage();
-              setSuccessMessage();
-              setPWErrorMessage("Passwords must match");
-            } else {
-              // hash pw
-              axios
-                .patch("https://togethrgroup1.herokuapp.com/api/editpassword", {
-                  id: userid,
-                  Password: newPass,
-                })
-                .then(
-                  (response) => {
-                    console.log(response);
-                    setPWMessage();
-                    setPWErrorMessage();
-                    setSuccessMessage("Your password was updated!");
-                  },
-                  (error) => {
-                    console.log(error);
-                    setPWMessage();
-                    setSuccessMessage();
-                    setPWErrorMessage("Something went wrong! Try again.");
-                  }
-                );
-            }
-          },
-          (error) => {
-            console.log(error);
-            setSuccessMessage();
-            setPWErrorMessage();
-            setPWMessage("Incorrect Password");
-          }
-        );
-    } //end else
+      verifyPassword(currentPass);
+    }
   }
 
-  const [currentPass, setCurrentPass] = React.useState("");
-  const [newPass, setPass] = React.useState("");
-  const [newPassConfirm, setPassConfirm] = React.useState("");
+  // check that old pw is correct for security
+  function verifyPassword() {
+    axios
+      .post("https://togethrgroup1.herokuapp.com/api/login", {
+        UserName: userData.UserName,
+        Password: currentPass,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          if (newPass != passConfirm) {
+            setPWMessage();
+            setSuccessMessage();
+            setPWErrorMessage("Passwords must match");
+          } else {
+            changePassword();
+          }
+        },
+        (error) => {
+          console.log(error);
+          setSuccessMessage();
+          setPWErrorMessage();
+          setPWMessage("Incorrect Password");
+        }
+      );
+  }
+
+  function changePassword(currentPass) {
+    axios
+      .patch("https://togethrgroup1.herokuapp.com/api/editpassword", {
+        id: userData.id,
+        Password: newPass,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          setPWMessage();
+          setPWErrorMessage();
+          setSuccessMessage("Your password was updated!");
+        },
+        (error) => {
+          console.log(error);
+          setPWMessage();
+          setSuccessMessage();
+          setPWErrorMessage("Something went wrong! Try again.");
+        }
+      );
+  }
 
   const hasErrors = () => {
     return !(newPass == newPassConfirm);

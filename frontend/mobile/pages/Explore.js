@@ -4,6 +4,7 @@ import CardStack, { Card } from "react-native-card-stack-swiper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
+import Loading from "../components/Loading";
 
 import { AuthContext } from "../components/AuthProvider";
 import EventCard from "../components/EventCard";
@@ -14,9 +15,11 @@ const Explore = () => {
   //for swiper
   const t = {};
   const { userData } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchEventsData();
+    setIsLoading(false);
   }, []);
 
   const [eventsData, setEventsData] = useState([]);
@@ -28,13 +31,13 @@ const Explore = () => {
     const newAttendingList = attendingEvents.slice();
     newAttendingList.push(event);
     setAttendingEvents(newAttendingList);
-  }
+  };
 
   const updateLikedArray = (event) => {
     const newLikedList = likedEvents.slice();
     newLikedList.push(event);
     setLikedEvents(newLikedList);
-  }
+  };
 
   // retrieve user tags from AsyncStorage
   const getUserTags = async () => {
@@ -50,7 +53,7 @@ const Explore = () => {
   // make API request to get events
   const fetchEventsData = async () => {
     let tags = await getUserTags();
-    await axios
+    axios
       .post("https://togethrgroup1.herokuapp.com/api/retrieveevents", {
         Tags: tags,
       })
@@ -62,35 +65,65 @@ const Explore = () => {
   };
 
   const addEventToAttending = (event) => {
-    updateAttendingArray(event);
-    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
-      id: userData.id,
-      AttendingEvents: attendingEvents
-    })
-    .then((response) => {
-      console.log(response);
-      AsyncStorage.setItem('user_data', JSON.stringify(response.data));
-    }, (error) => {
-      console.log(error);
-    });
+    updateAttendingArray(event._id);
+    axios
+      .patch("https://togethrgroup1.herokuapp.com/api/edituser", {
+        id: userData.id,
+        AttendingEvents: attendingEvents,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          AsyncStorage.setItem("user_data", JSON.stringify(response.data));
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    updateEvent(event);
   };
 
-  const dismissCard = () => {
+  const updateEvent = (event) => {
+    const attendeeList = event.Attendees.slice();
+    attendeeList.push(userData.UserName);
+    axios
+      .patch("https://togethrgroup1.herokuapp.com/api/editevent", {
+        id: event._id,
+        Attendees: attendeeList,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
+
+  const dismissCard = () => {};
 
   const addEventToLiked = (event) => {
     updateLikedArray(event);
-    axios.patch('https://togethrgroup1.herokuapp.com/api/edituser', {
-      id: userData.id,
-      LikedEvents: likedEvents
-    })
-    .then((response) => {
-      console.log(response);
-      AsyncStorage.setItem('user_data', JSON.stringify(response.data));
-    }, (error) => {
-      console.log(error);
-    });
+    axios
+      .patch("https://togethrgroup1.herokuapp.com/api/edituser", {
+        id: userData.id,
+        LikedEvents: likedEvents,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          AsyncStorage.setItem("user_data", JSON.stringify(response.data));
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -102,33 +135,32 @@ const Explore = () => {
             t.swiper = swiper;
           }}
           renderNoMoreCards={() => (
-            <Text style={{ fontSize: 18, color: "gray" }}>
-              No more events to display. Check back later!
-            </Text>
+            <Text style={{ fontSize: 18, color: "gray" }}>No more events!</Text>
           )}
           key={isFocused}
         >
-          {eventsData && eventsData.length
-            ? eventsData.map((item, index) => (
-                <Card
-                  style={styles.card}
-                  key={item.id}
-                  onSwipedLeft={() => dismissCard(item)}
-                  onSwipedRight={() => addEventToAttending(item)}
-                  onSwipedBottom={() => addEventToLiked(item)}
-                >
-                  <EventCard
-                    title={item.EventName}
-                    description={item.EventDescription}
-                    date={item.StartDate}
-                    startTime={item.StartDate}
-                    endTime={item.EndDate}
-                    attendees={item.Attendees}
-                    guests={item.NumGuests}
-                  />
-                </Card>
-              ))
-            : null}
+          {eventsData && eventsData.length ? (
+            eventsData.map((item) => (
+              <Card
+                style={styles.card}
+                key={item.id}
+                onSwipedLeft={() => dismissCard(item)}
+                onSwipedRight={() => addEventToAttending(item)}
+                onSwipedBottom={() => addEventToLiked(item)}
+              >
+                <EventCard
+                  title={item.EventName}
+                  description={item.EventDescription}
+                  startDate={item.StartDate}
+                  endDate={item.EndDate}
+                  attendees={item.Attendees}
+                  guests={item.NumGuests}
+                />
+              </Card>
+            ))
+          ) : (
+            <View />
+          )}
         </CardStack>
       </View>
     </SafeAreaView>

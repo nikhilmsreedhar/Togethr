@@ -26,7 +26,7 @@ import { useNavigation } from "@react-navigation/native";
 const STORAGE_KEY = "user_data";
 
 const Profile = () => {
-  const { logout } = useContext(AuthContext);
+  const { userData, updateUserData, logout } = useContext(AuthContext);
 
   const navigation = useNavigation();
 
@@ -46,27 +46,22 @@ const Profile = () => {
   const hidePassDeleteWarning = () => setDeleteModalVisible(false);
   const hideChangePass = () => setChangePassVisible(false);
 
-  const getUserData = async () => {
-    try {
-      const udJSON = await AsyncStorage.getItem(STORAGE_KEY);
-      const userData = udJSON != null ? JSON.parse(udJSON) : null;
+  const getUserData = () => {
+    console.log(userData);
 
-      console.log(userData);
-      if (userData !== null) {
-        setFname(userData.FirstName);
-        setLname(userData.LastName);
-        setTags(userData.Tags);
-        const userInitials =
-          fname.charAt(0).toUpperCase() + lname.charAt(0).toUpperCase();
-        setInitials(userInitials);
-      } else {
-        setFname(UserData.firstName);
-        setLname(UserData.lastName);
-      }
-      return;
-    } catch (e) {
-      console.error("Unable to get user info");
+    if (userData !== null) {
+      setFname(userData.FirstName);
+      setLname(userData.LastName);
+      setTags(userData.Tags);
+      const userInitials =
+        fname.charAt(0).toUpperCase() + lname.charAt(0).toUpperCase();
+      setInitials(userInitials);
+    } else {
+      console.log("Error retrieving user data.");
+      setFname(UserData.firstName);
+      setLname(UserData.lastName);
     }
+    return;
   };
 
   const sendUserData = () => {
@@ -80,7 +75,8 @@ const Profile = () => {
       })
       .then(
         (response) => {
-          localStorage.setItem("user_data", JSON.stringify(response.data));
+          updateUserData(response.data);
+          AsyncStorage.setItem("user_data", JSON.stringify(response.data));
           console.log(response);
           setErrorMessage();
           setMessage("Your information was updated!");
@@ -155,7 +151,11 @@ const Profile = () => {
 
             <View style={{ marginVertical: 30 }}>
               <Text>Your Interests:</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("Interests")}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Interests", { tags: userData.Tags })
+                }
+              >
                 <View style={{ borderWidth: 1, padding: 10 }}>
                   <Text>
                     {tags.map((tag) => {
