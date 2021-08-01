@@ -144,20 +144,25 @@ const ViewCard = ({
               {description}
             </Typography>
           </div>
+          <div className={classes.column}>
+          <Typography className={classes.yourEvent}>
+           {attendees.length>=(guests+1)? 'Event Full' : null}
+         </Typography>
+          </div>
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
         <Typography variant="body1" gutterBottom>
           When: {startDate.substring(0,15)}{startDate.substring(18,22)} to {endDate.substring(0,15)}{endDate.substring(18,22)} <br/>
           Where:  {location} <br/>
-          {attendees.length}/{guests +1} Attendees: {attendees.join(", ")}
+          {attendees.length}/{guests +1} Attendees: {attendees.join(", ")}<br/>
         </Typography>
         </AccordionDetails>
 
         <Divider />
         <AccordionActions>
           <Button onClick = {() => removeLike(_id)} size="small">Remove</Button>
-          <Button onClick = {() => nowAttend(_id, attendees)}size="small" color="secondary">
-            Attend
+          <Button onClick = {() => nowAttend(_id, attendees)}size="small" color="secondary" disabled={attendees.length>=(guests+1)? true : false}>
+             {attendees.length>=(guests+1)? "EVENT FULL" : "ATTEND"}
           </Button>
         </AccordionActions>
       </Accordion>

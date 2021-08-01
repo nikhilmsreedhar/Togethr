@@ -61,6 +61,7 @@ function Explore() {
           postData = postData.filter(postData=> postData.Maker !== userid);
           postData = postData.filter(postData=> myAttends.includes(postData._id) !== true);
           postData = postData.filter(postData=> myLikes.includes(postData._id) !== true);
+          postData = postData.filter(postData=> postData.Attendees.length<(postData.NumGuests+1))
 
           setEventsData(postData);
           console.log(postData);
