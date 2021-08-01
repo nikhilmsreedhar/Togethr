@@ -29,6 +29,8 @@ const LikedCard = ({
     minute: "2-digit",
   });
 
+  
+
   return (
     <Card>
       <Card.Title title={title} />

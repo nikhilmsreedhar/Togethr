@@ -80,6 +80,7 @@ const Events = () => {
           <Text h1 style={styles.title}>
             Your Events
           </Text>
+          
         </View>
 
         <FlatList

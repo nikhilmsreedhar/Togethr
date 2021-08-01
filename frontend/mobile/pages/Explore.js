@@ -86,6 +86,7 @@ const Explore = () => {
   const updateEvent = (event) => {
     const attendeeList = event.Attendees.slice();
     attendeeList.push(userData.UserName);
+
     axios
       .patch("https://togethrgroup1.herokuapp.com/api/editevent", {
         id: event._id,

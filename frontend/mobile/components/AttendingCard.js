@@ -7,6 +7,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const AttendingCard = ({
+  eventId,
   maker,
   image,
   title,
@@ -17,7 +18,7 @@ const AttendingCard = ({
   attendees,
   removeCard,
 }) => {
-  const { userData } = useContext(AuthContext);
+  const { userData, updateUserData } = useContext(AuthContext);
 
   const formatDate = new Date(startDate).toDateString();
   const formatStartTime = new Date(startDate).toLocaleTimeString("en-US", {
@@ -30,6 +31,80 @@ const AttendingCard = ({
   });
 
   
+  function removeNameFromEvent(eventId, attendees) {
+    //new array of names to attach to event
+    const newAttendeeList = attendees.filter(
+      (name) => name !== userData.UserName
+    );
+
+    axios
+      .patch("https://togethrgroup1.herokuapp.com/api/editevent", {
+        id: eventId,
+        Attendees: newAttendeeList,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          removeEventIdFromUser();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  function removeEventIdFromUser() {
+    //new array of ids to patch to user
+    const newAttendEventList = userData.AttendingEvents.filter(
+      (aEventId) => aEventId !== eventId
+    )
+
+    axios
+      .patch("https://togethrgroup1.herokuapp.com/api/edituser", {
+        id: userData.id,
+        AttendingEvents: newAttendEventList,
+      })
+      .then(
+        (response) => {
+          updateUserData(response.data);
+          AsyncStorage.setItem("user_data", JSON.stringify(response.data));
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  function removeAttend(eventId) {
+    removeNameFromEvent(eventId, attendees);
+  }
+
+  async function deleteEvent(eventId, maker) {
+    const res = await axios.delete(
+      "https://togethrgroup1.herokuapp.com/api/deleteevent",
+      {
+        data: { id: eventId },
+      }
+    );
+    console.log(res.data.json);
+
+    attending.splice(attending.indexOf(eventId), 1);
+    axios
+      .patch("https://togethrgroup1.herokuapp.com/api/edituser", {
+        id: userid,
+        AttendingEvents: attending,
+      })
+      .then(
+        (response) => {
+          localStorage.setItem("user_data", JSON.stringify(UserData));
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
 
   return (
     <Card>
@@ -43,7 +118,7 @@ const AttendingCard = ({
           <View style={{ flex: 1 }}>
             <Text>Attending:</Text>
             {attendees.map((user) => (
-              <Text>{user}</Text>
+              <Text>• {user}</Text>
             ))}
           </View>
           <View style={{ flex: 1 }}>
@@ -66,11 +141,24 @@ const AttendingCard = ({
       {userData.id == maker ? (
         <Card.Actions style={{ justifyContent: "flex-end" }}>
           <Button>Edit</Button>
-          <Button onPress={() => {removeCard()}}>Delete</Button>
+          <Button
+            onPress={() => {
+              removeCard();
+            }}
+          >
+            Delete
+          </Button>
         </Card.Actions>
       ) : (
         <Card.Actions style={{ justifyContent: "flex-end" }}>
-          <Button onPress={() => {removeCard()}}>Remove</Button>
+          <Button
+            onPress={() => {
+              removeAttend(eventId);
+              removeCard();
+            }}
+          >
+            Remove
+          </Button>
         </Card.Actions>
       )}
     </Card>
