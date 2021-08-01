@@ -12,6 +12,7 @@ import { Button } from 'react-native-paper';
 import AttendingCard from '../components/AttendingCard';
 import EventsData from '../assets/data';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loading from '../components/Loading';
 
 const STORAGE_KEY = 'events_data';
 
@@ -24,20 +25,39 @@ const Events = () => {
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getEventsData = async () => {
-    try {
-      const edJSON = await AsyncStorage.getItem(STORAGE_KEY);
-      const ed = edJSON != null ? JSON.parse(udJSON) : null;
 
-      if(ed !== null) {
-        setEventsData(ed);
-      } else {
-        setEventsData(EventsData);
-      }
+  const getEventsData = () => {
+    axios
+      .post("https://togethrgroup1.herokuapp.com/api/viewattendingevents", {
+        LikedEvents: userData.LikedEvents,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          setEventsData(response.data);
+          setIsLoading(false);
+        }, 
+        (error) => {
+          console.log(error);
+        }
+      );
+    // try {
+    //   const edJSON = await AsyncStorage.getItem(STORAGE_KEY);
+    //   const ed = edJSON != null ? JSON.parse(udJSON) : null;
 
-    } catch(e) {
-      console.error("Unable to get user info")
-    }
+    //   if(ed !== null) {
+    //     setEventsData(ed);
+    //   } else {
+    //     setEventsData(EventsData);
+    //   }
+
+    // } catch(e) {
+    //   console.error("Unable to get user info")
+    // }
+  }
+
+  if(isLoading) {
+    return <Loading />;
   }
 
   return (

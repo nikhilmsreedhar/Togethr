@@ -68,7 +68,7 @@ const AttendingCard = ({
         </Card.Actions>
       ) : (
         <Card.Actions style={{ justifyContent: "flex-end" }}>
-          <Button>Remove</Button>
+          <Button onPress={() => removeCard}>Remove</Button>
         </Card.Actions>
       )}
     </Card>
