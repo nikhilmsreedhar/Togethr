@@ -149,6 +149,8 @@ const ViewCard = ({
     }, (error) => {
       console.log(error);
     });
+
+    handleClose();
   }
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
