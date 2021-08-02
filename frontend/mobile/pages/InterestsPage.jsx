@@ -7,8 +7,12 @@ import {
   SafeAreaView,
   Dimensions,
 } from "react-native";
+import {
+  Title
+} from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import Tags from "./Tags";
 
 const InterestsPage = ({ route }) => {
 
@@ -18,7 +22,7 @@ const InterestsPage = ({ route }) => {
   }
 
   const [isLoading, setIsLoading] = useState(true);
-  const [tags, setTags] = useState(route.params.Tags);
+  const [tags, setTags] = useState(route.params.tags);
 
 
   return (
@@ -28,11 +32,9 @@ const InterestsPage = ({ route }) => {
           <Ionicons name="arrow-back" size={30} color="back" />
         </TouchableOpacity>
 
-        <Text style={styles.verticalDivider}></Text>
-        <Text h1 style={styles.title}>
+        <Title style={styles.title}>
           Add Your Interests!
-        </Text>
-        <Text style={styles.verticalDivider}></Text>
+        </Title>
 
         <Tags tagList={tags} />
         
@@ -43,7 +45,7 @@ const InterestsPage = ({ route }) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 50,
+    fontSize: 30,
     fontFamily: "Comfortaa_400Regular",
   },
   input: {

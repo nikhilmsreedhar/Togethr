@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   FlatList,
@@ -15,47 +15,37 @@ import EventsData from "../assets/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loading from "../components/Loading";
 import { AuthContext } from "../components/AuthProvider";
+import { useIsFocused } from "@react-navigation/native";
 
 const STORAGE_KEY = "events_data";
 
 const Events = () => {
   const { userData } = useContext(AuthContext);
 
-  React.useEffect(() => {
-    getEventsData();
-  }, []);
+  useEffect(() => {
+    getEventsData(userData.LikedEvents);
+  }, [isFocused]);
 
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const isFocused = useIsFocused();
 
-  const getEventsData = () => {
+  const getEventsData = (likedEvents) => {
     axios
       .post("https://togethrgroup1.herokuapp.com/api/viewattendingevents", {
-        LikedEvents: userData.LikedEvents,
+        AttendingEvents: likedEvents,
       })
       .then(
         (response) => {
-          console.log(response);
+          console.log(response.data);
           setEventsData(response.data);
-          setIsLoading(false);
         },
         (error) => {
           console.log(error);
+          console.log("Unable to get user data.");
         }
-      );
-    // try {
-    //   const edJSON = await AsyncStorage.getItem(STORAGE_KEY);
-    //   const ed = edJSON != null ? JSON.parse(udJSON) : null;
-
-    //   if(ed !== null) {
-    //     setEventsData(ed);
-    //   } else {
-    //     setEventsData(EventsData);
-    //   }
-
-    // } catch(e) {
-    //   console.error("Unable to get user info")
-    // }
+      )
+      .finally(() => setIsLoading(false));
   };
 
   const handleEventRemove = (eventId) => {
@@ -91,6 +81,7 @@ const Events = () => {
           renderItem={({ item }) => (
             <TouchableOpacity>
               <LikedCard
+                eventId={item._id}
                 maker={item.Maker}
                 title={item.EventName}
                 description={item.EventDescription}

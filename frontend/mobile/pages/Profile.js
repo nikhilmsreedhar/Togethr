@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
@@ -13,6 +12,7 @@ import {
   Portal,
   Provider,
   Surface,
+  Text,
   TextInput,
   Title,
 } from "react-native-paper";
@@ -22,6 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ChangePassword from "../components/ChangePassword";
 import { AuthContext } from "../components/AuthProvider";
 import { useNavigation } from "@react-navigation/native";
+import Loading from "../components/Loading";
 
 const STORAGE_KEY = "user_data";
 
@@ -34,6 +35,7 @@ const Profile = () => {
     getUserData();
   }, []);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [initials, setInitials] = useState("");
@@ -47,21 +49,14 @@ const Profile = () => {
   const hideChangePass = () => setChangePassVisible(false);
 
   const getUserData = () => {
-    console.log(userData);
+    setFname(userData.FirstName);
+    setLname(userData.LastName);
+    setTags(userData.Tags);
+    const userInitials =
+      fname.charAt(0).toUpperCase() + lname.charAt(0).toUpperCase();
+    setInitials(userInitials);
 
-    if (userData !== null) {
-      setFname(userData.FirstName);
-      setLname(userData.LastName);
-      setTags(userData.Tags);
-      const userInitials =
-        fname.charAt(0).toUpperCase() + lname.charAt(0).toUpperCase();
-      setInitials(userInitials);
-    } else {
-      console.log("Error retrieving user data.");
-      setFname(UserData.firstName);
-      setLname(UserData.lastName);
-    }
-    return;
+    setIsLoading(false);
   };
 
   const sendUserData = () => {
@@ -94,6 +89,10 @@ const Profile = () => {
       .delete("https://togethrgroup1.herokuapp.com/api/login")
       .then(() => navigation.navigate("WelcomeScreen"));
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Provider>
@@ -132,7 +131,7 @@ const Profile = () => {
             </Modal>
           </Portal>
 
-          <Text style={styles.title}>Your Profile</Text>
+          <Title style={styles.title}>Your Profile</Title>
 
           <View
             style={{
@@ -158,9 +157,11 @@ const Profile = () => {
               >
                 <View style={{ borderWidth: 1, padding: 10 }}>
                   <Text>
-                    {tags.map((tag) => {
-                      return tag + " ";
-                    })}
+                    {tags && tags.length
+                      ? tags.map((tag) => {
+                          return tag + " ";
+                        })
+                      : "No Tags"}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -191,8 +192,9 @@ const Profile = () => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 60,
+    fontSize: 40,
     fontFamily: "Comfortaa_400Regular",
+    color: 'black'
   },
   container: {
     flex: 1,

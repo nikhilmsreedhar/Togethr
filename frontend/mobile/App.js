@@ -2,6 +2,7 @@ import React from "react";
 
 import { AuthProvider } from "./components/AuthProvider";
 import AppRouter from "./components/AppRouter";
+import Loading from "./components/Loading";
 
 import {
   useFonts,
@@ -9,7 +10,6 @@ import {
   Roboto_500Medium,
   Roboto_700Bold,
 } from "@expo-google-fonts/dev";
-import Loading from "./components/Loading";
 
 
 const App = () => {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   FlatList,
@@ -14,51 +14,42 @@ import AttendingCard from "../components/AttendingCard";
 import EventsData from "../assets/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loading from "../components/Loading";
-import {AuthContext} from "../components/AuthProvider";
+import { AuthContext } from "../components/AuthProvider";
+import { useIsFocused } from "@react-navigation/native";
 
 const STORAGE_KEY = "events_data";
 
 const Events = () => {
   const { userData } = useContext(AuthContext);
 
-  React.useEffect(() => {
-    getEventsData();
-  }, []);
+  useEffect(() => {
+    getEventsData(userData.AttendingEvents);
+  }, [isFocused]);
 
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const isFocused = useIsFocused();
 
-  const getEventsData = () => {
+  const getEventsData = (attendingEvents) => {
     axios
       .post("https://togethrgroup1.herokuapp.com/api/viewattendingevents", {
-        AttendingEvents: userData.AttendingEvents,
+        AttendingEvents: attendingEvents,
       })
       .then(
         (response) => {
-          console.log(response);
+          console.log(response.data);
           setEventsData(response.data);
-          setIsLoading(false);
         },
         (error) => {
           console.log(error);
+          console.log("Unable to get user data.");
         }
-      );
-
-    // try {
-    //   const edJSON = await AsyncStorage.getItem(STORAGE_KEY);
-    //   const ed = edJSON != null ? JSON.parse(udJSON) : null;
-
-    //   if (ed !== null) {
-    //     setEventsData(ed);
-    //   } else {
-    //   }
-    // } catch (e) {
-    //   console.error("Unable to get user info");
-    // }
+      )
+      .finally(() => setIsLoading(false));
   };
 
   const handleEventRemove = (eventId) => {
-    const newEventList = eventsData.filter((event) => event._id !== eventId);
+    const newEventList = eventsData.filter((event) => event.id !== eventId);
     setEventsData(newEventList);
   };
 
@@ -80,30 +71,32 @@ const Events = () => {
           <Text h1 style={styles.title}>
             Your Events
           </Text>
-          
         </View>
 
-        <FlatList
-          style={{ width: "100%" }}
-          numColumns={1}
-          data={eventsData}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity>
-              <AttendingCard
-                maker={item.Maker}
-                title={item.EventName}
-                description={item.EventDescription}
-                location={item.EventLocation}
-                startDate={item.StartDate}
-                endDate={item.EndDate}
-                numGuests={item.NumGuests}
-                attendees={item.Attendees}
-                removeCard={() => handleEventRemove(item._id)}
-              />
-            </TouchableOpacity>
-          )}
-        />
+
+          <FlatList
+            style={{ width: "100%" }}
+            numColumns={1}
+            data={eventsData}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity>
+                <AttendingCard
+                  eventId={item._id}
+                  maker={item.Maker}
+                  title={item.EventName}
+                  description={item.EventDescription}
+                  location={item.EventLocation}
+                  startDate={item.StartDate}
+                  endDate={item.EndDate}
+                  numGuests={item.NumGuests}
+                  attendees={item.Attendees}
+                  removeCard={handleEventRemove}
+                />
+              </TouchableOpacity>
+            )}
+          />
+
       </View>
     </SafeAreaView>
   );

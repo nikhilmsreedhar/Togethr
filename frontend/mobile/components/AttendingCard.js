@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
+import axios from "axios";
 import { View, StyleSheet, Text, Dimensions } from "react-native";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import { AuthContext } from "./AuthProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -30,6 +32,9 @@ const AttendingCard = ({
     minute: "2-digit",
   });
 
+  function removeAttend(eventId) {
+    removeNameFromEvent(eventId, attendees);
+  }
   
   function removeNameFromEvent(eventId, attendees) {
     //new array of names to attach to event
@@ -45,7 +50,7 @@ const AttendingCard = ({
       .then(
         (response) => {
           console.log(response);
-          removeEventIdFromUser();
+          removeEventIdFromUser(eventId);
         },
         (error) => {
           console.log(error);
@@ -53,12 +58,14 @@ const AttendingCard = ({
       );
   }
 
-  function removeEventIdFromUser() {
+  function removeEventIdFromUser(eventId) {
     //new array of ids to patch to user
     const newAttendEventList = userData.AttendingEvents.filter(
       (aEventId) => aEventId !== eventId
-    )
+    );
 
+    console.log("REMOVE EVENT FROM USER");
+    console.log(newAttendEventList);
     axios
       .patch("https://togethrgroup1.herokuapp.com/api/edituser", {
         id: userData.id,
@@ -66,9 +73,8 @@ const AttendingCard = ({
       })
       .then(
         (response) => {
-          updateUserData(response.data);
-          AsyncStorage.setItem("user_data", JSON.stringify(response.data));
           console.log(response);
+          updateUserData(response.data);
         },
         (error) => {
           console.log(error);
@@ -76,9 +82,6 @@ const AttendingCard = ({
       );
   }
 
-  function removeAttend(eventId) {
-    removeNameFromEvent(eventId, attendees);
-  }
 
   async function deleteEvent(eventId, maker) {
     const res = await axios.delete(
@@ -117,8 +120,8 @@ const AttendingCard = ({
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View style={{ flex: 1 }}>
             <Text>Attending:</Text>
-            {attendees.map((user) => (
-              <Text>• {user}</Text>
+            {attendees.map((user, index) => (
+              <Text key={index}>• {user}</Text>
             ))}
           </View>
           <View style={{ flex: 1 }}>
@@ -140,7 +143,7 @@ const AttendingCard = ({
 
       {userData.id == maker ? (
         <Card.Actions style={{ justifyContent: "flex-end" }}>
-          <Button>Edit</Button>
+          <Button onPress={() => {}}>Edit</Button>
           <Button
             onPress={() => {
               removeCard();
@@ -153,8 +156,8 @@ const AttendingCard = ({
         <Card.Actions style={{ justifyContent: "flex-end" }}>
           <Button
             onPress={() => {
+              removeCard(eventId);
               removeAttend(eventId);
-              removeCard();
             }}
           >
             Remove

@@ -19,12 +19,14 @@ const AppRouter = () => {
   const { userData, updateUserData } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
+  //if data exists in storage it will set state of user in AuthContext
   useEffect(() => {
     AsyncStorage.getItem("user_data")
       .then((data) => {
-        console.log(data);
         if (data) {
-          
+          const dataObj = JSON.parse(data);
+          console.log(data);
+          updateUserData(dataObj);
         }
         setLoading(false);
       })

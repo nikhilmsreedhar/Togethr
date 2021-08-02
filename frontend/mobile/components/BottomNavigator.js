@@ -18,6 +18,7 @@ function BottomNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Explore"
+      backBehavior="history"
       tabBarOptions={{
         showLabel: false,
         activeTintColor: "#5b06d5",
@@ -27,6 +28,7 @@ function BottomNavigator() {
         name="Explore"
         component={Explore}
         options={{
+          unmountOnBlur: true,
           tabBarLabel: "Explore",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
@@ -41,8 +43,8 @@ function BottomNavigator() {
         name="Events"
         component={Events}
         options={{
+          unmountOnBlur: true,
           tabBarLabel: "Events",
-          showLabel: "false",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="calendar-multiple"

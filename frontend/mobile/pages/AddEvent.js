@@ -3,16 +3,16 @@ import {
   StyleSheet,
   View,
   Text,
-  // TextInput,
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
+import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Menu, Provider, TextInput } from "react-native-paper";
-import axios from "axios";
 import RNPickerSelect from "react-native-picker-select";
 import { DatePickerModal } from "react-native-paper-dates";
+import {useForm} from "react-hook-form";
 
 const interestOptions = [
   { label: "Movie", value: "Movie" },

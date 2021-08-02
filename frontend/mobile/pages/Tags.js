@@ -14,16 +14,16 @@ const defaultInterests = [
   { value: "DIY", isSelected: false, icon: "hammer-wrench" },
   { value: "Gaming", isSelected: false, icon: "controller-classic" },
   { value: "Lifestyle", isSelected: false, icon: "shoe-sneaker" },
-  { value: "Movies", isSelected: false, icon: "movie-roll"},
-  { value: "Music", isSelected: false, },
-  { value: "Outdoors", isSelected: false, icon: "tree" },
-  { value: "Performing Arts", isSelected: false },
-  { value: "Photography", isSelected: false },
-  { value: "Shopping", isSelected: false },
-  { value: "Sight Seeing", isSelected: false },
-  { value: "Sports", isSelected: false },
-  { value: "Technology", isSelected: false },
-  { value: "Travel", isSelected: false },
+  { value: "Movie", isSelected: false, icon: "movie-roll"},
+  { value: "Music", isSelected: false, icon: ""},
+  { value: "Outdoors", isSelected: false, icon: "tree"},
+  { value: "Performing Arts", isSelected: false, icon: "" },
+  { value: "Photography", isSelected: false, icon: "" },
+  { value: "Shopping", isSelected: false, icon: "" },
+  { value: "Sight Seeing", isSelected: false, icon: "" },
+  { value: "Sports", isSelected: false, icon: "" },
+  { value: "Technology", isSelected: false, icon: "" },
+  { value: "Travel", isSelected: false, icon: "" }
 ];
 
 //tagList will be an array of strings
@@ -72,15 +72,16 @@ const Tags = ({ tagList }) => {
 
   //render
   return (
-    <>
-      <View style={styles.tagListContainer}>
+    <View style={styles.tagListContainer}>
+      <View style={styles.tagChipContainer}>
         {interests.map((item) => {
           return (
             <View style={styles.chipWrapper}>
               <Chip
                 selected={item.isSelected ? true : false}
-                //selectedColor="#5b06d5"
+                selectedColor="#5b06d5"
                 style={{ marginHorizontal: 5 }}
+                icon={item.icon}
                 onPress={() => {
                   const updatedInterests = interests.map((interest) =>
                     interest.value === item.value
@@ -99,19 +100,24 @@ const Tags = ({ tagList }) => {
 
       {/*Add tags to array*/}
       <Button
-        style={{ margin: 10 }}
+        mode="contained"
+        // style={{ margin: 10 }}
         onPress={() => {
           submitTags();
         }}
       >
         CONFIRM
       </Button>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   tagListContainer: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  tagChipContainer: {
     fontSize: 50,
     fontFamily: "Comfortaa_400Regular",
     flex: 1,
@@ -127,7 +133,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    margin: 7,
   },
 });
 
