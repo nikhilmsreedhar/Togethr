@@ -18,10 +18,9 @@ import { AuthContext } from "../components/AuthProvider";
 import { useIsFocused } from "@react-navigation/native";
 
 const STORAGE_KEY = "events_data";
-export const something = "";
 
 const Events = () => {
-  const { userData } = useContext();
+  const { userData } = useContext(AuthContext);
   console.log(userData);
 
   useEffect(() => {

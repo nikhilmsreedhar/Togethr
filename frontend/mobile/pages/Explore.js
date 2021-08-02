@@ -12,7 +12,7 @@ import EventCard from "../components/EventCard";
 const Explore = () => {
   //for swiper
   const t = {};
-  const { userData, updateUserData } = useContext();
+  const { userData, updateUserData } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

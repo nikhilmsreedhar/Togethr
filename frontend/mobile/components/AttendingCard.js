@@ -20,7 +20,7 @@ const AttendingCard = ({
   attendees,
   removeCard,
 }) => {
-  const { userData, updateUserData } = useContext();
+  const { userData, updateUserData } = useContext(AuthContext);
 
   const formatDate = new Date(startDate).toDateString();
   const formatStartTime = new Date(startDate).toLocaleTimeString("en-US", {
