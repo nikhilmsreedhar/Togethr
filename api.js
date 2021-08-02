@@ -248,11 +248,13 @@ app.delete('/api/deleteevent', async (req, res, next) => {
 
 app.post('/api/retrieveevents', async (req, res, next) => {
   const Tags = new Array(req.body.Tags);
-  var len = req.body.Tags.length;
+  var len = 0;
    if (req.body.Tags.length === 0){
     return res.status(301).json({ warning: "choose tags first" });
   }
-  var i = 0;
+ else{
+ var i = 0;
+ var len = req.body.Tags.length;
   try{
     while (i < len) {
       await Event.find({Tag: Tags[i]}).then(event => {
@@ -271,7 +273,7 @@ app.post('/api/retrieveevents', async (req, res, next) => {
 
       })
       .catch(err => res.status(400).json("Error" + err));
-  
+    }
     }
      res.end();
   }catch(error){
