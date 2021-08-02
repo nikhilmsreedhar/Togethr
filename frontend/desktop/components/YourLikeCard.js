@@ -139,11 +139,7 @@ const ViewCard = ({
           <div className={classes.column}>
             <Typography className={classes.heading}>{title}</Typography>
           </div>
-          <div className={classes.column}>
-            <Typography className={classes.secondaryHeading}>
-              {description}
-            </Typography>
-          </div>
+          
           <div className={classes.column}>
           <Typography className={classes.yourEvent}>
            {attendees.length>=(guests+1)? 'Event Full' : null}
@@ -152,6 +148,7 @@ const ViewCard = ({
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
         <Typography variant="body1" gutterBottom>
+          Description: {description}<br/>
           When: {startDate.substring(0,15)}{startDate.substring(18,22)} to {endDate.substring(0,15)}{endDate.substring(18,22)} <br/>
           Where:  {location} <br/>
           {attendees.length}/{guests +1} Attendees: {attendees.join(", ")}<br/>

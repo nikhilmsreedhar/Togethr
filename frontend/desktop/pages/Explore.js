@@ -158,6 +158,7 @@ function Explore() {
                 location={item.EventLocation}
                 attendees={item.Attendees}
                 guests={item.NumGuests}
+                tag={item.Tag}
               />
             </Card>
           
