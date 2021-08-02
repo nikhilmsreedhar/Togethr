@@ -20,7 +20,7 @@ const AttendingCard = ({
   attendees,
   removeCard,
 }) => {
-  const { userData, updateUserData } = useContext(AuthContext);
+  const { userData, updateUserData } = useContext();
 
   const formatDate = new Date(startDate).toDateString();
   const formatStartTime = new Date(startDate).toLocaleTimeString("en-US", {
@@ -35,7 +35,7 @@ const AttendingCard = ({
   function removeAttend(eventId) {
     removeNameFromEvent(eventId, attendees);
   }
-  
+
   function removeNameFromEvent(eventId, attendees) {
     //new array of names to attach to event
     const newAttendeeList = attendees.filter(
@@ -58,13 +58,16 @@ const AttendingCard = ({
       );
   }
 
-  function removeEventIdFromUser(eventId) {
+  async function removeEventIdFromUser(eventId) {
     //new array of ids to patch to user
+    // const userDataFromAsync = await AsyncStorage.getItem("user_data");
     const newAttendEventList = userData.AttendingEvents.filter(
       (aEventId) => aEventId !== eventId
     );
 
     console.log("REMOVE EVENT FROM USER");
+    // console.log(userDataFromAsync.id);
+    console.log(userData.id);
     console.log(newAttendEventList);
     axios
       .patch("https://togethrgroup1.herokuapp.com/api/edituser", {
@@ -74,14 +77,14 @@ const AttendingCard = ({
       .then(
         (response) => {
           console.log(response);
-          updateUserData(response.data);
+          const t = response.data;
+          updateUserData(t);
         },
         (error) => {
           console.log(error);
         }
-      );
+      )
   }
-
 
   async function deleteEvent(eventId, maker) {
     const res = await axios.delete(
@@ -156,8 +159,8 @@ const AttendingCard = ({
         <Card.Actions style={{ justifyContent: "flex-end" }}>
           <Button
             onPress={() => {
-              removeCard(eventId);
               removeAttend(eventId);
+              removeCard(eventId)
             }}
           >
             Remove

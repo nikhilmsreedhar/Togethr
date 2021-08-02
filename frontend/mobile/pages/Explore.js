@@ -9,12 +9,10 @@ import Loading from "../components/Loading";
 import { AuthContext } from "../components/AuthProvider";
 import EventCard from "../components/EventCard";
 
-const STORAGE_KEY = "user_data";
-
 const Explore = () => {
   //for swiper
   const t = {};
-  const { userData, updateUserData } = useContext(AuthContext);
+  const { userData, updateUserData } = useContext();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -49,11 +47,15 @@ const Explore = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const addEventToAttending = (event) => {
+  const addEventToAttending = async (event) => {
+    // const userDataFromAsync = await AsyncStorage.getItem("user_data");
+
     const newAttendingList = userData.AttendingEvents.slice();
     newAttendingList.push(event._id);
 
     console.log("SEND ATTEND EVENTS");
+    // console.log(userDataFromAsync.id);
+    console.log(userData.id);
     console.log(newAttendingList);
     axios
       .patch("https://togethrgroup1.herokuapp.com/api/edituser", {
@@ -62,8 +64,9 @@ const Explore = () => {
       })
       .then(
         (response) => {
-          console.log(response.data);
-          updateUserData(response.data);
+          console.log(response);
+          const t = response.data;
+          updateUserData(t);
           updateEvent(event);
         },
         (error) => {

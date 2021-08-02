@@ -18,13 +18,15 @@ import { AuthContext } from "../components/AuthProvider";
 import { useIsFocused } from "@react-navigation/native";
 
 const STORAGE_KEY = "events_data";
+export const something = "";
 
 const Events = () => {
-  const { userData } = useContext(AuthContext);
+  const { userData } = useContext();
+  console.log(userData);
 
   useEffect(() => {
     getEventsData(userData.AttendingEvents);
-  }, [isFocused]);
+  }, []);
 
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -78,10 +80,11 @@ const Events = () => {
             style={{ width: "100%" }}
             numColumns={1}
             data={eventsData}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
+            keyExtractor={(item) => item._id}
+            renderItem={({item}) => (
               <TouchableOpacity>
                 <AttendingCard
+                  userData={userData}
                   eventId={item._id}
                   maker={item.Maker}
                   title={item.EventName}
