@@ -42,7 +42,7 @@ function goToNextPage(fname, lname, bday){
     setRegisterMessage("Please enter first and last name") ;
   }
   else if (calculate_age(bday)<18){
-    setRegisterMessage("Must be over 18 to crate an account");
+    setRegisterMessage("Must be over 18 to create an account");
   }
   else{
    navigation.navigate('RegisterPage2', {firstName: fname, lastName: lname, birthday: bday});
