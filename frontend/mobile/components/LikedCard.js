@@ -3,11 +3,13 @@ import { View, StyleSheet, Text, Dimensions } from "react-native";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import { AuthContext } from "./AuthProvider";
 import Loading from "./Loading";
+import { defaultInterests } from "../pages/Tags";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const LikedCard = ({
+  eventId,
   maker,
   image,
   title,
@@ -16,6 +18,7 @@ const LikedCard = ({
   startDate,
   endDate,
   attendees,
+  category,
   removeCard,
 }) => {
   const { userData } = useContext(AuthContext);
@@ -75,6 +78,7 @@ const LikedCard = ({
       <Card.Actions style={{ justifyContent: "flex-end" }}>
         <IconButton icon="pencil" onPress={() => {}} />
         <IconButton
+          color="red"
           icon="delete"
           onPress={() => {
             removeAttend(eventId);

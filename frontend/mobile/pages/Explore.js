@@ -130,11 +130,11 @@ const Explore = () => {
       <View style={styles.container}>
         <View style={styles.top}>
           <View style={styles.chipWrapper}>
-            <Chip icon="map-marker">Florida</Chip>
+            <Chip icon="map-marker" onPress={()=>{}}>Florida</Chip>
           </View>
           <Title>Explore!</Title> 
           <View style={styles.chipWrapper}>
-            <Chip icon="filter-variant">Filter</Chip>
+            <Chip icon="filter-variant" onPress={()=>{}}>Filter</Chip>
           </View>
         </View>
 
