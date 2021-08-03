@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, StyleSheet, Text, Dimensions } from "react-native";
 import { Paragraph, Title } from "react-native-paper";
+import Loading from "./Loading";
 
 function importAll(r) {
   let images = {};
@@ -43,7 +44,11 @@ const EventCard = ({
 
   return (
     <View style={styles.containerCardItem}>
-      <Image style={styles.image} source={images[source]} />
+      <View style={styles.image}>
+        <Loading />
+      </View>
+      {/* <Image style={styles.image} source={images[source]} /> */}
+
       <View style={{ alignItems: "center" }}>
         <View style = {{width: 250}}>
           <Title style={styles.title}>{title}</Title>

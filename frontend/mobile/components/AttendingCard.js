@@ -13,6 +13,7 @@ import {
 import { AuthContext } from "./AuthProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { defaultInterests } from "../pages/Tags";
+import Loading from "./Loading";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -87,8 +88,7 @@ const AttendingCard = ({
       .then(
         (response) => {
           console.log(response);
-          const t = response.data;
-          updateUserData(t);
+          //updateUserData(t);
         },
         (error) => {
           console.log(error);
@@ -135,23 +135,23 @@ const AttendingCard = ({
         )}
       />
       {image ? null : (
-        <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+        // <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+        <Loading />
       )}
 
       <Card.Content>
         <View style={{ flex: 1, flexDirection: "row" }}>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 5 }}>
             <Text>Attending:</Text>
             {attendees.map((user, index) => (
               <Text key={index}>• {user}</Text>
             ))}
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 5 }}>
             <Paragraph>{description}</Paragraph>
 
-            <Text style={{ color: "gray" }}>@ {location}</Text>
-            <Text>When:</Text>
-            <Text>{formatDate}</Text>
+            <Text style={{ color: "gray", marginVertical: 5 }}>@ {location}</Text>
+            <Text >{formatDate}</Text>
             {formatStartTime == formatEndTime ? (
               <Text>{formatStartTime}</Text>
             ) : (

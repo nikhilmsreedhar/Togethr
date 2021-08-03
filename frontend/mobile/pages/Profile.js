@@ -222,6 +222,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     marginHorizontal: 50,
+    backgroundColor: 'white'
   },
   tagsContainer: {
     flexDirection: 'row',

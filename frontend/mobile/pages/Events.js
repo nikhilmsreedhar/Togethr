@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { Button, Divider } from "react-native-paper";
 import AttendingCard from "../components/AttendingCard";
-import EventsData from "../assets/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loading from "../components/Loading";
 import { AuthContext } from "../components/AuthProvider";

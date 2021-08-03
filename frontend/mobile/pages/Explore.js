@@ -67,7 +67,7 @@ const Explore = () => {
         (response) => {
           console.log(response);
           const t = response.data;
-          updateUserData(t);
+          //updateUserData(t);
           updateEvent(event);
         },
         (error) => {
@@ -93,7 +93,7 @@ const Explore = () => {
       .then(
         (response) => {
           console.log(response.data);
-          updateUserData(response.data);
+          //updateUserData(response.data);
         },
         (error) => {
           console.log(error);
