@@ -5,7 +5,7 @@ import { Chip } from "react-native-paper";
 
 const STORAGE_KEY = "user_data";
 
-const defaultInterests = [
+export const defaultInterests = [
   { value: "Animals", isSelected: false, icon: "paw" },
   { value: "Beauty", isSelected: false, icon: "content-cut" },
   { value: "Cars", isSelected: false, icon: "car" },
@@ -13,17 +13,17 @@ const defaultInterests = [
   { value: "Food", isSelected: false, icon: "food" },
   { value: "DIY", isSelected: false, icon: "hammer-wrench" },
   { value: "Gaming", isSelected: false, icon: "controller-classic" },
-  { value: "Lifestyle", isSelected: false, icon: "shoe-sneaker" },
+  { value: "Lifestyle", isSelected: false, icon: "hiking" },
   { value: "Movie", isSelected: false, icon: "movie-roll"},
-  { value: "Music", isSelected: false, icon: ""},
+  { value: "Music", isSelected: false, icon: "music"},
   { value: "Outdoors", isSelected: false, icon: "tree"},
-  { value: "Performing Arts", isSelected: false, icon: "" },
-  { value: "Photography", isSelected: false, icon: "" },
-  { value: "Shopping", isSelected: false, icon: "" },
-  { value: "Sight Seeing", isSelected: false, icon: "" },
-  { value: "Sports", isSelected: false, icon: "" },
-  { value: "Technology", isSelected: false, icon: "" },
-  { value: "Travel", isSelected: false, icon: "" }
+  { value: "Performing Arts", isSelected: false, icon: "drama-masks" },
+  { value: "Photography", isSelected: false, icon: "camera" },
+  { value: "Shopping", isSelected: false, icon: "shopping" },
+  { value: "Sight Seeing", isSelected: false, icon: "binoculars" },
+  { value: "Sports", isSelected: false, icon: "basketball" },
+  { value: "Technology", isSelected: false, icon: "cog" },
+  { value: "Travel", isSelected: false, icon: "train-car" }
 ];
 
 //tagList will be an array of strings

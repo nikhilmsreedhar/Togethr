@@ -29,11 +29,18 @@ const LikedCard = ({
     minute: "2-digit",
   });
 
-  
-
   return (
     <Card>
-      <Card.Title title={title} />
+      <Card.Title
+        title={title}
+        right={() => (
+          <Chip
+            icon={defaultInterests.find((tag) => tag.value == category).icon}
+          >
+            {category}
+          </Chip>
+        )}
+      />
       {image ? null : (
         <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
       )}
@@ -42,14 +49,14 @@ const LikedCard = ({
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View style={{ flex: 1 }}>
             <Text>Attending:</Text>
-            {attendees.map((user) => (
-              <Text>{user}</Text>
+            {attendees.map((user, index) => (
+              <Text key={index}>• {user}</Text>
             ))}
           </View>
           <View style={{ flex: 1 }}>
             <Paragraph>{description}</Paragraph>
-            <Text>Where:</Text>
-            <Text>{location}</Text>
+
+            <Text style={{ color: "gray" }}>@ {location}</Text>
             <Text>When:</Text>
             <Text>{formatDate}</Text>
             {formatStartTime == formatEndTime ? (
@@ -64,8 +71,14 @@ const LikedCard = ({
       </Card.Content>
 
       <Card.Actions style={{ justifyContent: "flex-end" }}>
-        <Button>Attend</Button>
-        <Button onPress={() => removeCard}>Remove</Button>
+        <IconButton icon="pencil" onPress={() => {}} />
+        <IconButton
+          icon="delete"
+          onPress={() => {
+            removeAttend(eventId);
+            removeCard(eventId);
+          }}
+        />
       </Card.Actions>
     </Card>
   );

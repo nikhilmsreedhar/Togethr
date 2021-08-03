@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 import CardStack, { Card } from "react-native-card-stack-swiper";
+import { Title, Chip } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
@@ -126,7 +127,17 @@ const Explore = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={styles.container}>
+        <View style={styles.top}>
+          <View style={styles.chipWrapper}>
+            <Chip icon="map-marker">Florida</Chip>
+          </View>
+          <Title>Explore!</Title> 
+          <View style={styles.chipWrapper}>
+            <Chip icon="filter-variant">Filter</Chip>
+          </View>
+        </View>
+
         <CardStack
           disableTopSwipe
           style={styles.content}
@@ -168,12 +179,24 @@ const Explore = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",
+  },
   content: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   card: {},
+  top: {
+    paddingTop: 50,
+    marginHorizontal: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
 });
 
 export default Explore;

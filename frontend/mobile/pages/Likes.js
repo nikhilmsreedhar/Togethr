@@ -102,7 +102,7 @@ const Events = () => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 50,
+    fontSize: 40,
     fontFamily: "Comfortaa_400Regular",
   },
   container: {

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import {
   View,
+  Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
@@ -12,7 +13,6 @@ import {
   Portal,
   Provider,
   Surface,
-  Text,
   TextInput,
   Title,
 } from "react-native-paper";
@@ -23,11 +23,13 @@ import ChangePassword from "../components/ChangePassword";
 import { AuthContext } from "../components/AuthProvider";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../components/Loading";
+import { defaultInterests } from "./Tags";
 
 const STORAGE_KEY = "user_data";
 
 const Profile = () => {
   const { userData, updateUserData, logout } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigation = useNavigation();
 
@@ -35,7 +37,6 @@ const Profile = () => {
     getUserData();
   }, []);
 
-  const [isLoading, setIsLoading] = useState(true);
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [initials, setInitials] = useState("");
@@ -95,8 +96,8 @@ const Profile = () => {
   }
 
   return (
-    <Provider>
-      <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <Provider>
         <View style={styles.container}>
           <Portal>
             {/* Change Password Warning */}
@@ -155,14 +156,19 @@ const Profile = () => {
                   navigation.navigate("Interests", { tags: userData.Tags })
                 }
               >
-                <View style={{ borderWidth: 1, padding: 10 }}>
-                  <Text>
-                    {tags && tags.length
-                      ? tags.map((tag) => {
-                          return tag + " ";
-                        })
-                      : "No Tags"}
-                  </Text>
+                <View style={styles.tagsContainer}>
+                  {tags && tags.length
+                    ? tags.map((tag) => {
+                        return (
+                          <Avatar.Icon
+                            size={24}
+                            icon={
+                              defaultInterests.find((t) => t.value == tag).icon
+                            }
+                          />
+                        );
+                      })
+                    : "No Tags"}
                 </View>
               </TouchableOpacity>
             </View>
@@ -185,8 +191,8 @@ const Profile = () => {
             </Button>
           </View>
         </View>
-      </SafeAreaView>
-    </Provider>
+      </Provider>
+    </SafeAreaView>
   );
 };
 
@@ -194,13 +200,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontFamily: "Comfortaa_400Regular",
-    color: 'black'
+    color: "black",
   },
   container: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "flex-start",
+    alignItems: "center",
     margin: 30,
   },
   verticalDivider: {
@@ -216,6 +222,14 @@ const styles = StyleSheet.create({
   },
   modal: {
     marginHorizontal: 50,
+  },
+  tagsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    borderWidth: 1,
+    borderColor: "gray",
+    padding: 10,
+    borderRadius: 8,
   },
 });
 

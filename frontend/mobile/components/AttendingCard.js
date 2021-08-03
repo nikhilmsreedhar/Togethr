@@ -1,9 +1,18 @@
 import React, { useContext } from "react";
 import axios from "axios";
 import { View, StyleSheet, Text, Dimensions } from "react-native";
-import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
+import {
+  Avatar,
+  Button,
+  Card,
+  Title,
+  Paragraph,
+  Chip,
+  IconButton,
+} from "react-native-paper";
 import { AuthContext } from "./AuthProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { defaultInterests } from "../pages/Tags";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -18,6 +27,7 @@ const AttendingCard = ({
   startDate,
   endDate,
   attendees,
+  category,
   removeCard,
 }) => {
   const { userData, updateUserData } = useContext(AuthContext);
@@ -83,7 +93,7 @@ const AttendingCard = ({
         (error) => {
           console.log(error);
         }
-      )
+      );
   }
 
   async function deleteEvent(eventId, maker) {
@@ -114,7 +124,16 @@ const AttendingCard = ({
 
   return (
     <Card>
-      <Card.Title title={title} />
+      <Card.Title
+        title={title}
+        right={() => (
+          <Chip
+            icon={defaultInterests.find((tag) => tag.value == category).icon}
+          >
+            {category}
+          </Chip>
+        )}
+      />
       {image ? null : (
         <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
       )}
@@ -129,8 +148,8 @@ const AttendingCard = ({
           </View>
           <View style={{ flex: 1 }}>
             <Paragraph>{description}</Paragraph>
-            <Text>Where:</Text>
-            <Text>{location}</Text>
+
+            <Text style={{ color: "gray" }}>@ {location}</Text>
             <Text>When:</Text>
             <Text>{formatDate}</Text>
             {formatStartTime == formatEndTime ? (
@@ -146,25 +165,23 @@ const AttendingCard = ({
 
       {userData.id == maker ? (
         <Card.Actions style={{ justifyContent: "flex-end" }}>
-          <Button onPress={() => {}}>Edit</Button>
-          <Button
+          <IconButton icon="pencil" onPress={() => {}} />
+          <IconButton
+            icon="delete"
             onPress={() => {
               removeCard();
             }}
-          >
-            Delete
-          </Button>
+          />
         </Card.Actions>
       ) : (
         <Card.Actions style={{ justifyContent: "flex-end" }}>
-          <Button
+          <IconButton
+            icon="delete"
             onPress={() => {
               removeAttend(eventId);
-              removeCard(eventId)
+              removeCard(eventId);
             }}
-          >
-            Remove
-          </Button>
+          />
         </Card.Actions>
       )}
     </Card>

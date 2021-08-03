@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, Divider } from "react-native-paper";
 import AttendingCard from "../components/AttendingCard";
 import EventsData from "../assets/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -80,6 +80,7 @@ const Events = () => {
             numColumns={1}
             data={eventsData}
             keyExtractor={(item) => item._id}
+            ItemSeparatorComponent={() => <Divider/>}
             renderItem={({item}) => (
               <TouchableOpacity>
                 <AttendingCard
@@ -93,6 +94,7 @@ const Events = () => {
                   endDate={item.EndDate}
                   numGuests={item.NumGuests}
                   attendees={item.Attendees}
+                  category={item.Tag}
                   removeCard={handleEventRemove}
                 />
               </TouchableOpacity>
@@ -106,7 +108,7 @@ const Events = () => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 50,
+    fontSize: 40,
     fontFamily: "Comfortaa_400Regular",
   },
   container: {

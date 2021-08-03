@@ -54,7 +54,7 @@ function BottomNavigator() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="AddEvent"
         component={AddEvent}
         options={{
@@ -68,7 +68,7 @@ function BottomNavigator() {
             />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Likes"
         component={Likes}
