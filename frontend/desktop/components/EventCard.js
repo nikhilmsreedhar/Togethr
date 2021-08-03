@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 8,
     resizeMode: 'contain',
-    flex: 1,
+    //flex: 1,
     aspectRatio: 1 // Your aspect ratio
   }
 });
