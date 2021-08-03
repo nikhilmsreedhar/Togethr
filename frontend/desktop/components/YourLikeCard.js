@@ -46,13 +46,13 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     "&:hover": {
       textDecoration: "underline"
-    },
-    eventFull: {
-      fontSize: theme.typography.pxToRem(15),
-      color: theme.palette.text.secondary,
-      padding: 10
-    },
-  }
+    }
+  },
+  eventFull: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+    padding: 10
+  },
 }));
 
 const theme = createMuiTheme({
