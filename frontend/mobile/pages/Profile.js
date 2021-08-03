@@ -221,8 +221,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   modal: {
-    marginHorizontal: 50,
-    backgroundColor: 'white'
+    marginHorizontal: 40,
+    backgroundColor: 'white',
+    height: 350
   },
   tagsContainer: {
     flexDirection: 'row',
