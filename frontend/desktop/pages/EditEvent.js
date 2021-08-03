@@ -129,6 +129,7 @@ const post = (_id, title, description, location, guests, category, start, end) =
           variant="outlined" 
           value={title}
           onChange={handleTitleChange}
+          inputProps={{ maxLength: 24 }}
           />
 
         <Text Text style={styles.inputDivider}></Text>
@@ -143,6 +144,7 @@ const post = (_id, title, description, location, guests, category, start, end) =
           variant="outlined"
           value={description}
           onChange={handleDescriptionChange}
+          inputProps={{ maxLength: 120 }}
         />
 
         <Text Text style={styles.inputDivider}></Text>
@@ -153,6 +155,7 @@ const post = (_id, title, description, location, guests, category, start, end) =
           variant="outlined" 
           value={location}
           onChange={handleLocationChange}
+          inputProps={{ maxLength:50 }}
           />
 
         <Text Text style={styles.inputDivider}></Text>

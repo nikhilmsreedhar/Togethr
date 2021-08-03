@@ -164,7 +164,7 @@ const post = (title, description, location, guests, category, start, end) => {
           variant="outlined" 
           value={location}
           onChange={handleLocationChange}
-          inputProps={{ maxLength: 24 }}
+          inputProps={{ maxLength:50 }}
           />
 
         <Text Text style={styles.inputDivider}></Text>
