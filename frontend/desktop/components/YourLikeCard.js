@@ -46,7 +46,12 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     "&:hover": {
       textDecoration: "underline"
-    }
+    },
+    eventFull: {
+      fontSize: theme.typography.pxToRem(15),
+      color: theme.palette.text.secondary,
+      padding: 10
+    },
   }
 }));
 
@@ -141,7 +146,7 @@ const ViewCard = ({
           </div>
           
           <div className={classes.column}>
-          <Typography className={classes.yourEvent}>
+          <Typography className={classes.eventFull}>
            {attendees.length>=(guests+1)? 'Event Full' : null}
          </Typography>
           </div>
