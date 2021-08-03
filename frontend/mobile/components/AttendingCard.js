@@ -168,6 +168,7 @@ const AttendingCard = ({
           <IconButton icon="pencil" onPress={() => {}} />
           <IconButton
             icon="delete"
+            color="red"
             onPress={() => {
               removeCard();
             }}
@@ -177,6 +178,7 @@ const AttendingCard = ({
         <Card.Actions style={{ justifyContent: "flex-end" }}>
           <IconButton
             icon="delete"
+            color="red"
             onPress={() => {
               removeAttend(eventId);
               removeCard(eventId);
@@ -213,6 +215,11 @@ const styles = StyleSheet.create({
   },
   info: {
     margin: 10,
+  },
+  chipWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
 });
 

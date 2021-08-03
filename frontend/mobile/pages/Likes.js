@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, Chip } from "react-native-paper";
 import LikedCard from "../components/LikedCard";
 import EventsData from "../assets/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -62,10 +62,12 @@ const Events = () => {
       <View style={styles.container}>
         <View
           style={{
+            width: '100%',
             paddingTop: 20,
             marginHorizontal: 10,
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center"
           }}
         >
           <Text h1 style={styles.title}>
@@ -104,6 +106,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontFamily: "Comfortaa_400Regular",
+    margin: 5
   },
   container: {
     flex: 1,

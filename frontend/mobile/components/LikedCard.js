@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { View, StyleSheet, Text, Dimensions } from "react-native";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import { AuthContext } from "./AuthProvider";
+import Loading from "./Loading";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -42,7 +43,8 @@ const LikedCard = ({
         )}
       />
       {image ? null : (
-        <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+        // <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
+        <Loading />
       )}
 
       <Card.Content>
@@ -109,6 +111,11 @@ const styles = StyleSheet.create({
   },
   info: {
     margin: 10,
+  },
+  chipWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
 });
 

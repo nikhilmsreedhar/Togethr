@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { Button, Divider } from "react-native-paper";
+import { Avatar, Button, Chip, Divider } from "react-native-paper";
 import AttendingCard from "../components/AttendingCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loading from "../components/Loading";
@@ -62,15 +62,19 @@ const Events = () => {
       <View style={styles.container}>
         <View
           style={{
+            width: '100%',
             paddingTop: 20,
             marginHorizontal: 10,
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center"
           }}
         >
-          <Text h1 style={styles.title}>
+          <Text style={styles.title}>
             Your Events
           </Text>
+
+          {/* <Avatar.Icon icon="filter-variant" size={24} style={{marginRight:10}}/> */}
         </View>
 
 
@@ -109,6 +113,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontFamily: "Comfortaa_400Regular",
+    margin: 5
   },
   container: {
     flex: 1,
@@ -121,6 +126,11 @@ const styles = StyleSheet.create({
   },
   inputDivider: {
     height: 20,
+  },
+  chipWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
 });
 
