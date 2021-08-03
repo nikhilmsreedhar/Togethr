@@ -75,7 +75,10 @@ const styles = StyleSheet.create({
     width: (SCREEN_WIDTH - BUFFER)*.5, 
     borderWidth: 2,
     borderColor: 'black',
-    borderRadius: 8
+    borderRadius: 8,
+    resizeMode: 'contain',
+    flex: 1,
+    aspectRatio: 1 // Your aspect ratio
   }
 });
 
