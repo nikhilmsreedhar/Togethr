@@ -1,105 +1,108 @@
-import * as React from 'react';
-import { StyleSheet, View, TouchableOpacity, SafeAreaView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Button, Text, TextInput, HelperText } from 'react-native-paper';
-import axios from 'axios';
+import React, { useContext, useState } from "react";
+import { StyleSheet, View, TouchableOpacity, SafeAreaView } from "react-native";
+import { Button, Text, TextInput, HelperText } from "react-native-paper";
+import axios from "axios";
+import { AuthContext } from "../components/AuthProvider";
 
-const ChangePassword = ({route}) => {
+const ChangePassword = () => {
+  const { userData } = useContext(AuthContext);
 
-  const navigation = useNavigation();
-  function navigateBack() {
-    navigation.goBack();
-  }
+  const [pwErrorMessage, setPWErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [currentPass, setCurrentPass] = React.useState("");
+  const [newPass, setPass] = React.useState("");
+  const [newPassConfirm, setPassConfirm] = React.useState("");
 
-  function changePassword(currentPass, newPass, passConfirm) {
-    if (currentPass === "" || newPass === "" || passConfirm === ""){
+  function submit(currentPass, newPass, passConfirm) {
+    if (currentPass === "" || newPass === "" || passConfirm === "") {
       setPWMessage();
       setSuccessMessage();
-      setPWErrorMessage('Please fill in all fields');
+      setPWErrorMessage("Please fill in all fields");
     } else {
-      // first check that old pw is correct for security
-      axios.post('https://togethrgroup1.herokuapp.com/api/login', { 
-        UserName: username,
-        Password: currentPass
-      })
-      .then((response) => {
-        console.log(response);
-        if (newPass != passConfirm) {
-          setPWMessage();
-          setSuccessMessage();
-          setPWErrorMessage('Passwords must match');
-        } else {
-          // hash pw
-          axios.patch('https://togethrgroup1.herokuapp.com/api/editpassword', { 
-            id: userid,
-            Password: newPass
-          })
-          .then((response) => {
-            console.log(response);
-            setPWMessage();
-            setPWErrorMessage();
-            setSuccessMessage('Your password was updated!');
-          }, (error) => {
-            console.log(error);
-            setPWMessage();
-            setSuccessMessage();
-            setPWErrorMessage('Something went wrong! Try again.');
-          });
-        }
-      }, (error) => {
-        console.log(error);
-        setSuccessMessage();
-        setPWErrorMessage();
-        setPWMessage('Incorrect Password');
-      });
-    } //end else
+      verifyPassword(currentPass);
+    }
   }
 
-  const [pass, setPass] = React.useState('');
-  const [passConfirm, setPassConfirm] = React.useState('');
+  // check that old pw is correct for security
+  function verifyPassword() {
+    axios
+      .post("https://togethrgroup1.herokuapp.com/api/login", {
+        UserName: userData.UserName,
+        Password: currentPass,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          if (newPass != passConfirm) {
+            setPWMessage();
+            setSuccessMessage();
+            setPWErrorMessage("Passwords must match");
+          } else {
+            changePassword();
+          }
+        },
+        (error) => {
+          console.log(error);
+          setSuccessMessage();
+          setPWErrorMessage();
+          setPWMessage("Incorrect Password");
+        }
+      );
+  }
+
+  function changePassword(currentPass) {
+    axios
+      .patch("https://togethrgroup1.herokuapp.com/api/editpassword", {
+        id: userData.id,
+        Password: newPass,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          setPWMessage();
+          setPWErrorMessage();
+          setSuccessMessage("Your password was updated!");
+        },
+        (error) => {
+          console.log(error);
+          setPWMessage();
+          setSuccessMessage();
+          setPWErrorMessage("Something went wrong! Try again.");
+        }
+      );
+  }
 
   const hasErrors = () => {
-    return !(pass == passConfirm);
+    return !(newPass == newPassConfirm);
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
-      <Button
-        icon="arrow-left"
-        onPress={() => navigateBack()}
+      <TextInput
+        style={{ alignSelf: "stretch" }}
+        label="Current Password"
+        value={currentPass}
+        mode="outlined"
+        onChangeText={(currentPass) => setCurrentPass(currentPass)}
       />
 
-      <Text style={styles.verticalDivider} />
-      <Text h1 style={styles.title}>Register</Text>
-      <Text style={styles.verticalDivider} />
-      
-      <TextInput style={{ alignSelf: 'stretch'}}
-        label="Old Password"
-        value={user}
-        mode='outlined'
-        onChangeText={user => setUser(user)}
-      />
-
-      <Text style={styles.inputDivider} />
-
-      <TextInput style={{ alignSelf: 'stretch'}}
+      <TextInput
+        style={{ alignSelf: "stretch" }}
         secureTextEntry
         label="New Password"
         value={newPass}
-        mode='outlined'
-        onChangeText={pass => setPass(pass)}
+        mode="outlined"
+        onChangeText={(newPass) => setPass(newPass)}
       />
-        
-      <Text style={styles.inputDivider} />
 
-      <TextInput style={{ alignSelf: 'stretch'}}
+      <TextInput
+        style={{ alignSelf: "stretch" }}
         secureTextEntry
         label="Confirm New Password"
         value={newPassConfirm}
-        mode='outlined'
-        error = {(newPass == newPassConfirm) ? false : true}
-        onChangeText={passConfirm => setPassConfirm(passConfirm)}
+        mode="outlined"
+        error={newPass == newPassConfirm ? false : true}
+        onChangeText={(newPassConfirm) => setPassConfirm(newPassConfirm)}
       />
 
       <HelperText type="error" visible={hasErrors()}>
@@ -109,54 +112,52 @@ const ChangePassword = ({route}) => {
       <Text style={styles.inputDivider} />
 
       <TouchableOpacity
-        disabled = {(pass == passConfirm) ? false : true}
-        onPress={()=> register(firstName, lastName, user, pass)}
+        disabled={newPass == newPassConfirm ? false : true}
+        onPress={() => changePassword(currentPass, newPass, newPassConfirm)}
         style={styles.regButton}
       >
-        <Text style={styles.regButtonText}>REGISTER</Text>
-      </TouchableOpacity>        
+        <Text style={styles.regButtonText}>CHANGE PASSWORD</Text>
+      </TouchableOpacity>
     </View>
-    </SafeAreaView>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 50, 
-    fontFamily: 'Comfortaa_400Regular'
+    fontSize: 50,
+    fontFamily: "Comfortaa_400Regular",
   },
-  input:{
-    padding: 20
+  input: {
+    padding: 20,
   },
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    margin: 25
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    margin: 25,
   },
   verticalDivider: {
-    height:50,
+    height: 50,
   },
   inputDivider: {
-    height:20,
+    height: 20,
   },
   regButton: {
     backgroundColor: "black",
-    borderColor:"black",
-    alignSelf: 'stretch',
-    height:50,
-    borderWidth:3,
-    alignItems:'center',
-    justifyContent:'center',
+    borderColor: "black",
+    alignSelf: "stretch",
+    height: 50,
+    borderWidth: 3,
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 5,
   },
   regButtonText: {
     fontSize: 18,
-    color: 'white',
-    fontFamily: 'Roboto_500Medium'
-  }, 
+    color: "white",
+    fontFamily: "Roboto_500Medium",
+  },
 });
 
 export default ChangePassword;
