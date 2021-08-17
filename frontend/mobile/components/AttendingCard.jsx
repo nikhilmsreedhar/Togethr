@@ -12,7 +12,7 @@ import {
 } from "react-native-paper";
 import { AuthContext } from "./AuthProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { defaultInterests } from "../pages/Tags";
+import { defaultInterests } from "./Tags";
 import Loading from "./Loading";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;

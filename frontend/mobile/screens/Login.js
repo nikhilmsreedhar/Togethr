@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { TextInput, HelperText } from "react-native-paper";
+import { TextInput, HelperText, IconButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../components/AuthProvider";
 
@@ -54,14 +54,12 @@ export default function LoginPage() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigateBack()}>
-          <Ionicons name="arrow-back" size={30} color="back" />
-        </TouchableOpacity>
-        <Text style={styles.verticalDivider}></Text>
-        <Text h1 style={styles.title}>
+        
+        <IconButton icon='arrow-back' onPress={() => navigateBack()} />
+
+        <Title h1 style={styles.title}>
           Log In
-        </Text>
-        <Text style={styles.verticalDivider}></Text>
+        </Title>
         
         <TextInput
           style={{ alignSelf: "stretch" }}
@@ -70,8 +68,6 @@ export default function LoginPage() {
           mode="outlined"
           onChangeText={(user) => setUser(user)}
         />
-
-        <Text style={styles.inputDivider}></Text>
 
         <TextInput
           style={{ alignSelf: "stretch" }}
@@ -84,21 +80,19 @@ export default function LoginPage() {
 
         <HelperText type="error">{loginMessage}</HelperText>
 
-        <Text style={styles.inputDivider}></Text>
-
-        <TouchableOpacity
+        <Button
           onPress={() => submit(user, pass)}
           style={styles.loginButton}
         >
           <Text style={styles.loginButtonText}>LOG IN</Text>
-        </TouchableOpacity>
+        </Button>
 
-        <TouchableOpacity
+        <Button
+          mode="text"
           onPress={() => {}}
           style={{alignSelf: 'center', marginTop: 10}}
-        >
-          <Text>Forgot Password?</Text>
-        </TouchableOpacity>
+        >Forgot Password?
+        </Button>
       </View>
     </SafeAreaView>
   );

@@ -3,11 +3,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Explore from "../pages/Explore";
-import Events from "../pages/Events";
-import Likes from "../pages/Likes";
+import ExploreScreen from "../screens/Explore";
+import AttendingScreen from "../screens/AttendingEvents";
+import SavedEventsScreen from "../screens/SavedEvents";
 import ProfileStack from "../components/ProfileStack";
-import AddEvent from "../pages/AddEvent";
+import AddEvent from "../screens/AddEvent";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +26,7 @@ function BottomNavigator() {
     >
       <Tab.Screen
         name="Explore"
-        component={Explore}
+        component={ExploreScreen}
         options={{
           unmountOnBlur: true,
           tabBarLabel: "Explore",
@@ -71,7 +71,7 @@ function BottomNavigator() {
       /> */}
       <Tab.Screen
         name="Likes"
-        component={Likes}
+        component={SavedEventsScreen}
         options={{
           tabBarLabel: "Likes",
           tabBarIcon: ({ color, size }) => (

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, View, TouchableOpacity, SafeAreaView } from "react-native";
 import { Button, Text, TextInput, HelperText } from "react-native-paper";
 import axios from "axios";
-import { AuthContext } from "./AuthProvider";
+import { AuthContext } from "../components/AuthProvider";
 
 const ChangePassword = () => {
   const { userData } = useContext(AuthContext);

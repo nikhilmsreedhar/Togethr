@@ -5,11 +5,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { AuthContext, AuthProvider } from "./AuthProvider";
-import HomePage from "../pages/HomePage";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
-import RegisterPage2 from "../pages/RegisterPage2";
-import AddEvent from "../pages/AddEvent";
+import WelcomeScreen from "../screens/WelcomeScreen";
+import LoginScreen from "../screens/Login";
+import RegisterScreen from "../screens/Register";
+import RegisterScreen2 from "../screens/Register2";
+import AddEvent from "../screens/AddEvent";
 import Loading from "./Loading";
 import BottomNavigator from "./BottomNavigator";
 
@@ -48,10 +48,10 @@ const AppRouter = () => {
         </Stack.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="HomePage" headerMode="none">
-          <Stack.Screen name="HomePage" component={HomePage} />
-          <Stack.Screen name="LoginPage" component={LoginPage} />
-          <Stack.Screen name="RegisterPage" component={RegisterPage} />
-          <Stack.Screen name="RegisterPage2" component={RegisterPage2} />
+          <Stack.Screen name="HomePage" component={WelcomeScreen} />
+          <Stack.Screen name="LoginPage" component={LoginScreen} />
+          <Stack.Screen name="RegisterPage" component={RegisterScreen} />
+          <Stack.Screen name="RegisterPage2" component={RegisterScreen} />
         </Stack.Navigator>
       )}
     </NavigationContainer>

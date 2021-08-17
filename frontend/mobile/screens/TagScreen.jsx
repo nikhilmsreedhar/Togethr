@@ -2,19 +2,20 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   View,
-  Text,
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
 } from "react-native";
 import {
+  IconButton,
+  Text,
   Title
 } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import Tags from "./Tags";
+import Tags from "../components/Tags";
 
-const InterestsPage = ({ route }) => {
+const Interests = ({ route }) => {
 
   const navigation = useNavigation();
   function navigateBack() {
@@ -28,9 +29,8 @@ const InterestsPage = ({ route }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigateBack()}>
-          <Ionicons name="arrow-back" size={30} color="back" />
-        </TouchableOpacity>
+
+        <IconButton icon="arrow-back" onPress={() => navigateBack()}/ >
 
         <Title style={styles.title}>
           Add Your Interests!
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InterestsPage;
+export default Interests;

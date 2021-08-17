@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Dimensions } from "react-native";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import { AuthContext } from "./AuthProvider";
 import Loading from "./Loading";
-import { defaultInterests } from "../pages/Tags";
+import { defaultInterests } from "./Tags";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;

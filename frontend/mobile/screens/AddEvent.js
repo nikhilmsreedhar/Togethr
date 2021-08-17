@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   View,
-  Text,
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
-import { Button, Menu, Provider, TextInput } from "react-native-paper";
+import { Button, IconButton, Menu, Provider, Text, TextInput } from "react-native-paper";
 import RNPickerSelect from "react-native-picker-select";
 import { DatePickerModal } from "react-native-paper-dates";
 import {useForm} from "react-hook-form";
@@ -137,18 +135,13 @@ const AddEvent = () => {
 
         <View style={styles.container}>
           <View style={styles.closeButton}>
-            <TouchableOpacity
-              onPress={() => {
-                navigateBack;
-              }}
-            >
-              <Ionicons name="close" size={30} color="back" />
-            </TouchableOpacity>
+
+            <IconButton icon="close" onPress={() => {navigateBack}}/>
           </View>
 
-          <Text h1 style={styles.title}>
+          <Title h1 style={styles.title}>
             Create Activity
-          </Text>
+          </Title>
 
           <TextInput
             style={{ alignSelf: "stretch" }}

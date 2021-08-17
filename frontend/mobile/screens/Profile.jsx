@@ -19,11 +19,11 @@ import {
 import axios from "axios";
 import UserData from "../assets/UserData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ChangePassword from "../components/ChangePassword";
+import ChangePassword from "./ChangePassword";
 import { AuthContext } from "../components/AuthProvider";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../components/Loading";
-import { defaultInterests } from "./Tags";
+import { defaultInterests } from "../components/Tags";
 
 const STORAGE_KEY = "user_data";
 

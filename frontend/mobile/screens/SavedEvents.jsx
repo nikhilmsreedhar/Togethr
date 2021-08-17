@@ -2,14 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   FlatList,
-  Text,
   View,
   ScrollView,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { Button, Chip } from "react-native-paper";
+import { Button, Chip, Text } from "react-native-paper";
 import LikedCard from "../components/LikedCard";
 import EventsData from "../assets/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,7 +18,7 @@ import { useIsFocused } from "@react-navigation/native";
 
 const STORAGE_KEY = "events_data";
 
-const Events = () => {
+const SavedEvents = () => {
   const { userData } = useContext(AuthContext);
 
   useEffect(() => {
@@ -122,4 +121,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Events;
+export default SavedEvents;

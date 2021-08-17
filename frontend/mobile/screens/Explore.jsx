@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text, View, StyleSheet, SafeAreaView } from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import CardStack, { Card } from "react-native-card-stack-swiper";
-import { Title, Chip } from "react-native-paper";
+import { Title, Chip, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
-import axios from "axios";
 import Loading from "../components/Loading";
+import axios from "axios";
 
 import { AuthContext } from "../components/AuthProvider";
 import EventCard from "../components/EventCard";
